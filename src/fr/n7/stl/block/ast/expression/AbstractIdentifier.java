@@ -26,4 +26,11 @@ public abstract class AbstractIdentifier implements Expression {
 		this.name = _name;
 	}
 
+
+
+	@Override
+	public String toString() {
+		return name;
+	}
+
 }

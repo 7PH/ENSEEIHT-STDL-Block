@@ -70,7 +70,13 @@ public class FunctionCall implements Expression {
 	 */
 	@Override
 	public boolean resolve(HierarchicalScope<Declaration> _scope) {
-		throw new SemanticsUndefinedException( "Semantics resolve is undefined in FunctionCall.");
+	    if (! _scope.knows(name)) return false;
+	    for (Expression expression: arguments) {
+	        if (! expression.resolve(_scope))
+	            return false;
+        }
+		this.function = (FunctionDeclaration) _scope.get(name);
+        return true;
 	}
 	
 	/* (non-Javadoc)

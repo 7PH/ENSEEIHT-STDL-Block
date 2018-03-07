@@ -1,0 +1,5 @@
+structtest {
+    struct Point {int x; int y} myPoint = {1, 2};
+    int sum = myPoint.x + myPoint.y;
+    print (sum);
+}

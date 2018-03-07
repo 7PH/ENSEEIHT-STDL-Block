@@ -35,9 +35,9 @@ public class ConditionalExpression implements Expression {
 	/**
 	 * Builds a binary expression Abstract Syntax Tree node from the left and right sub-expressions
 	 * and the binary operation.
-	 * @param _left : Expression for the left parameter.
-	 * @param _operator : Binary Operator.
-	 * @param _right : Expression for the right parameter.
+	 * @param _else : Expression for the left parameter.
+	 * @param _condition : Binary Operator.
+	 * @param _then : Expression for the right parameter.
 	 */
 	public ConditionalExpression(Expression _condition, Expression _then, Expression _else) {
 		this.condition = _condition;

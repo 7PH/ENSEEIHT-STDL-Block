@@ -93,7 +93,11 @@ public class FunctionDeclaration implements Instruction, Declaration {
 	 */
 	@Override
 	public boolean resolve(HierarchicalScope<Declaration> _scope) {
-		return ! _scope.contains(name) && body.resolve(_scope);
+		if (! _scope.accepts(this)) return false;
+		if (! type.resolve(_scope)) return false;
+		if (! body.resolve(_scope)) return false;
+		_scope.register(this);
+		return true;
 	}
 
 	/* (non-Javadoc)

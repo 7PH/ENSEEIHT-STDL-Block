@@ -10,7 +10,6 @@ package fr.n7.stl.block.ast.type;
 public class PartialPointerType extends PointerType implements PartialType {
 
 	/**
-	 * @param _element
 	 */
 	public PartialPointerType() {
 		super(null);

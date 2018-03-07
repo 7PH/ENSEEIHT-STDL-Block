@@ -95,15 +95,15 @@ public class SymbolTable implements HierarchicalScope<Declaration> {
 	 */
 	@Override
 	public String toString() {
-		String _local = "";
+		StringBuilder _local = new StringBuilder();
 		if (this.context != null) {
-			_local += "Hierarchical definitions :\n" + this.context.toString();
+			_local.append("Hierarchical definitions :\n").append(this.context.toString());
 		}
-		_local += "Local definitions : ";
+		_local.append("Local definitions : ");
 		for (Entry<String,Declaration> _entry : this.declarations.entrySet()) {
-			_local += _entry.getKey() + " -> " + _entry.getValue().toString() + "\n";
+			_local.append(_entry.getKey()).append(" -> ").append(_entry.getValue().toString()).append("\n");
 		}
-		return _local;
+		return _local.toString();
 	}
 
 }

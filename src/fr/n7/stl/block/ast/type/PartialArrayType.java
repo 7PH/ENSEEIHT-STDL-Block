@@ -10,7 +10,6 @@ package fr.n7.stl.block.ast.type;
 public class PartialArrayType extends ArrayType implements PartialType {
 
 	/**
-	 * @param _element
 	 */
 	public PartialArrayType() {
 		super(null);

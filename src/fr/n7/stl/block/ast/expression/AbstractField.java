@@ -3,6 +3,7 @@ package fr.n7.stl.block.ast.expression;
 import fr.n7.stl.block.ast.SemanticsUndefinedException;
 import fr.n7.stl.block.ast.scope.Declaration;
 import fr.n7.stl.block.ast.scope.HierarchicalScope;
+import fr.n7.stl.block.ast.type.RecordType;
 import fr.n7.stl.block.ast.type.Type;
 import fr.n7.stl.block.ast.type.declaration.FieldDeclaration;
 
@@ -41,7 +42,23 @@ public abstract class AbstractField implements Expression {
 	 */
 	@Override
 	public boolean resolve(HierarchicalScope<Declaration> _scope) {
-		throw new SemanticsUndefinedException( "resolve is undefined in AbstractField.");
+	    if (! record.resolve(_scope)) return false;
+
+	    // on va récup le type de record
+	    Type type = record.getType();
+
+	    // on vérifie que c'est un RecordType
+	    if (! (type instanceof RecordType)) return false;
+	    RecordType recordType = (RecordType) type;
+
+	    // on vérifie qu'il contient le field 'name'
+	    if (! recordType.contains(name)) return false;
+
+	    // on l'assigne
+	    this.field = recordType.get(name);
+
+	    // youpi
+	    return true;
 	}
 
 	/**

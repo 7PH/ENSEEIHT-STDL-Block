@@ -5,6 +5,8 @@ package fr.n7.stl.block.ast;
 
 import java.util.List;
 
+import com.sun.org.apache.xalan.internal.xsltc.compiler.util.VoidType;
+import fr.n7.stl.block.ast.expression.Expression;
 import fr.n7.stl.block.ast.instruction.Instruction;
 import fr.n7.stl.block.ast.scope.Declaration;
 import fr.n7.stl.block.ast.scope.HierarchicalScope;
@@ -70,7 +72,11 @@ public class Block {
 	 * @return Synthesized True if the instruction is well typed, False if not.
 	 */	
 	public boolean checkType() {
-		throw new SemanticsUndefinedException("Semantics checkType is undefined in Block.");
+	    for (Instruction instruction: instructions) {
+	        if (! instruction.checkType())
+	            return false;
+        }
+        return true;
 	}
 
 	/**

@@ -83,7 +83,11 @@ public class ConstantDeclaration implements Instruction, Declaration {
 	 */
 	@Override
 	public boolean resolve(HierarchicalScope<Declaration> _scope) {
-		return type.resolve(_scope) && value.resolve(_scope);
+		if (! _scope.accepts(this)) return false;
+		if (! type.resolve(_scope)) return false;
+		if (! value.resolve(_scope)) return false;
+		_scope.register(this);
+		return true;
 	}
 
 	/* (non-Javadoc)

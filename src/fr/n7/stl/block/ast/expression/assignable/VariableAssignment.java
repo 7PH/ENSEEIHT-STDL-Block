@@ -66,4 +66,5 @@ public class VariableAssignment extends AbstractIdentifier implements Assignable
 		throw new SemanticsUndefinedException("Semantics getCode undefined in VariableAssignment.");
 	}
 
+
 }

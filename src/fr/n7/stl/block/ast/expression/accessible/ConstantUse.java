@@ -18,7 +18,7 @@ public class ConstantUse extends AbstractUse {
 	
 	/**
 	 * Creates a variable use expression Abstract Syntax Tree node.
-	 * @param _name Name of the used variable.
+	 * @param _declaration Name of the used variable.
 	 */
 	public ConstantUse(ConstantDeclaration _declaration) {
 		super(_declaration);
