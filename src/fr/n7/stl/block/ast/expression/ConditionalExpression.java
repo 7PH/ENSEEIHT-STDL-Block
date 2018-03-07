@@ -50,7 +50,9 @@ public class ConditionalExpression implements Expression {
 	 */
 	@Override
 	public boolean resolve(HierarchicalScope<Declaration> _scope) {
-		throw new SemanticsUndefinedException( "Semantics resolve is undefined in ConditionalExpression.");
+		return condition.resolve(_scope)
+                && thenExpression.resolve(_scope)
+                && elseExpression.resolve(_scope);
 	}
 
 	/* (non-Javadoc)

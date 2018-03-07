@@ -41,7 +41,7 @@ public class PointerAllocation implements Expression {
 	 */
 	@Override
 	public boolean resolve(HierarchicalScope<Declaration> _scope) {
-		throw new SemanticsUndefinedException( "Semantics resolve is undefined in PointerAllocation.");
+		return ! _scope.contains(name) && element.resolve(_scope);
 	}
 
 	/* (non-Javadoc)

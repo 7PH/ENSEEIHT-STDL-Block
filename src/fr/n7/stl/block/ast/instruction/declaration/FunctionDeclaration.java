@@ -93,7 +93,7 @@ public class FunctionDeclaration implements Instruction, Declaration {
 	 */
 	@Override
 	public boolean resolve(HierarchicalScope<Declaration> _scope) {
-		throw new SemanticsUndefinedException( "Semantics resolve is undefined in FunctionDeclaration.");
+		return ! _scope.contains(name) && body.resolve(_scope);
 	}
 
 	/* (non-Javadoc)

@@ -18,9 +18,9 @@ public class VariableUse extends AbstractUse {
 	
 	/**
 	 * Creates a variable use expression Abstract Syntax Tree node.
-	 * @param _name Name of the used variable.
+	 * @param _declaration Name of the used variable.
 	 */
-	public VariableUse(VariableDeclaration _declaration) {
+	VariableUse(VariableDeclaration _declaration) {
 		super(_declaration);
 	}
 

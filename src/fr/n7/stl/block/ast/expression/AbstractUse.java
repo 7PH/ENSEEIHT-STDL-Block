@@ -16,7 +16,7 @@ public abstract class AbstractUse {
 	
 	/**
 	 * Creates a variable use expression Abstract Syntax Tree node.
-	 * @param _name Name of the used variable.
+	 * @param _declaration Name of the used variable.
 	 */
 	public AbstractUse(Declaration _declaration) {
 		this.declaration = _declaration;

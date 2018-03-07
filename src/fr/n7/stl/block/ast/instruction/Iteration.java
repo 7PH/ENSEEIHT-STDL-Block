@@ -40,7 +40,7 @@ public class Iteration implements Instruction {
 	 */
 	@Override
 	public boolean resolve(HierarchicalScope<Declaration> _scope) {
-		throw new SemanticsUndefinedException( "Semantics resolve is undefined in Iteration.");
+		return condition.resolve(_scope) && body.resolve(_scope);
 	}
 
 	/* (non-Javadoc)

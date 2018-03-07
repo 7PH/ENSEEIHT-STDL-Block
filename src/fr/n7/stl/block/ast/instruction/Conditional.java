@@ -50,7 +50,9 @@ public class Conditional implements Instruction {
 	 */
 	@Override
 	public boolean resolve(HierarchicalScope<Declaration> _scope) {
-		throw new SemanticsUndefinedException( "Semantics resolve is undefined in Conditional.");
+		return condition.resolve(_scope)
+				&& thenBranch.resolve(_scope)
+				&& (! elseBranch.isPresent() || elseBranch.get().resolve(_scope));
 	}
 
 	/* (non-Javadoc)

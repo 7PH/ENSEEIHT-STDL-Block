@@ -42,7 +42,7 @@ public class First implements Expression {
 	 */
 	@Override
 	public boolean resolve(HierarchicalScope<Declaration> _scope) {
-		throw new SemanticsUndefinedException("Semantics resolve undefined in First.");
+		return target.resolve(_scope);
 	}
 	
 	/* (non-Javadoc)

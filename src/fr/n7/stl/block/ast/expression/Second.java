@@ -13,7 +13,6 @@ import fr.n7.stl.tam.ast.TAMFactory;
 /**
  * Implementation of the Abstract Syntax Tree node  for an expression extracting the second component in a couple.
  * @author Marc Pantel
- *
  */
 public class Second implements Expression {
 
@@ -50,7 +49,7 @@ public class Second implements Expression {
 	 */
 	@Override
 	public boolean resolve(HierarchicalScope<Declaration> _scope) {
-		throw new SemanticsUndefinedException("Semantics resolve undefined in Second.");
+		return target.resolve(_scope);
 	}
 
 	/* (non-Javadoc)

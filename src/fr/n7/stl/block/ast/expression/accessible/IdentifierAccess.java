@@ -32,7 +32,7 @@ public class IdentifierAccess extends AbstractIdentifier implements AccessibleEx
 	}
 	
 	public boolean resolve(HierarchicalScope<Declaration> _scope) {
-		if (((HierarchicalScope<Declaration>)_scope).knows(this.name)) {
+		if (_scope.knows(this.name)) {
 			Declaration _declaration = _scope.get(this.name);
 			if (_declaration instanceof VariableDeclaration) {
 				this.expression = new VariableUse((VariableDeclaration) _declaration);

@@ -103,7 +103,9 @@ public class VariableDeclaration implements Declaration, Instruction {
 	 */
 	@Override
 	public boolean resolve(HierarchicalScope<Declaration> _scope) {
-		throw new SemanticsUndefinedException( "Semantics resolve is undefined in VariableDeclaration.");
+		return ! _scope.contains(name)
+                && type.resolve(_scope)
+                && value.resolve(_scope);
 	}
 
 	/* (non-Javadoc)

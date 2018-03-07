@@ -48,7 +48,7 @@ public class Assignment implements Instruction, Expression {
 	 */
 	@Override
 	public boolean resolve(HierarchicalScope<Declaration> _scope) {
-		throw new SemanticsUndefinedException( "Semantics resolve is undefined in Assignment.");
+		return value.resolve(_scope) && assignable.resolve(_scope);
 	}
 
 	/* (non-Javadoc)

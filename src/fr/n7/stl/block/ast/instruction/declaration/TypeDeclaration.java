@@ -48,8 +48,11 @@ public class TypeDeclaration implements Declaration, Instruction {
 	 * @see fr.n7.stl.block.ast.instruction.Instruction#resolve(fr.n7.stl.block.ast.scope.Scope)
 	 */
 	@Override
+    /**
+     * @TODO resolve check
+     */
 	public boolean resolve(HierarchicalScope<Declaration> _scope) {
-		throw new SemanticsUndefinedException( "Semantics resolve is undefined in TypeDeclaration.");
+		return ! _scope.contains(name) && type.resolve(_scope);
 	}
 
 	/**

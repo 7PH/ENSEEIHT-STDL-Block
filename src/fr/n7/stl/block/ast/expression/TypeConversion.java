@@ -45,7 +45,7 @@ public class TypeConversion implements Expression {
 	 */
 	@Override
 	public boolean resolve(HierarchicalScope<Declaration> _scope) {
-		throw new SemanticsUndefinedException("Semantics resolve undefined in TypeConversion.");
+		return target.resolve(_scope) && type.resolve(_scope);
 	}
 
 	/* (non-Javadoc)

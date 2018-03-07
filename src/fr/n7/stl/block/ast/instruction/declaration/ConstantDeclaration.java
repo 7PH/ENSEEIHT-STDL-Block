@@ -83,7 +83,7 @@ public class ConstantDeclaration implements Instruction, Declaration {
 	 */
 	@Override
 	public boolean resolve(HierarchicalScope<Declaration> _scope) {
-		throw new SemanticsUndefinedException( "Semantics resolve is undefined in ConstantDeclaration.");
+		return type.resolve(_scope) && value.resolve(_scope);
 	}
 
 	/* (non-Javadoc)

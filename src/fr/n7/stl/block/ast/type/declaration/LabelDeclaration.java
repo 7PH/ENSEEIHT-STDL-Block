@@ -27,10 +27,13 @@ public class LabelDeclaration implements Declaration {
 	public String getName() {
 		return this.name;
 	}
-	
+
+	/* (non-Javadoc)
+	 * @TODO : Should be the type of the enum containing the label...
+	 */
 	@Override
 	public Type getType() {
-		return AtomicType.VoidType; // TODO : Should be the type of the enum containing the label...
+		return AtomicType.VoidType;
 	}
 
 	/* (non-Javadoc)

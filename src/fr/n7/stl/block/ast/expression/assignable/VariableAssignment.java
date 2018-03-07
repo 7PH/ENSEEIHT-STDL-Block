@@ -35,7 +35,7 @@ public class VariableAssignment extends AbstractIdentifier implements Assignable
 	 */
 	@Override
 	public boolean resolve(HierarchicalScope<Declaration> _scope) {
-		if (((HierarchicalScope<Declaration>)_scope).knows(this.name)) {
+		if (_scope.knows(this.name)) {
 			Declaration _declaration = _scope.get(this.name);
 			if (_declaration instanceof VariableDeclaration) {
 				this.declaration = ((VariableDeclaration) _declaration);

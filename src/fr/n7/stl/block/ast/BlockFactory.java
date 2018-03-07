@@ -29,13 +29,6 @@ import fr.n7.stl.block.ast.instruction.Printer;
  */
 public class BlockFactory {
 
-	/**
-	 * 
-	 */
-	public BlockFactory() {
-		// TODO Auto-generated constructor stub
-	}
-	
 	public Block createBlock(List<Instruction> _instructions) {
 		return new Block(_instructions);
 	}
