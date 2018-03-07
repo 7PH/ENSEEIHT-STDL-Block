@@ -60,6 +60,7 @@ public class Block {
 	 */
 	public boolean resolve(HierarchicalScope<Declaration> _scope) {
 		HierarchicalScope<Declaration> newScope = new SymbolTable(_scope);
+
 		for (Instruction instruction: instructions) {
 		    if (! instruction.resolve(newScope))
 		        return false;

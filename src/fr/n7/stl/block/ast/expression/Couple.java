@@ -61,7 +61,7 @@ public class Couple implements Expression {
 	 */
 	@Override
 	public Type getType() {
-		return new CoupleType( this.first.getType(), this.second.getType());
+		return new CoupleType(this.first.getType(), this.second.getType());
 	}
 
 	/* (non-Javadoc)

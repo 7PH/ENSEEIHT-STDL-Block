@@ -6,9 +6,12 @@ package fr.n7.stl.block.ast.expression;
 import fr.n7.stl.block.ast.SemanticsUndefinedException;
 import fr.n7.stl.block.ast.scope.Declaration;
 import fr.n7.stl.block.ast.scope.HierarchicalScope;
+import fr.n7.stl.block.ast.type.AtomicType;
 import fr.n7.stl.block.ast.type.Type;
 import fr.n7.stl.tam.ast.Fragment;
 import fr.n7.stl.tam.ast.TAMFactory;
+
+import javax.lang.model.type.ErrorType;
 
 /**
  * Abstract Syntax Tree node for a conditional expression.
@@ -68,7 +71,9 @@ public class ConditionalExpression implements Expression {
 	 */
 	@Override
 	public Type getType() {
-		throw new SemanticsUndefinedException( "Semantics getType is undefined in ConditionalExpression.");
+	    if (! condition.getType().equalsTo(AtomicType.BooleanType)) return AtomicType.ErrorType;
+		if (! thenExpression.getType().equalsTo(elseExpression.getType())) return AtomicType.ErrorType;
+	    return thenExpression.getType();
 	}
 
 	/* (non-Javadoc)

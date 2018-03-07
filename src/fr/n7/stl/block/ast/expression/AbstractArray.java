@@ -3,7 +3,11 @@ package fr.n7.stl.block.ast.expression;
 import fr.n7.stl.block.ast.SemanticsUndefinedException;
 import fr.n7.stl.block.ast.scope.Declaration;
 import fr.n7.stl.block.ast.scope.HierarchicalScope;
+import fr.n7.stl.block.ast.type.ArrayType;
+import fr.n7.stl.block.ast.type.AtomicType;
 import fr.n7.stl.block.ast.type.Type;
+
+import javax.lang.model.type.ErrorType;
 
 /**
  * Common elements between left (Assignable) and right (Expression) end sides of assignments. These elements
@@ -52,9 +56,11 @@ public abstract class AbstractArray implements Expression {
 	/**
 	 * Synthesized Semantics attribute to compute the type of an expression.
 	 * @return Synthesized Type of the expression.
+     * @TODO getType
 	 */
 	public Type getType() {
-		throw new SemanticsUndefinedException( "getType is undefined in AbstractArray.");
+	    if (index.getType() != AtomicType.IntegerType) return AtomicType.ErrorType;
+        return array.getType();
 	}
 
 }

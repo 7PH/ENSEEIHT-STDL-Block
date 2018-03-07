@@ -27,7 +27,7 @@ public abstract class AbstractUse {
 	 * @return Synthesized Type of the expression.
 	 */
 	public Type getType() {
-		return this.declaration.getType();
+		return declaration.getType();
 	}
 	
 	/**
