@@ -113,12 +113,11 @@ Program ::= UL_Identificateur:nom Bloc:bloc
 				System.out.println( "Programme nommé " + nom );
 				System.out.println( bloc ); 
 				SymbolTable tds = new SymbolTable();
-				if (bloc.resolve(tds)) {
-					System.out.println("OK");
-				} else {
-					System.out.println("KO");
-				}
-				System.out.println(tds);
+
+                System.out.println("===============================================");
+				System.out.println("resolve(): " + (bloc.resolve(tds) ? "OK" : "KO"));
+				System.out.println("getType(): " + (bloc.checkType() ? "OK" : "KO"));
+                System.out.println("===============================================");
 			:}
 		;
 
@@ -406,11 +405,11 @@ Affectable ::= UL_Identificateur:nom
 				:}
 			;
 			            
-Expression ::= /* Affectable:affectable UL_Egal Expression:expression 
+Expression ::= /* Affectable:affectable UL_Egal Expression:expression
 				{:
 					RESULT = new Assignment( affectable, expression);
 				:}
-			| */ Expression:gauche UL_Double_Egal Expression:droite         
+			| */ Expression:gauche UL_Double_Egal Expression:droite
 				{: 
 					RESULT = new BinaryExpression( gauche, BinaryOperator.Equals, droite); 
 				:}

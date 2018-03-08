@@ -81,7 +81,8 @@ public class ConstantDeclaration implements Instruction, Declaration {
 	/* (non-Javadoc)
 	 * @see fr.n7.stl.block.ast.instruction.Instruction#resolve(fr.n7.stl.block.ast.scope.Scope)
 	 */
-	@Override
+	@SuppressWarnings("Duplicates")
+    @Override
 	public boolean resolve(HierarchicalScope<Declaration> _scope) {
 		if (! _scope.accepts(this)) return false;
 		if (! type.resolve(_scope)) return false;
@@ -95,7 +96,7 @@ public class ConstantDeclaration implements Instruction, Declaration {
 	 */
 	@Override
 	public boolean checkType() {
-		throw new SemanticsUndefinedException( "Semantics checkType is undefined in ConstantDeclaration.");
+	    return value.getType().compatibleWith(type);
 	}
 
 	/* (non-Javadoc)

@@ -59,7 +59,7 @@ public abstract class AbstractArray implements Expression {
      * @TODO getType
 	 */
 	public Type getType() {
-	    if (index.getType() != AtomicType.IntegerType) return AtomicType.ErrorType;
+	    if (! index.getType().equalsTo(AtomicType.IntegerType)) return AtomicType.ErrorType;
         return array.getType();
 	}
 

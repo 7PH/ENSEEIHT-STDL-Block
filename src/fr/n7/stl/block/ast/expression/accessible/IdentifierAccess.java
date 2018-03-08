@@ -48,6 +48,7 @@ public class IdentifierAccess extends AbstractIdentifier implements AccessibleEx
 				}
 			}
 		} else {
+			System.out.println(_scope);
 			Logger.error("The identifier " + this.name + " has not been found.");
 			return false;	
 		}
@@ -58,7 +59,7 @@ public class IdentifierAccess extends AbstractIdentifier implements AccessibleEx
 	 */
 	@Override
 	public Type getType() {
-		return this.expression.getType();
+		return expression.getType();
 	}
 
 	/* (non-Javadoc)
@@ -66,7 +67,7 @@ public class IdentifierAccess extends AbstractIdentifier implements AccessibleEx
 	 */
 	@Override
 	public Fragment getCode(TAMFactory _factory) {
-		return this.expression.getCode(_factory);
+		return expression.getCode(_factory);
 	}
 
 }

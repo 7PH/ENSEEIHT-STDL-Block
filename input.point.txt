@@ -1,5 +1,4 @@
-structtest {
-    struct Point {int x; int y} myPoint = {1, 2};
-    int sum = myPoint.x + myPoint.y;
-    print (sum);
+test {
+    // struct Point { int x; int y } thePoint = {1, 3};
+    const int a = 21;
 }

@@ -116,8 +116,7 @@ public class VariableDeclaration implements Declaration, Instruction {
 	 */
 	@Override
 	public boolean checkType() {
-	    // return value.getType().compatibleWith();
-	    return true;
+	    return value.getType().compatibleWith(type);
 	}
 
 	/* (non-Javadoc)
