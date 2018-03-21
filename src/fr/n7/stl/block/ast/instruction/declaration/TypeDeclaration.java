@@ -49,7 +49,6 @@ public class TypeDeclaration implements Declaration, Instruction {
 	 */
 	@Override
     /**
-     * @TODO resolve check
      */
 	public boolean resolve(HierarchicalScope<Declaration> _scope) {
 		if (! _scope.accepts(this)) return false;
