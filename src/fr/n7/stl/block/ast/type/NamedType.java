@@ -105,6 +105,11 @@ public class NamedType implements Type {
 	 * 
 	 * @see java.lang.Object#toString()
 	 */
+
+    /**
+     * @TODO fix
+     * @return
+     */
 	@Override
 	public String toString() {
 		return "typedef " + this.declaration.getType() + " " + this.declaration.getName() + ";\n";
@@ -119,6 +124,7 @@ public class NamedType implements Type {
 	public boolean resolve(HierarchicalScope<Declaration> _scope) {
 		if (this.declaration == null) {
 			if (_scope.contains(this.name)) {
+
 				try {
 					TypeDeclaration _declaration = (TypeDeclaration) _scope.get(this.name);
 					this.declaration = _declaration;

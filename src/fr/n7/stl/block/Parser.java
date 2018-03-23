@@ -703,14 +703,21 @@ class CUP$Parser$actions {
 		Location blocxright = ((java_cup.runtime.ComplexSymbolFactory.ComplexSymbol)CUP$Parser$stack.peek()).xright;
 		Block bloc = (Block)((java_cup.runtime.Symbol) CUP$Parser$stack.peek()).value;
 		//@@CUPDBG3
- 
-				System.out.println( "Programme nommé " + nom );
-				System.out.println( bloc ); 
-				SymbolTable tds = new SymbolTable();
 
+				SymbolTable tds = new SymbolTable();
+		        double t1 = System.currentTimeMillis();
+				boolean resolve = bloc.resolve(tds);
+		        double resolveTimeMs = System.currentTimeMillis() - t1;
+		        t1 = System.currentTimeMillis();
+				boolean checkType = bloc.checkType();
+		        double checkTypeTimeMs = System.currentTimeMillis() - t1;
                 System.out.println("===============================================");
-				System.out.println("resolve(): " + (bloc.resolve(tds) ? "OK" : "ERROR"));
-				System.out.println("getType(): " + (bloc.checkType() ? "OK" : "ERROR"));
+				System.out.println("content        : " + bloc.toString().replace("\n", ""));
+				System.out.println("name           : " + nom);
+				System.out.println("resolve result : " + (resolve ? "OK" : "ERROR"));
+				System.out.println("resolve time   : " + resolveTimeMs + "ms");
+				System.out.println("getType result : " + (checkType ? "OK" : "ERROR"));
+				System.out.println("getType time   : " + checkTypeTimeMs + "ms");
                 System.out.println("===============================================");
 			
               CUP$Parser$result = parser.getSymbolFactory().newSymbol("Program",0, ((java_cup.runtime.Symbol)CUP$Parser$stack.elementAt(CUP$Parser$top-1)), ((java_cup.runtime.Symbol)CUP$Parser$stack.peek()), RESULT);

@@ -11,6 +11,8 @@ import fr.n7.stl.block.ast.SemanticsUndefinedException;
 import fr.n7.stl.block.ast.instruction.Instruction;
 import fr.n7.stl.block.ast.scope.Declaration;
 import fr.n7.stl.block.ast.scope.HierarchicalScope;
+import fr.n7.stl.block.ast.scope.SymbolTable;
+import fr.n7.stl.block.ast.type.AtomicType;
 import fr.n7.stl.block.ast.type.Type;
 import fr.n7.stl.tam.ast.Fragment;
 import fr.n7.stl.tam.ast.Register;
@@ -95,17 +97,26 @@ public class FunctionDeclaration implements Instruction, Declaration {
 	public boolean resolve(HierarchicalScope<Declaration> _scope) {
 		if (! _scope.accepts(this)) return false;
 		if (! type.resolve(_scope)) return false;
-		if (! body.resolve(_scope)) return false;
-		_scope.register(this);
-		return true;
-	}
+		// pour les appels récursifs on doit l'enregistrer dans le scope parent avant de créer l'enfant
+        _scope.register(this);
+
+		HierarchicalScope<Declaration> funScope = new SymbolTable(_scope);
+		for (ParameterDeclaration parameterDeclaration: parameters)
+		    funScope.register(parameterDeclaration);
+
+        return body.resolve(funScope);
+    }
 
 	/* (non-Javadoc)
 	 * @see fr.n7.stl.block.ast.instruction.Instruction#checkType()
 	 */
 	@Override
 	public boolean checkType() {
-		throw new SemanticsUndefinedException( "Semantics checkType is undefined in FunctionDeclaration.");
+	    for (ParameterDeclaration parameterDeclaration: parameters) {
+	        if (parameterDeclaration.getType().equalsTo(AtomicType.ErrorType))
+	            return false;
+        }
+        return true;
 	}
 
 	/* (non-Javadoc)

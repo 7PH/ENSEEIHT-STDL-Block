@@ -109,14 +109,21 @@ precedence left UL_Crochet_Ouvrant, UL_Point, UL_Parenthese_Ouvrante;
 /* UL_Identificateur est un terminal (Unité lexicale) */
 /* bloc est la variable utilisable dans l'action sémantique qui contient la valeur renvoyé par l'analyse du Bloc */
 Program ::= UL_Identificateur:nom Bloc:bloc
-			{: 
-				System.out.println( "Programme nommé " + nom );
-				System.out.println( bloc ); 
+			{:
 				SymbolTable tds = new SymbolTable();
-
+		        double t1 = System.currentTimeMillis();
+				boolean resolve = bloc.resolve(tds);
+		        double resolveTimeMs = System.currentTimeMillis() - t1;
+		        t1 = System.currentTimeMillis();
+				boolean checkType = bloc.checkType();
+		        double checkTypeTimeMs = System.currentTimeMillis() - t1;
                 System.out.println("===============================================");
-				System.out.println("resolve(): " + (bloc.resolve(tds) ? "OK" : "ERROR"));
-				System.out.println("getType(): " + (bloc.checkType() ? "OK" : "ERROR"));
+				System.out.println("content        : " + bloc.toString().replace("\n", ""));
+				System.out.println("name           : " + nom);
+				System.out.println("resolve result : " + (resolve ? "OK" : "ERROR"));
+				System.out.println("resolve time   : " + resolveTimeMs + "ms");
+				System.out.println("getType result : " + (checkType ? "OK" : "ERROR"));
+				System.out.println("getType time   : " + checkTypeTimeMs + "ms");
                 System.out.println("===============================================");
 			:}
 		;

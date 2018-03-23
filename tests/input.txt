@@ -1,5 +1,0 @@
-test {
-    print 1;
-    int l = 1 + 1;
-
-}

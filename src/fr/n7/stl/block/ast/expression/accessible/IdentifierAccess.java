@@ -6,6 +6,7 @@ package fr.n7.stl.block.ast.expression.accessible;
 import fr.n7.stl.block.ast.expression.AbstractIdentifier;
 import fr.n7.stl.block.ast.expression.AbstractUse;
 import fr.n7.stl.block.ast.instruction.declaration.ConstantDeclaration;
+import fr.n7.stl.block.ast.instruction.declaration.ParameterDeclaration;
 import fr.n7.stl.block.ast.instruction.declaration.VariableDeclaration;
 import fr.n7.stl.block.ast.scope.Declaration;
 import fr.n7.stl.block.ast.scope.HierarchicalScope;
@@ -37,18 +38,20 @@ public class IdentifierAccess extends AbstractIdentifier implements AccessibleEx
 			if (_declaration instanceof VariableDeclaration) {
 				this.expression = new VariableUse((VariableDeclaration) _declaration);
 				return true;
+			} else if (_declaration instanceof ParameterDeclaration) {
+                expression = new ParameterUse((ParameterDeclaration) _declaration, null);
+                return true;
 			} else {
-				if (_declaration instanceof ConstantDeclaration) {
-					// TODO : refactor the management of Constants
-					this.expression = new ConstantUse((ConstantDeclaration) _declaration);
-					return true;
-				} else {
-					Logger.error("The declaration for " + this.name + " is of the wrong kind.");
-					return false;
-				}
+                if (_declaration instanceof ConstantDeclaration) {
+                    // TODO : refactor the management of Constants
+                    this.expression = new ConstantUse((ConstantDeclaration) _declaration);
+                    return true;
+                } else {
+                    Logger.error("The declaration for " + this.name + " is of the wrong kind.");
+                    return false;
+                }
 			}
 		} else {
-			System.out.println(_scope);
 			Logger.error("The identifier " + this.name + " has not been found.");
 			return false;	
 		}
