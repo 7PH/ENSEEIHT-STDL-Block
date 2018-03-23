@@ -118,12 +118,10 @@ Program ::= UL_Identificateur:nom Bloc:bloc
 				boolean checkType = bloc.checkType();
 		        double checkTypeTimeMs = System.currentTimeMillis() - t1;
                 System.out.println("===============================================");
-				System.out.println("content        : " + bloc.toString().replace("\n", ""));
-				System.out.println("name           : " + nom);
-				System.out.println("resolve result : " + (resolve ? "OK" : "ERROR"));
-				System.out.println("resolve time   : " + resolveTimeMs + "ms");
-				System.out.println("getType result : " + (checkType ? "OK" : "ERROR"));
-				System.out.println("getType time   : " + checkTypeTimeMs + "ms");
+				System.out.println("content     : " + bloc.toString().replace("\n", " "));
+				System.out.println("name        : " + nom);
+				System.out.println("resolve     : " + (resolve ? "OK   " : "ERROR") + " (" + resolveTimeMs + "ms)");
+				System.out.println("getType     : " + (checkType ? "OK   " : "ERROR") + " (" + checkTypeTimeMs + "ms)");
                 System.out.println("===============================================");
 			:}
 		;

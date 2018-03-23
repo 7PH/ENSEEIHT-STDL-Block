@@ -712,12 +712,10 @@ class CUP$Parser$actions {
 				boolean checkType = bloc.checkType();
 		        double checkTypeTimeMs = System.currentTimeMillis() - t1;
                 System.out.println("===============================================");
-				System.out.println("content        : " + bloc.toString().replace("\n", ""));
-				System.out.println("name           : " + nom);
-				System.out.println("resolve result : " + (resolve ? "OK" : "ERROR"));
-				System.out.println("resolve time   : " + resolveTimeMs + "ms");
-				System.out.println("getType result : " + (checkType ? "OK" : "ERROR"));
-				System.out.println("getType time   : " + checkTypeTimeMs + "ms");
+				System.out.println("content     : " + bloc.toString().replace("\n", " "));
+				System.out.println("name        : " + nom);
+				System.out.println("resolve     : " + (resolve ? "OK   " : "ERROR") + " (" + resolveTimeMs + "ms)");
+				System.out.println("getType     : " + (checkType ? "OK   " : "ERROR") + " (" + checkTypeTimeMs + "ms)");
                 System.out.println("===============================================");
 			
               CUP$Parser$result = parser.getSymbolFactory().newSymbol("Program",0, ((java_cup.runtime.Symbol)CUP$Parser$stack.elementAt(CUP$Parser$top-1)), ((java_cup.runtime.Symbol)CUP$Parser$stack.peek()), RESULT);

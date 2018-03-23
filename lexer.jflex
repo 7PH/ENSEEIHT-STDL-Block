@@ -79,7 +79,7 @@ Identificateur = ([:jletter:] | "_" ) ([:jletterdigit:] | [:jletter:] | "_" )*
 <YYINITIAL> {
 
   {Blanc} 			{ }
-  {Commentaire} 	{ }
+  {Commentaire} 		{ }
   ";"          		{ return symbolFactory.newSymbol("Point Virgule", UL_Point_Virgule); }
   ","          		{ return symbolFactory.newSymbol("Virgule", UL_Virgule); }
   "."          		{ return symbolFactory.newSymbol("Point", UL_Point); }
@@ -94,9 +94,9 @@ Identificateur = ([:jletter:] | "_" ) ([:jletterdigit:] | [:jletter:] | "_" )*
   ">"				{ return symbolFactory.newSymbol("Supérieur", UL_Superieur); }
   ">="				{ return symbolFactory.newSymbol("Supérieur Egal", UL_Superieur_Egal); }
   "+"          		{ return symbolFactory.newSymbol("Plus", UL_Plus); }
-  "++"          	{ return symbolFactory.newSymbol("Double Plus", UL_Double_Plus); }
+  "++"          		{ return symbolFactory.newSymbol("Double Plus", UL_Double_Plus); }
   "-"          		{ return symbolFactory.newSymbol("Moins", UL_Moins); }
-  "--"          	{ return symbolFactory.newSymbol("Double Moins", UL_Double_Moins); }
+  "--"          		{ return symbolFactory.newSymbol("Double Moins", UL_Double_Moins); }
   "*"          		{ return symbolFactory.newSymbol("Asterisque", UL_Asterisque); }
   "/"          		{ return symbolFactory.newSymbol("Oblique", UL_Oblique); }
   "%"          		{ return symbolFactory.newSymbol("Pour Cent", UL_Pour_Cent); }
@@ -112,19 +112,19 @@ Identificateur = ([:jletter:] | "_" ) ([:jletterdigit:] | [:jletter:] | "_" )*
   "const"			{ return symbolFactory.newSymbol("Définition Constante", UL_Definition_Constante); }
   "typedef"			{ return symbolFactory.newSymbol("Définition Type", UL_Definition_Type); }
   "struct"			{ return symbolFactory.newSymbol("Enregistrement", UL_Enregistrement); }
-  "enum"			{ return symbolFactory.newSymbol("Enumération", UL_Enumeration); }
+  "enum"				{ return symbolFactory.newSymbol("Enumération", UL_Enumeration); }
   "int"				{ return symbolFactory.newSymbol("Type Entier", UL_Type_Entier); }
   "float"			{ return symbolFactory.newSymbol("Type Entier", UL_Type_Flottant); }
   "character"		{ return symbolFactory.newSymbol("Type Caractère", UL_Type_Caractere); }
   "String"			{ return symbolFactory.newSymbol("Type Chaîne", UL_Type_Chaine); }
   "boolean"			{ return symbolFactory.newSymbol("Type Booléen", UL_Type_Booleen); }
-  "void"			{ return symbolFactory.newSymbol("Type Vide", UL_Type_Vide); }
+  "void"				{ return symbolFactory.newSymbol("Type Vide", UL_Type_Vide); }
   "if"				{ return symbolFactory.newSymbol("Si", UL_Si); }
-  "else"			{ return symbolFactory.newSymbol("Sinon", UL_Sinon); }
+  "else"				{ return symbolFactory.newSymbol("Sinon", UL_Sinon); }
   "print"			{ return symbolFactory.newSymbol("Afficher", UL_Afficher); }
   "new"				{ return symbolFactory.newSymbol("Nouveau", UL_Nouveau); }
-  "null"			{ return symbolFactory.newSymbol("Nul", UL_Nul); }
-  "true"			{ return symbolFactory.newSymbol("Vrai", UL_Vrai); }
+  "null"				{ return symbolFactory.newSymbol("Nul", UL_Nul); }
+  "true"				{ return symbolFactory.newSymbol("Vrai", UL_Vrai); }
   "false"			{ return symbolFactory.newSymbol("Faux", UL_Faux); }
   "fst"				{ return symbolFactory.newSymbol("Premier", UL_Premier); }
   "snd"				{ return symbolFactory.newSymbol("Second", UL_Second); }
