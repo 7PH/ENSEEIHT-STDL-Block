@@ -1,4 +1,4 @@
 test {
-    typedef int Point
-    Point a = 1212121;
+    typedef struct P2 {int x; int y;} Point;
+    Point myPoint = {0, 1};
 }

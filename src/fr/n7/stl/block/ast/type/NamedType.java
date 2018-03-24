@@ -84,7 +84,7 @@ public class NamedType implements Type {
 	public Type getType() {
 		Type _result = this.declaration.getType();
 		if (_result instanceof NamedType) {
-			return ((NamedType) _result).getType();
+            return ((NamedType) _result).getType();
 		} else {
 			return _result;
 		}
@@ -112,7 +112,7 @@ public class NamedType implements Type {
      */
 	@Override
 	public String toString() {
-		return "typedef " + this.declaration.getType() + " " + this.declaration.getName() + ";\n";
+		return name;
 	}
 
 	/*
