@@ -2,7 +2,6 @@ test {
     // com 1
 
     int a = 6;
-    int b[] = {1, 2, 3};
     boolean even = (a + 1) % 2 == 0;
     int i = 1;
     const int j = 2;
