@@ -13,7 +13,7 @@ import fr.n7.stl.tam.ast.TAMFactory;
 
 /**
  * @author Marc Pantel
- *
+ * @TODO à quoi correspond le constructeur PointerAllocation(String name)?
  */
 public class PointerAllocation implements Expression {
 
@@ -33,7 +33,7 @@ public class PointerAllocation implements Expression {
 	 */
 	@Override
 	public String toString() {
-		return "new " + ((this.element == null)?this.name:this.element); 
+		return "new " + ((this.element == null) ? this.name : this.element);
 	}
 
 	/* (non-Javadoc)
@@ -41,6 +41,7 @@ public class PointerAllocation implements Expression {
 	 */
 	@Override
 	public boolean resolve(HierarchicalScope<Declaration> _scope) {
+	    System.out.println(element);
 		return ! _scope.contains(name) && element.resolve(_scope);
 	}
 
@@ -49,7 +50,7 @@ public class PointerAllocation implements Expression {
 	 */
 	@Override
 	public Type getType() {
-		throw new SemanticsUndefinedException( "Semantics getType is undefined in PointerAllocation.");
+	    return element;
 	}
 
 	/* (non-Javadoc)

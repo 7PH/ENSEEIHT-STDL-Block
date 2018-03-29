@@ -48,7 +48,7 @@ public abstract class AbstractPointer implements Expression {
 	 * @return Synthesized Type of the expression.
 	 */
 	public Type getType() {
-	    return new PointerType(pointer.getType());
+	    return pointer.getType();
 	}
 
 }
