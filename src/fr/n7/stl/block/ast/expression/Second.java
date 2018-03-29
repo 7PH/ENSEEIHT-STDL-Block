@@ -35,7 +35,7 @@ public class Second implements Expression {
 	 * @see java.lang.Object#toString()
 	 */
 	public String toString() {
-		return "(snd" + this.target + ")";
+		return "(snd " + this.target + ")";
 	}
 
 	/* (non-Javadoc)

@@ -38,7 +38,7 @@ public class First implements Expression {
 	 * @see java.lang.Object#toString()
 	 */
 	public String toString() {
-		return "(fst" + this.target + ")";
+		return "(fst " + this.target + ")";
 	}
 
 	/* (non-Javadoc)

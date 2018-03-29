@@ -82,6 +82,7 @@ public class FunctionType implements Type {
 	 */
 	@Override
 	public boolean resolve(HierarchicalScope<Declaration> _scope) {
-		throw new SemanticsUndefinedException("Semantics resolve is undefined in FunctionType.");	}
+		throw new SemanticsUndefinedException("Semantics resolve is undefined in FunctionType.");
+	}
 
 }

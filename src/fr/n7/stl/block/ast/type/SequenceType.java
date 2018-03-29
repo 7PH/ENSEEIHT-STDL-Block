@@ -166,4 +166,9 @@ public class SequenceType implements Type {
 		}
 		return _result;
 	}
+
+	@Override
+	public String toString() {
+		return types.toString();
+	}
 }

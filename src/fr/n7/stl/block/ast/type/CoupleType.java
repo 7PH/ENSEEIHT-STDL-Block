@@ -79,7 +79,7 @@ public class CoupleType implements Type {
 	 */
 	@Override
 	public String toString() {
-		return "< " + this.first + ", " + this.second + ">";
+		return "<" + this.first + ", " + this.second + ">";
 	}
 
 	/**
@@ -87,7 +87,7 @@ public class CoupleType implements Type {
 	 * @return Type of the first element.
 	 */
 	public Type getFirst() {
-		return this.first;
+		return first;
 	}
 
 	/**
@@ -95,7 +95,7 @@ public class CoupleType implements Type {
 	 * @return Type of the second element.
 	 */
 	public Type getSecond() {
-		return this.second;
+		return second;
 	}
 	
 	/* (non-Javadoc)

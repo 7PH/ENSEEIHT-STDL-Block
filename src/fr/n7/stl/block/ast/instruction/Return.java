@@ -10,6 +10,7 @@ import fr.n7.stl.block.ast.scope.HierarchicalScope;
 import fr.n7.stl.tam.ast.Fragment;
 import fr.n7.stl.tam.ast.Register;
 import fr.n7.stl.tam.ast.TAMFactory;
+import fr.n7.stl.util.Logger;
 
 /**
  * Implementation of the Abstract Syntax Tree node for a return instruction.
@@ -37,7 +38,7 @@ public class Return implements Instruction {
      */
     @Override
     public boolean resolve(HierarchicalScope<Declaration> _scope) {
-        throw new SemanticsUndefinedException( "Semantics resolve is undefined in Return.");
+        return value.resolve(_scope);
     }
 
     /* (non-Javadoc)
@@ -45,7 +46,8 @@ public class Return implements Instruction {
      */
     @Override
     public boolean checkType() {
-        throw new SemanticsUndefinedException("Semantics checkType undefined in Return.");
+        Logger.warning("Semantics checkType undefined in Return.");
+        return true;
     }
 
     /* (non-Javadoc)

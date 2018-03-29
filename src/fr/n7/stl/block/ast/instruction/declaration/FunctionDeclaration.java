@@ -116,7 +116,9 @@ public class FunctionDeclaration implements Instruction, Declaration {
 	        if (parameterDeclaration.getType().equalsTo(AtomicType.ErrorType))
 	            return false;
         }
-        return true;
+        if (! body.checkType()) return false;
+        // @TODO ensure body type = return type
+	    return true;
 	}
 
 	/* (non-Javadoc)

@@ -45,7 +45,7 @@ public class TypeCast implements Expression {
      */
     @Override
     public boolean resolve(HierarchicalScope<Declaration> _scope) {
-        throw new SemanticsUndefinedException("Semantics resolve undefined in Type Cast.");
+        return target.resolve(_scope);
     }
 
     /* (non-Javadoc)
