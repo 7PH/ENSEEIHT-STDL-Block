@@ -3,9 +3,11 @@ package fr.n7.stl.block.ast.expression;
 import fr.n7.stl.block.ast.SemanticsUndefinedException;
 import fr.n7.stl.block.ast.scope.Declaration;
 import fr.n7.stl.block.ast.scope.HierarchicalScope;
+import fr.n7.stl.block.ast.type.NamedType;
 import fr.n7.stl.block.ast.type.RecordType;
 import fr.n7.stl.block.ast.type.Type;
 import fr.n7.stl.block.ast.type.declaration.FieldDeclaration;
+import fr.n7.stl.util.Logger;
 
 /**
  * Common elements between left (Assignable) and right (Expression) end sides of assignments. These elements
@@ -47,9 +49,14 @@ public abstract class AbstractField implements Expression {
 	    // on va récup le type de record
 	    Type type = record.getType();
 
+        while (type instanceof NamedType) {
+            type = ((NamedType)type).getType();
+        }
+
 	    // on vérifie que c'est un RecordType
 	    if (! (type instanceof RecordType)) return false;
-	    RecordType recordType = (RecordType) type;
+        RecordType recordType = (RecordType) type;
+
 
 	    // on vérifie qu'il contient le field 'name'
 	    if (! recordType.contains(name)) return false;

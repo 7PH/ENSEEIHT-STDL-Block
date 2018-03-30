@@ -72,8 +72,7 @@ public class ConditionalExpression implements Expression {
 	@Override
 	public Type getType() {
 	    if (! condition.getType().equalsTo(AtomicType.BooleanType)) return AtomicType.ErrorType;
-		if (! thenExpression.getType().equalsTo(elseExpression.getType())) return AtomicType.ErrorType;
-	    return thenExpression.getType();
+	    return thenExpression.getType().merge(elseExpression.getType());
 	}
 
 	/* (non-Javadoc)
