@@ -1,4 +1,13 @@
 test {
-    typedef struct P2 {int x; int y;} Point;
-    Point myPoint = {0, 1};
+    typedef struct TPoint {int x; int y;} Point;
+    typedef struct TCircle {int x; int y; radius;} Circle;
+
+    Point myPoint = {0, 10};
+    Circle circle = {0, 0, 10};
+
+    // ok
+    print (((Point) circle).x);
+
+    // will fail
+    print (((Circle) point).radius);
 }

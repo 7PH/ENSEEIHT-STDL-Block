@@ -55,7 +55,7 @@ public class Return implements Instruction {
      */
     @Override
     public int allocateMemory(Register _register, int _offset) {
-        throw new SemanticsUndefinedException("Semantics allocateMemory undefined in Return.");
+        return value.getType().length();
     }
 
     /* (non-Javadoc)

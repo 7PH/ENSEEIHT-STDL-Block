@@ -56,7 +56,7 @@ public class Printer implements Instruction {
 	 */
 	@Override
 	public int allocateMemory(Register _register, int _offset) {
-		throw new SemanticsUndefinedException("Semantics allocateMemory undefined in Printer.");
+		return 0;
 	}
 
 	/* (non-Javadoc)

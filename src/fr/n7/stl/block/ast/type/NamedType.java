@@ -51,6 +51,10 @@ public class NamedType implements Type {
 	 */
 	@Override
 	public boolean compatibleWith(Type _other) {
+		if (declaration == null) {
+            System.out.println(this + " - " + _other + " - " + (_other instanceof NamedType));
+        }
+
 		if (_other instanceof NamedType) {
 			return (this.declaration.getName().equals(((NamedType) _other).declaration.getName()));
 		} else {
@@ -122,7 +126,7 @@ public class NamedType implements Type {
 	 */
 	@Override
 	public boolean resolve(HierarchicalScope<Declaration> _scope) {
-		if (this.declaration == null) {
+	    if (this.declaration == null) {
 			if (_scope.contains(this.name)) {
 
 				try {

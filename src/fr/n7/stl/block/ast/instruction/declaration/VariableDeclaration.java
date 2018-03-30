@@ -116,7 +116,7 @@ public class VariableDeclaration implements Declaration, Instruction {
 	 */
 	@Override
 	public boolean checkType() {
-	    return type.compatibleWith(value.getType());
+	    return value.getType().compatibleWith(type);
 	}
 
 	/* (non-Javadoc)
@@ -124,7 +124,8 @@ public class VariableDeclaration implements Declaration, Instruction {
 	 */
 	@Override
 	public int allocateMemory(Register _register, int _offset) {
-		throw new SemanticsUndefinedException("Semantics allocateMemory is undefined in VariableDeclaration.");
+		offset = _offset;
+		return _offset + value.getType().length();
 	}
 
 	/* (non-Javadoc)

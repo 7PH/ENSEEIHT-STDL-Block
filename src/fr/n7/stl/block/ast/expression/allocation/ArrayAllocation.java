@@ -7,6 +7,7 @@ import fr.n7.stl.block.ast.SemanticsUndefinedException;
 import fr.n7.stl.block.ast.expression.Expression;
 import fr.n7.stl.block.ast.scope.Declaration;
 import fr.n7.stl.block.ast.scope.HierarchicalScope;
+import fr.n7.stl.block.ast.type.ArrayType;
 import fr.n7.stl.block.ast.type.AtomicType;
 import fr.n7.stl.block.ast.type.NamedType;
 import fr.n7.stl.block.ast.type.Type;
@@ -48,19 +49,18 @@ public class ArrayAllocation implements Expression {
 	 */
 	@Override
 	public boolean resolve(HierarchicalScope<Declaration> _scope) {
-		return _scope.knows(name)
-                && element.resolve(_scope)
+		return (element != null || _scope.knows(name))
+				&& element.resolve(_scope)
                 && size.resolve(_scope);
 	}
 
 	/* (non-Javadoc)
 	 * @see fr.n7.stl.block.ast.Expression#getType()
-	 * @TODO
 	 */
 	@Override
 	public Type getType() {
 		if (size.getType() != AtomicType.IntegerType) return ErrorType;
-	    return element == null ? new NamedType(name) : element;
+	    return new ArrayType(element == null ? new NamedType(name) : element);
 	}
 
 	/* (non-Javadoc)

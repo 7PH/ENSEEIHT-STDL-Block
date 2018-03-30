@@ -1,0 +1,4 @@
+test {
+    typedef int entier;
+    entier tab[] = new entier[2];
+}

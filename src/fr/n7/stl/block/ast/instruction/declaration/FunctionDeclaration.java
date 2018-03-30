@@ -109,6 +109,7 @@ public class FunctionDeclaration implements Instruction, Declaration {
 
 	/* (non-Javadoc)
 	 * @see fr.n7.stl.block.ast.instruction.Instruction#checkType()
+	 * * @TODO
 	 */
 	@Override
 	public boolean checkType() {

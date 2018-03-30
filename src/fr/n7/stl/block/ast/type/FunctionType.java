@@ -3,6 +3,7 @@
  */
 package fr.n7.stl.block.ast.type;
 
+import java.lang.reflect.Parameter;
 import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
@@ -58,7 +59,10 @@ public class FunctionType implements Type {
 	 */
 	@Override
 	public int length() {
-		throw new SemanticsUndefinedException("Semantics length is undefined in FunctionType.");
+		int l = 0;
+		for (Type type: parameters)
+		    l += type.length();
+		return l;
 	}
 
 	/* (non-Javadoc)

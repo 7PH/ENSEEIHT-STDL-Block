@@ -6,6 +6,7 @@ package fr.n7.stl.block.ast.expression;
 import fr.n7.stl.block.ast.SemanticsUndefinedException;
 import fr.n7.stl.block.ast.scope.Declaration;
 import fr.n7.stl.block.ast.scope.HierarchicalScope;
+import fr.n7.stl.block.ast.type.NamedType;
 import fr.n7.stl.block.ast.type.Type;
 import fr.n7.stl.tam.ast.Fragment;
 import fr.n7.stl.tam.ast.TAMFactory;
@@ -53,7 +54,7 @@ public class TypeCast implements Expression {
      */
     @Override
     public Type getType() {
-        throw new SemanticsUndefinedException("Semantics getType undefined in Type Cast.");
+        return new NamedType(type);
     }
 
     /* (non-Javadoc)

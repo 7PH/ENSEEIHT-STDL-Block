@@ -57,7 +57,8 @@ public class Iteration implements Instruction {
 	 */
 	@Override
 	public int allocateMemory(Register _register, int _offset) {
-		throw new SemanticsUndefinedException( "Semantics allocateMemory is undefined in Iteration.");
+		body.allocateMemory(_register, _offset);
+		return 0;
 	}
 
 	/* (non-Javadoc)
