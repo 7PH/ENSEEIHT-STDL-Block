@@ -2,7 +2,7 @@ test {
     typedef struct TPoint {int x; int y;} Point;
     typedef struct TCircle {int x; int y; int radius;} Circle;
 
-    Point myPoint = {0, 10};
+    Point point = {0, 10};
     Circle circle = {0, 0, 10};
 
     // ok

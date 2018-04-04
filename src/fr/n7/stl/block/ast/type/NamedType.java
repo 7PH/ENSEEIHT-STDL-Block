@@ -86,7 +86,10 @@ public class NamedType implements Type {
 	 * @return Type associated to the name.
 	 */
 	public Type getType() {
-		Type _result = this.declaration.getType();
+		if (declaration == null) {
+		    System.out.println("Declaration is null..");
+        }
+		Type _result = declaration.getType();
 		if (_result instanceof NamedType) {
             return ((NamedType) _result).getType();
 		} else {
