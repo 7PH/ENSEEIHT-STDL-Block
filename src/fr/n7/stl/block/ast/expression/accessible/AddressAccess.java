@@ -37,7 +37,7 @@ public class AddressAccess implements AccessibleExpression {
 	 */
 	@Override
 	public Type getType() {
-	    return this.assignable.getType();
+	    return assignable.getType();
 	}
 	
 	/* (non-Javadoc)

@@ -22,7 +22,7 @@ public class ArrayAccess extends AbstractArray implements AccessibleExpression {
 	 * @param _index Abstract Syntax Tree for the index part in an array element access expression.
 	 */
 	public ArrayAccess(Expression _array, Expression _index) {
-		super(_array,_index);
+		super(_array, _index);
 	}
 
 	/* (non-Javadoc)

@@ -37,11 +37,16 @@ public enum AtomicType implements Type {
 	public boolean compatibleWith(Type _other) {
 		if (this.equalsTo(_other)) {
 			return true;
-		} else {
+		} else if (_other instanceof NamedType) {
+            return compatibleWith(((NamedType)_other).getType());
+        } else {
 			switch (this) {
-			case NullType : return ((_other != ErrorType) && (_other != VoidType));
-			case IntegerType: return (_other == FloatingType);
-			default: return false;
+				case NullType :
+				    return ((_other != ErrorType) && (_other != VoidType));
+				case IntegerType:
+				    return (_other == FloatingType);
+				default:
+				    return false;
 			}
 		}
 	}

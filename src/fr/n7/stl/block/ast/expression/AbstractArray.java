@@ -60,7 +60,11 @@ public abstract class AbstractArray implements Expression {
 	 */
 	public Type getType() {
 	    if (! index.getType().equalsTo(AtomicType.IntegerType)) return AtomicType.ErrorType;
-        return array.getType();
+        if (! (array.getType() instanceof ArrayType))
+            return AtomicType.ErrorType;
+
+        ArrayType arrayType = (ArrayType) array.getType();
+        return arrayType.getType();
 	}
 
 }

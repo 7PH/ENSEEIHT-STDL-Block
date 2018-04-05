@@ -727,7 +727,7 @@ class CUP$Parser$actions {
 				boolean resolve = bloc.resolve(tds);
 		        double resolveTimeMs = System.currentTimeMillis() - t1;
 		        t1 = System.currentTimeMillis();
-				boolean checkType = true;
+				boolean checkType = bloc.checkType();
 		        double checkTypeTimeMs = System.currentTimeMillis() - t1;
                 System.out.println("===============================================");
 				System.out.println("content     : " + bloc.toString());
