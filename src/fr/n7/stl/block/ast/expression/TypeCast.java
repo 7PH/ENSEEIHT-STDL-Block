@@ -20,6 +20,12 @@ public class TypeCast implements Expression {
 
     protected String type;
 
+    /** Because resolve has to be called on the NamedType, it can't be instanciated in 'getType()'.
+     * It has to be instanciated in resolve, be resolved in the TypeCast.resolve method,
+     * And be returned in TypeCast.
+     */
+    protected Type targetType;
+
     /**
      * AST node for the expression whose value must whose first element is extracted by the expression.
      */
@@ -46,6 +52,8 @@ public class TypeCast implements Expression {
      */
     @Override
     public boolean resolve(HierarchicalScope<Declaration> _scope) {
+        targetType = new NamedType(type);
+        targetType.resolve(_scope);
         return target.resolve(_scope);
     }
 
@@ -54,7 +62,7 @@ public class TypeCast implements Expression {
      */
     @Override
     public Type getType() {
-        return new NamedType(type);
+        return targetType;
     }
 
     /* (non-Javadoc)
