@@ -8,8 +8,10 @@ import java.util.List;
 
 import fr.n7.stl.block.ast.SemanticsUndefinedException;
 import fr.n7.stl.block.ast.instruction.declaration.FunctionDeclaration;
+import fr.n7.stl.block.ast.instruction.declaration.ParameterDeclaration;
 import fr.n7.stl.block.ast.scope.Declaration;
 import fr.n7.stl.block.ast.scope.HierarchicalScope;
+import fr.n7.stl.block.ast.type.AtomicType;
 import fr.n7.stl.block.ast.type.Type;
 import fr.n7.stl.tam.ast.Fragment;
 import fr.n7.stl.tam.ast.TAMFactory;
@@ -54,14 +56,11 @@ public class FunctionCall implements Expression {
 	 */
 	@Override
 	public String toString() {
-		String _result = ((this.function == null)?this.name:this.function) + "( ";
-		Iterator<Expression> _iter = this.arguments.iterator();
-		if (_iter.hasNext()) {
-			_result += _iter.next();
-		}
-		while (_iter.hasNext()) {
-			_result += " ," + _iter.next();
-		}
+		//String _result = ((this.function == null) ? this.name : this.function) + "(";
+		String _result = this.name + "(";
+		for (Expression expression: arguments)
+		    _result += expression + ", ";
+        _result = _result.substring(0, _result.length() - 2);
 		return  _result + ")";
 	}
 
@@ -84,6 +83,14 @@ public class FunctionCall implements Expression {
 	 */
 	@Override
 	public Type getType() {
+	    List<ParameterDeclaration> parameterDeclarations = function.getParameters();
+	    if (parameterDeclarations.size() != arguments.size()) return AtomicType.ErrorType;
+	    int i = 0;
+	    while (i < arguments.size()) {
+	        if (! arguments.get(i).getType().compatibleWith(parameterDeclarations.get(i).getType()))
+	            return AtomicType.ErrorType;
+	        ++ i;
+        }
 		return function.getType();
 	}
 

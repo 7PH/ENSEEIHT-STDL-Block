@@ -1,11 +1,13 @@
 chancla {
 
     int c = 0;
-
     int add (int a, int b) {
         int c = 0;
         c = a + b;
+        return c;
     }
 
+    int add1_result = add(1, 2);
+    print add1_result;
     print c;
 }

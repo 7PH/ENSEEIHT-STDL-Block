@@ -8,6 +8,7 @@ import java.util.List;
 
 import fr.n7.stl.block.ast.Block;
 import fr.n7.stl.block.ast.SemanticsUndefinedException;
+import fr.n7.stl.block.ast.expression.Expression;
 import fr.n7.stl.block.ast.instruction.Instruction;
 import fr.n7.stl.block.ast.scope.Declaration;
 import fr.n7.stl.block.ast.scope.HierarchicalScope;
@@ -56,6 +57,10 @@ public class FunctionDeclaration implements Instruction, Declaration {
 		this.type = _type;
 		this.parameters = _parameters;
 		this.body = _body;
+	}
+
+	public List<ParameterDeclaration> getParameters() {
+		return parameters;
 	}
 	
 	/* (non-Javadoc)
