@@ -68,15 +68,15 @@ public class FunctionDeclaration implements Instruction, Declaration {
 	 */
 	@Override
 	public String toString() {
-		String _result = this.type + " " + this.name + "( ";
+		String _result = this.type + " " + this.name + " (";
 		Iterator<ParameterDeclaration> _iter = this.parameters.iterator();
 		if (_iter.hasNext()) {
 			_result += _iter.next();
 			while (_iter.hasNext()) {
-				_result += " ," + _iter.next();
+				_result += ", " + _iter.next();
 			}
 		}
-		return _result + " )" + this.body;
+		return _result + ") " + this.body;
 	}
 
 	/* (non-Javadoc)
@@ -123,7 +123,10 @@ public class FunctionDeclaration implements Instruction, Declaration {
 	            return false;
         }
         if (! body.checkType()) return false;
+
         // @TODO ensure body type = return type
+        System.out.println("function return: " + body.getReturnType());
+
 	    return true;
 	}
 
@@ -142,5 +145,10 @@ public class FunctionDeclaration implements Instruction, Declaration {
 	public Fragment getCode(TAMFactory _factory) {
 		throw new SemanticsUndefinedException( "Semantics getCode is undefined in FunctionDeclaration.");
 	}
+
+    @Override
+    public Type getReturnType() {
+        return AtomicType.VoidType;
+    }
 
 }

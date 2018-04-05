@@ -8,6 +8,7 @@ import fr.n7.stl.block.ast.expression.Expression;
 import fr.n7.stl.block.ast.instruction.Instruction;
 import fr.n7.stl.block.ast.scope.Declaration;
 import fr.n7.stl.block.ast.scope.HierarchicalScope;
+import fr.n7.stl.block.ast.type.AtomicType;
 import fr.n7.stl.block.ast.type.Type;
 import fr.n7.stl.tam.ast.Fragment;
 import fr.n7.stl.tam.ast.Register;
@@ -116,7 +117,6 @@ public class VariableDeclaration implements Declaration, Instruction {
 	 */
 	@Override
 	public boolean checkType() {
-		System.out.println("debug - " + value.getType() + " - " + type + " : " + value.getType().compatibleWith(type));
 	    return value.getType().compatibleWith(type);
 	}
 
@@ -126,7 +126,7 @@ public class VariableDeclaration implements Declaration, Instruction {
 	@Override
 	public int allocateMemory(Register _register, int _offset) {
 		offset = _offset;
-		return _offset + value.getType().length();
+		return value.getType().length();
 	}
 
 	/* (non-Javadoc)
@@ -135,6 +135,11 @@ public class VariableDeclaration implements Declaration, Instruction {
 	@Override
 	public Fragment getCode(TAMFactory _factory) {
 		throw new SemanticsUndefinedException("Semantics getCode is undefined in VariableDeclaration.");
+	}
+
+	@Override
+	public Type getReturnType() {
+		return AtomicType.VoidType;
 	}
 
 }

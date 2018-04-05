@@ -11,6 +11,8 @@ import fr.n7.stl.block.ast.instruction.Instruction;
 import fr.n7.stl.block.ast.scope.Declaration;
 import fr.n7.stl.block.ast.scope.HierarchicalScope;
 import fr.n7.stl.block.ast.scope.SymbolTable;
+import fr.n7.stl.block.ast.type.AtomicType;
+import fr.n7.stl.block.ast.type.Type;
 import fr.n7.stl.tam.ast.Fragment;
 import fr.n7.stl.tam.ast.Register;
 import fr.n7.stl.tam.ast.TAMFactory;
@@ -68,6 +70,13 @@ public class Block {
 
         return true;
 	}
+
+	public Type getReturnType() {
+	    Type res = AtomicType.VoidType;
+	    for (Instruction instruction: instructions)
+	        res = res.merge(instruction.getReturnType());
+	    return res;
+    }
 
 	/**
 	 * Synthesized Semantics attribute to check that an instruction if well typed.
