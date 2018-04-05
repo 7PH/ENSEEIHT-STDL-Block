@@ -84,6 +84,7 @@ public class RecordType implements Type, Declaration, Scope<FieldDeclaration> {
 
 	/* (non-Javadoc)
 	 * @see fr.n7.stl.block.ast.Type#compatibleWith(fr.n7.stl.block.ast.Type)
+	 * @TODO
 	 */
 	@Override
 	public boolean compatibleWith(Type _other) {
