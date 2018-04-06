@@ -57,8 +57,8 @@ public class Iteration implements Instruction {
 	 * @see fr.n7.stl.block.ast.Instruction#allocateMemory(fr.n7.stl.tam.ast.Register, int)
 	 */
 	@Override
-	public int allocateMemory(Register _register, int _offset) {
-		body.allocateMemory(_register, _offset);
+	public int allocateMemory(Register register, int offset) {
+		body.allocateMemory(register, offset);
 		return 0;
 	}
 

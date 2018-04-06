@@ -133,7 +133,7 @@ public class FunctionDeclaration implements Instruction, Declaration {
 	 * @see fr.n7.stl.block.ast.instruction.Instruction#allocateMemory(fr.n7.stl.tam.ast.Register, int)
 	 */
 	@Override
-	public int allocateMemory(Register _register, int _offset) {
+	public int allocateMemory(Register register, int offset) {
 		throw new SemanticsUndefinedException( "Semantics allocateMemory is undefined in FunctionDeclaration.");
 	}
 

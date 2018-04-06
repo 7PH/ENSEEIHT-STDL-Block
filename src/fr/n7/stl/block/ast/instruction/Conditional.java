@@ -71,9 +71,9 @@ public class Conditional implements Instruction {
 	 * @see fr.n7.stl.block.ast.Instruction#allocateMemory(fr.n7.stl.tam.ast.Register, int)
 	 */
 	@Override
-	public int allocateMemory(Register _register, int _offset) {
-	    thenBranch.allocateMemory(_register, _offset);
-        elseBranch.ifPresent(block -> block.allocateMemory(_register, _offset));
+	public int allocateMemory(Register register, int offset) {
+	    thenBranch.allocateMemory(register, offset);
+        elseBranch.ifPresent(block -> block.allocateMemory(register, offset));
         return 0;
 	}
 

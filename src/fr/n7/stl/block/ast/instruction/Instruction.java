@@ -36,11 +36,11 @@ public interface Instruction {
 	/**
 	 * Inherited Semantics attribute to allocate memory for the variables declared in the instruction.
 	 * Synthesized Semantics attribute that compute the size of the allocated memory. 
-	 * @param _register Inherited Register associated to the address of the variables.
-	 * @param _offset Inherited Current offset for the address of the variables.
+	 * @param register Inherited Register associated to the address of the variables.
+	 * @param offset Inherited Current offset for the address of the variables.
 	 * @return Synthesized Size of the memory allocated to the variables.
 	 */
-	public int allocateMemory(Register _register, int _offset);
+	public int allocateMemory(Register register, int offset);
 	
 	/**
 	 * Inherited Semantics attribute to build the nodes of the abstract syntax tree for the generated TAM code.

@@ -73,7 +73,7 @@ public class Assignment implements Instruction, Expression {
 	 * @see fr.n7.stl.block.ast.Instruction#allocateMemory(fr.n7.stl.tam.ast.Register, int)
 	 */
 	@Override
-	public int allocateMemory(Register _register, int _offset) {
+	public int allocateMemory(Register register, int offset) {
 		return value.getType().length();
 	}
 
