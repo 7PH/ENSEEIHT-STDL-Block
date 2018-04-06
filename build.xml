@@ -18,6 +18,7 @@
 	<path id="libraries">
 		<files includes="${tools}/java-cup-11b-runtime.jar" />
 		<files includes="${tools}/commons-text-1.2.jar" />
+		<files includes="${tools}/java-json.jar" />
 	</path>
 
 	<target name="compile" depends="generate">

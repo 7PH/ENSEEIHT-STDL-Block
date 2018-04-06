@@ -21,6 +21,7 @@ import fr.n7.stl.block.ast.instruction.*;
 import fr.n7.stl.block.ast.instruction.declaration.*;
 import fr.n7.stl.block.ast.scope.*;
 import fr.n7.stl.block.ast.type.*;
+import fr.n7.stl.block.ast.Block;
 import fr.n7.stl.block.ast.type.declaration.*;
 import fr.n7.stl.tam.ast.impl.*;
 import fr.n7.stl.tam.ast.*;
@@ -657,16 +658,16 @@ public class Parser extends java_cup.runtime.lr_parser {
     {
 //@@CUPDBG1
 
-  ComplexSymbolFactory f = new ComplexSymbolFactory();
-  symbolFactory = f;
-  File file = new File(this.name);
-  FileInputStream fis = null;
-  try {
-    fis = new FileInputStream(file);
-  } catch (IOException e) {
-    e.printStackTrace();
-  } 
-  lexer = new Lexer(f,fis);
+    ComplexSymbolFactory f = new ComplexSymbolFactory();
+    symbolFactory = f;
+    File file = new File(this.name);
+    FileInputStream fis = null;
+    try {
+        fis = new FileInputStream(file);
+    } catch (IOException e) {
+        e.printStackTrace();
+    }
+    lexer = new Lexer(f,fis);
 
     }
 
@@ -680,12 +681,27 @@ public class Parser extends java_cup.runtime.lr_parser {
 
 //@@CUPDBG0
 
-	protected Lexer lexer;
-	protected String name;
-	public Parser(String _name) {
-		this();
-		this.name = _name;
-	}
+
+    protected Lexer lexer;
+
+    public String name;
+
+    public Block block;
+
+    public boolean resolve, checkType;
+
+    public double
+        resolveTimeMs,
+        checkTypeTimeMs,
+        allocateMemoryTimeMs,
+        getCodeTimeMs;
+
+    public Fragment fragment;
+
+    public Parser(String _name) {
+        this();
+        this.name = _name;
+    }
 
 
 /** Cup generated class to encapsulate user supplied action code.*/
@@ -719,34 +735,30 @@ class CUP$Parser$actions {
 		Location nomxleft = ((java_cup.runtime.ComplexSymbolFactory.ComplexSymbol)CUP$Parser$stack.elementAt(CUP$Parser$top-1)).xleft;
 		Location nomxright = ((java_cup.runtime.ComplexSymbolFactory.ComplexSymbol)CUP$Parser$stack.elementAt(CUP$Parser$top-1)).xright;
 		String nom = (String)((java_cup.runtime.Symbol) CUP$Parser$stack.elementAt(CUP$Parser$top-1)).value;
-		Location blocxleft = ((java_cup.runtime.ComplexSymbolFactory.ComplexSymbol)CUP$Parser$stack.peek()).xleft;
-		Location blocxright = ((java_cup.runtime.ComplexSymbolFactory.ComplexSymbol)CUP$Parser$stack.peek()).xright;
-		Block bloc = (Block)((java_cup.runtime.Symbol) CUP$Parser$stack.peek()).value;
+		Location inputBlockxleft = ((java_cup.runtime.ComplexSymbolFactory.ComplexSymbol)CUP$Parser$stack.peek()).xleft;
+		Location inputBlockxright = ((java_cup.runtime.ComplexSymbolFactory.ComplexSymbol)CUP$Parser$stack.peek()).xright;
+		Block inputBlock = (Block)((java_cup.runtime.Symbol) CUP$Parser$stack.peek()).value;
 		//@@CUPDBG3
+
+			    block = inputBlock;
 
 				SymbolTable tds = new SymbolTable();
 		        double t1 = System.currentTimeMillis();
-				boolean resolve = bloc.resolve(tds);
-		        double resolveTimeMs = System.currentTimeMillis() - t1;
+				resolve = inputBlock.resolve(tds);
+		        resolveTimeMs = System.currentTimeMillis() - t1;
+
 		        t1 = System.currentTimeMillis();
-				boolean checkType = bloc.checkType();
-		        double checkTypeTimeMs = System.currentTimeMillis() - t1;
+				checkType = inputBlock.checkType();
+		        checkTypeTimeMs = System.currentTimeMillis() - t1;
+
 		        t1 = System.currentTimeMillis();
-				bloc.allocateMemory(Register.SB, 0);
-		        double allocateTimeMs = System.currentTimeMillis() - t1;
+				inputBlock.allocateMemory(Register.SB, 0);
+		        allocateMemoryTimeMs = System.currentTimeMillis() - t1;
+
 		        t1 = System.currentTimeMillis();
-				Fragment fragment = bloc.getCode(new TAMFactoryImpl());
+				fragment = inputBlock.getCode(new TAMFactoryImpl());
 				if (fragment != null) fragment.add(new TAMFactoryImpl().createHalt());
-		        double getCodeTimeMs = System.currentTimeMillis() - t1;
-                System.out.println("===============================================");
-				System.out.println("content     : " + bloc.toString());
-				System.out.println("name        : " + nom);
-				System.out.println("resolve     : " + (resolve ? "OK   " : "ERROR") + " (" + resolveTimeMs + "ms)");
-				System.out.println("getType     : " + (checkType ? "OK   " : "ERROR") + " (" + checkTypeTimeMs + "ms)");
-                System.out.println("===============================================");
-				System.out.println("TAM         : ");
-				System.out.println(fragment == null ? "ERROR" : fragment);
-                System.out.println("===============================================");
+		        getCodeTimeMs = System.currentTimeMillis() - t1;
 			
               CUP$Parser$result = parser.getSymbolFactory().newSymbol("Program",0, ((java_cup.runtime.Symbol)CUP$Parser$stack.elementAt(CUP$Parser$top-1)), ((java_cup.runtime.Symbol)CUP$Parser$stack.peek()), RESULT);
             }

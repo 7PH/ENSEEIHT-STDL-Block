@@ -22,6 +22,7 @@ import fr.n7.stl.block.ast.instruction.*;
 import fr.n7.stl.block.ast.instruction.declaration.*;
 import fr.n7.stl.block.ast.scope.*;
 import fr.n7.stl.block.ast.type.*;
+import fr.n7.stl.block.ast.Block;
 import fr.n7.stl.block.ast.type.declaration.*;
 import fr.n7.stl.tam.ast.impl.*;
 import fr.n7.stl.tam.ast.*;
@@ -29,35 +30,50 @@ import fr.n7.stl.util.*;
 
 /* Variables partagées dans les actions de l'analyseur syntaxique. */
 parser code {:
-	protected Lexer lexer;
-	protected String name;
-	public Parser(String _name) {
-		this();
-		this.name = _name;
-	}
+
+    protected Lexer lexer;
+
+    public String name;
+
+    public Block block;
+
+    public boolean resolve, checkType;
+
+    public double
+        resolveTimeMs,
+        checkTypeTimeMs,
+        allocateMemoryTimeMs,
+        getCodeTimeMs;
+
+    public Fragment fragment;
+
+    public Parser(String _name) {
+        this();
+        this.name = _name;
+    }
 :}
 
 /* Initialisation de l'analyseur lexical et des variables partagées. */
 init with {:
-  ComplexSymbolFactory f = new ComplexSymbolFactory();
-  symbolFactory = f;
-  File file = new File(this.name);
-  FileInputStream fis = null;
-  try {
-    fis = new FileInputStream(file);
-  } catch (IOException e) {
-    e.printStackTrace();
-  } 
-  lexer = new Lexer(f,fis);
+    ComplexSymbolFactory f = new ComplexSymbolFactory();
+    symbolFactory = f;
+    File file = new File(this.name);
+    FileInputStream fis = null;
+    try {
+        fis = new FileInputStream(file);
+    } catch (IOException e) {
+        e.printStackTrace();
+    }
+    lexer = new Lexer(f,fis);
 :};
 
 /* Expression qui permet de progresser dans l'analyse lexicale. */
 scan with {: return lexer.next_token(); :};
 
 /* Terminaux qui seront transmis par l'analyseur lexical. */
-terminal 			UL_Point_Virgule, UL_Virgule, UL_Point, UL_Deux_Points, UL_Point_Interrogation, UL_Point_Exclamation;
+terminal 			    UL_Point_Virgule, UL_Virgule, UL_Point, UL_Deux_Points, UL_Point_Interrogation, UL_Point_Exclamation;
 terminal				UL_Egal, UL_Double_Plus, UL_Double_Moins, UL_Double_Plus_Prefixe, UL_Double_Moins_Prefixe;
-terminal 			UL_Plus, UL_Moins, UL_Moins_Unaire, UL_Asterisque, UL_Oblique, UL_Pour_Cent;
+terminal 			    UL_Plus, UL_Moins, UL_Moins_Unaire, UL_Asterisque, UL_Oblique, UL_Pour_Cent;
 terminal				UL_Esperluette, UL_Double_Barre, UL_Double_Esperluette;
 terminal				UL_Parenthese_Ouvrante, UL_Parenthese_Fermante;
 terminal				UL_Premier, UL_Second;
@@ -69,8 +85,8 @@ terminal				UL_Double_Egal, UL_Exclamation_Egal;
 terminal				UL_Si, UL_Sinon, UL_Tant_Que, UL_Nouveau, UL_Afficher, UL_Retour;
 terminal				UL_Definition_Constante, UL_Definition_Type, UL_Enregistrement, UL_Enumeration;
 terminal				UL_Type_Booleen, UL_Type_Caractere, UL_Type_Chaine, UL_Type_Entier, UL_Type_Flottant, UL_Type_Vide;
-terminal String		UL_Identificateur, UL_Chaine, UL_Caractere;
-terminal String		UL_Nombre_Entier, UL_Nombre_Flottant, UL_Nul, UL_Vrai, UL_Faux; // Valeur transmise par l'analyseur lexical
+terminal String		    UL_Identificateur, UL_Chaine, UL_Caractere;
+terminal String		    UL_Nombre_Entier, UL_Nombre_Flottant, UL_Nul, UL_Vrai, UL_Faux; // Valeur transmise par l'analyseur lexical
 
 /* Non terminaux avec type renvoyé par actions sémantiques (RESULT = ...) */
 non terminal Block						Program;
@@ -111,31 +127,27 @@ precedence left UL_Crochet_Ouvrant, UL_Point, UL_Parenthese_Ouvrante;
 /* Program et Bloc sont des non terminaux */
 /* UL_Identificateur est un terminal (Unité lexicale) */
 /* bloc est la variable utilisable dans l'action sémantique qui contient la valeur renvoyé par l'analyse du Bloc */
-Program ::= UL_Identificateur:nom Bloc:bloc
+Program ::= UL_Identificateur:nom Bloc:inputBlock
 			{:
+			    block = inputBlock;
+
 				SymbolTable tds = new SymbolTable();
 		        double t1 = System.currentTimeMillis();
-				boolean resolve = bloc.resolve(tds);
-		        double resolveTimeMs = System.currentTimeMillis() - t1;
+				resolve = inputBlock.resolve(tds);
+		        resolveTimeMs = System.currentTimeMillis() - t1;
+
 		        t1 = System.currentTimeMillis();
-				boolean checkType = bloc.checkType();
-		        double checkTypeTimeMs = System.currentTimeMillis() - t1;
+				checkType = inputBlock.checkType();
+		        checkTypeTimeMs = System.currentTimeMillis() - t1;
+
 		        t1 = System.currentTimeMillis();
-				bloc.allocateMemory(Register.SB, 0);
-		        double allocateTimeMs = System.currentTimeMillis() - t1;
+				inputBlock.allocateMemory(Register.SB, 0);
+		        allocateMemoryTimeMs = System.currentTimeMillis() - t1;
+
 		        t1 = System.currentTimeMillis();
-				Fragment fragment = bloc.getCode(new TAMFactoryImpl());
+				fragment = inputBlock.getCode(new TAMFactoryImpl());
 				if (fragment != null) fragment.add(new TAMFactoryImpl().createHalt());
-		        double getCodeTimeMs = System.currentTimeMillis() - t1;
-                System.out.println("===============================================");
-				System.out.println("content     : " + bloc.toString());
-				System.out.println("name        : " + nom);
-				System.out.println("resolve     : " + (resolve ? "OK   " : "ERROR") + " (" + resolveTimeMs + "ms)");
-				System.out.println("getType     : " + (checkType ? "OK   " : "ERROR") + " (" + checkTypeTimeMs + "ms)");
-                System.out.println("===============================================");
-				System.out.println("TAM         : ");
-				System.out.println(fragment == null ? "ERROR" : fragment);
-                System.out.println("===============================================");
+		        getCodeTimeMs = System.currentTimeMillis() - t1;
 			:}
 		;
 
