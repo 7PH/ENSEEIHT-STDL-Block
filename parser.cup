@@ -23,7 +23,8 @@ import fr.n7.stl.block.ast.instruction.declaration.*;
 import fr.n7.stl.block.ast.scope.*;
 import fr.n7.stl.block.ast.type.*;
 import fr.n7.stl.block.ast.type.declaration.*;
-import fr.n7.stl.tam.ast.impl.TAMFactoryImpl;
+import fr.n7.stl.tam.ast.impl.*;
+import fr.n7.stl.tam.ast.*;
 import fr.n7.stl.util.*;
 
 /* Variables partagées dans les actions de l'analyseur syntaxique. */
@@ -119,6 +120,12 @@ Program ::= UL_Identificateur:nom Bloc:bloc
 		        t1 = System.currentTimeMillis();
 				boolean checkType = bloc.checkType();
 		        double checkTypeTimeMs = System.currentTimeMillis() - t1;
+		        t1 = System.currentTimeMillis();
+				Fragment fragment = null;
+				Exception getCodeException = null;
+				try { fragment = bloc.getCode(new TAMFactoryImpl()); }
+				catch(Exception e) { getCodeException = e; }
+		        double getCodeTimeMs = System.currentTimeMillis() - t1;
                 System.out.println("===============================================");
 				System.out.println("content     : " + bloc.toString());
 				System.out.println("name        : " + nom);
@@ -126,7 +133,7 @@ Program ::= UL_Identificateur:nom Bloc:bloc
 				System.out.println("getType     : " + (checkType ? "OK   " : "ERROR") + " (" + checkTypeTimeMs + "ms)");
                 System.out.println("===============================================");
 				System.out.println("TAM         : ");
-				System.out.println(bloc.getCode(new TAMFactoryImpl()));
+				System.out.println(getCodeException != null ? ("ERR " + getCodeException.getMessage()) : fragment);
                 System.out.println("===============================================");
 			:}
 		;

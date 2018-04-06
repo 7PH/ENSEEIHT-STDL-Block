@@ -126,6 +126,7 @@ public class VariableDeclaration implements Declaration, Instruction {
 	 */
 	@Override
 	public int allocateMemory(Register register, int offset) {
+	    this.register = register;
 		this.offset = offset;
 		return value.getType().length();
 	}
@@ -135,7 +136,10 @@ public class VariableDeclaration implements Declaration, Instruction {
 	 */
 	@Override
 	public Fragment getCode(TAMFactory factory) {
-		throw new SemanticsUndefinedException("Semantics getCode is undefined in VariableDeclaration.");
+        Fragment fragment = factory.createFragment();
+        fragment.append(value.getCode(factory));
+        fragment.add(factory.createStore(register, offset, value.getType().length()));
+        return fragment;
 	}
 
 	@Override

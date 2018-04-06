@@ -22,7 +22,8 @@ import fr.n7.stl.block.ast.instruction.declaration.*;
 import fr.n7.stl.block.ast.scope.*;
 import fr.n7.stl.block.ast.type.*;
 import fr.n7.stl.block.ast.type.declaration.*;
-import fr.n7.stl.tam.ast.impl.TAMFactoryImpl;
+import fr.n7.stl.tam.ast.impl.*;
+import fr.n7.stl.tam.ast.*;
 import fr.n7.stl.util.*;
 import java_cup.runtime.ComplexSymbolFactory.Location;
 import java_cup.runtime.XMLElement;
@@ -730,6 +731,12 @@ class CUP$Parser$actions {
 		        t1 = System.currentTimeMillis();
 				boolean checkType = bloc.checkType();
 		        double checkTypeTimeMs = System.currentTimeMillis() - t1;
+		        t1 = System.currentTimeMillis();
+				Fragment fragment = null;
+				Exception getCodeException = null;
+				try { fragment = bloc.getCode(new TAMFactoryImpl()); }
+				catch(Exception e) { getCodeException = e; }
+		        double getCodeTimeMs = System.currentTimeMillis() - t1;
                 System.out.println("===============================================");
 				System.out.println("content     : " + bloc.toString());
 				System.out.println("name        : " + nom);
@@ -737,7 +744,7 @@ class CUP$Parser$actions {
 				System.out.println("getType     : " + (checkType ? "OK   " : "ERROR") + " (" + checkTypeTimeMs + "ms)");
                 System.out.println("===============================================");
 				System.out.println("TAM         : ");
-				System.out.println(bloc.getCode(new TAMFactoryImpl()));
+				System.out.println(getCodeException != null ? ("ERR " + getCodeException.getMessage()) : fragment);
                 System.out.println("===============================================");
 			
               CUP$Parser$result = parser.getSymbolFactory().newSymbol("Program",0, ((java_cup.runtime.Symbol)CUP$Parser$stack.elementAt(CUP$Parser$top-1)), ((java_cup.runtime.Symbol)CUP$Parser$stack.peek()), RESULT);
