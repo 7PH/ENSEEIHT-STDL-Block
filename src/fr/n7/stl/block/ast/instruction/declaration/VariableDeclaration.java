@@ -117,6 +117,7 @@ public class VariableDeclaration implements Declaration, Instruction {
 	 */
 	@Override
 	public boolean checkType() {
+		System.out.println("debug (decl): " + value.getType() + " compatible with " + type + " ?");
 	    return value.getType().compatibleWith(type);
 	}
 
@@ -133,7 +134,7 @@ public class VariableDeclaration implements Declaration, Instruction {
 	 * @see fr.n7.stl.block.ast.Instruction#getCode(fr.n7.stl.tam.ast.TAMFactory)
 	 */
 	@Override
-	public Fragment getCode(TAMFactory _factory) {
+	public Fragment getCode(TAMFactory factory) {
 		throw new SemanticsUndefinedException("Semantics getCode is undefined in VariableDeclaration.");
 	}
 

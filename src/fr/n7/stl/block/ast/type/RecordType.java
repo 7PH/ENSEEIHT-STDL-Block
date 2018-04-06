@@ -70,33 +70,59 @@ public class RecordType implements Type, Declaration, Scope<FieldDeclaration> {
 	 */
 	@Override
 	public boolean equalsTo(Type _other) {
-	    if (! (_other instanceof RecordType)) return false;
-	    RecordType record = (RecordType) _other;
-	    if (record.fields.size() != fields.size()) return false;
-	    int i = 0;
-	    while (i < fields.size()) {
-	        if (! fields.get(i).getType().equalsTo(record.fields.get(i).getType()))
-	            return false;
-	        ++ i;
+        if (_other instanceof NamedType) {
+            return equalsTo(((NamedType)_other).getType());
+        } else if (_other instanceof RecordType) {
+            RecordType recordType = (RecordType) _other;
+            if (recordType.fields.size() != fields.size()) return false;
+
+            for (FieldDeclaration fieldDeclaration : fields) {
+
+                boolean existsInOther = false;
+                for (FieldDeclaration fieldDeclaration2 : recordType.fields) {
+                    if (fieldDeclaration.getName().equals(fieldDeclaration2.getName())
+                            && fieldDeclaration.getType().equalsTo(fieldDeclaration2.getType())) {
+                        existsInOther = true;
+                        break;
+                    }
+                }
+
+                if (!existsInOther) return false;
+            }
+            return true;
+        } else {
+            return false;
         }
-        return true;
 	}
 
 	/* (non-Javadoc)
 	 * @see fr.n7.stl.block.ast.Type#compatibleWith(fr.n7.stl.block.ast.Type)
-	 * @TODO
 	 */
 	@Override
 	public boolean compatibleWith(Type _other) {
-		if (! (_other instanceof RecordType)) return false;
-		if (fields.size() != ((RecordType)_other).fields.size()) return false;
-		int i = 0;
-		while (i < fields.size()) {
-		    if (! fields.get(i).getType().equalsTo(((RecordType) _other).fields.get(i).getType()))
-		        return false;
-		    ++ i;
+		if (_other instanceof NamedType) {
+		    return compatibleWith(((NamedType)_other).getType());
+        } else if (_other instanceof RecordType) {
+            RecordType recordType = (RecordType) _other;
+            if (recordType.fields.size() != fields.size()) return false;
+
+            for (FieldDeclaration fieldDeclaration : fields) {
+
+                boolean existsInOther = false;
+                for (FieldDeclaration fieldDeclaration2 : recordType.fields) {
+                    if (fieldDeclaration.getName().equals(fieldDeclaration2.getName())
+                            && fieldDeclaration.getType().compatibleWith(fieldDeclaration2.getType())) {
+                        existsInOther = true;
+                        break;
+                    }
+                }
+
+                if (!existsInOther) return false;
+            }
+            return true;
+        } else {
+		    return false;
         }
-		return true;
 	}
 
 	/* (non-Javadoc)
@@ -188,12 +214,12 @@ public class RecordType implements Type, Declaration, Scope<FieldDeclaration> {
 	 */
 	@Override
 	public String toString() {
-		String _result = "struct " + this.name + " { ";
+		String _result = "struct " + this.name + " {";
 		Iterator<FieldDeclaration> _iter = this.fields.iterator();
 		if (_iter.hasNext()) {
 			_result += _iter.next();
 			while (_iter.hasNext()) {
-				_result += " " + _iter.next();
+				_result += _iter.next() + " ";
 			}
 		}
 		return _result + "}";

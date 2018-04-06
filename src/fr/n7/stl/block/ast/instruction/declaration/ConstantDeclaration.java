@@ -112,7 +112,7 @@ public class ConstantDeclaration implements Instruction, Declaration {
 	 * @see fr.n7.stl.block.ast.Instruction#getCode(fr.n7.stl.tam.ast.TAMFactory)
 	 */
 	@Override
-	public Fragment getCode(TAMFactory _factory) {
+	public Fragment getCode(TAMFactory factory) {
 		throw new SemanticsUndefinedException( "Semantics getCode is undefined in ConstantDeclaration.");
 	}
 

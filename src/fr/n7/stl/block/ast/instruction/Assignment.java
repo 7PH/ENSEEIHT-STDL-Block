@@ -65,6 +65,7 @@ public class Assignment implements Instruction, Expression {
 	 */
 	@Override
 	public boolean checkType() {
+		System.out.println("debug (asgn): " + value.getType() + " compatible with " + assignable.getType() + " ?");
 	    return value.getType().compatibleWith(assignable.getType());
 	}
 	
@@ -80,7 +81,7 @@ public class Assignment implements Instruction, Expression {
 	 * @see fr.n7.stl.block.ast.Instruction#getCode(fr.n7.stl.tam.ast.TAMFactory)
 	 */
 	@Override
-	public Fragment getCode(TAMFactory _factory) {
+	public Fragment getCode(TAMFactory factory) {
 		throw new SemanticsUndefinedException( "Semantics getCode is undefined in Assignment.");
 	}
 

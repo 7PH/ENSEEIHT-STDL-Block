@@ -74,7 +74,10 @@ public class EnumerationType implements Type, Declaration {
 	 */
 	@Override
 	public int length() {
-		throw new SemanticsUndefinedException("Semantics length is not implemented in EnumerationType.");
+		int l = 0;
+		for (LabelDeclaration labelDeclaration: labels)
+		    l += labelDeclaration.getType().length();
+		return l;
 	}
 	
 	/* (non-Javadoc)

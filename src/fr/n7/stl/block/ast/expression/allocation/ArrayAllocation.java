@@ -60,7 +60,6 @@ public class ArrayAllocation implements Expression {
 	@Override
 	public Type getType() {
 		if (size.getType() != AtomicType.IntegerType) return ErrorType;
-		System.out.println(new ArrayType(element == null ? new NamedType(name) : element));
 	    return new ArrayType(element == null ? new NamedType(name) : element);
 	}
 

@@ -8,6 +8,7 @@ import fr.n7.stl.block.ast.expression.assignable.AssignableExpression;
 import fr.n7.stl.block.ast.scope.Declaration;
 import fr.n7.stl.block.ast.scope.HierarchicalScope;
 import fr.n7.stl.block.ast.type.ArrayType;
+import fr.n7.stl.block.ast.type.PointerType;
 import fr.n7.stl.block.ast.type.Type;
 import fr.n7.stl.tam.ast.Fragment;
 import fr.n7.stl.tam.ast.TAMFactory;
@@ -29,15 +30,15 @@ public class AddressAccess implements AccessibleExpression {
 	 */
 	@Override
 	public boolean resolve(HierarchicalScope<Declaration> _scope) {
-		throw new SemanticsUndefinedException( "resolve is undefined in AddressAccess.");	
-	}
+        return assignable.resolve(_scope);
+    }
 	
 	/* (non-Javadoc)
 	 * @see fr.n7.stl.block.ast.Expression#getType()
 	 */
 	@Override
 	public Type getType() {
-	    return assignable.getType();
+	    return new PointerType(assignable.getType());
 	}
 	
 	/* (non-Javadoc)

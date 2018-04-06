@@ -37,8 +37,8 @@ public class PointerType implements Type {
 	 */
 	@Override
 	public boolean compatibleWith(Type _other) {
-		throw new SemanticsUndefinedException("Semantics compatibleWith undefined in PointerType.");
-	}
+        return _other instanceof PointerType && element.compatibleWith(((PointerType) _other).element);
+    }
 
 	/* (non-Javadoc)
 	 * @see fr.n7.stl.block.ast.Type#merge(fr.n7.stl.block.ast.Type)
@@ -53,7 +53,7 @@ public class PointerType implements Type {
 	 */
 	@Override
 	public int length() {
-		return element.length();
+		return AtomicType.IntegerType.length();
 	}
 
 	/* (non-Javadoc)

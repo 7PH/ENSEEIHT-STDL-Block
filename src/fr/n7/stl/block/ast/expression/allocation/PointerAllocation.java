@@ -7,6 +7,7 @@ import fr.n7.stl.block.ast.SemanticsUndefinedException;
 import fr.n7.stl.block.ast.expression.Expression;
 import fr.n7.stl.block.ast.scope.Declaration;
 import fr.n7.stl.block.ast.scope.HierarchicalScope;
+import fr.n7.stl.block.ast.type.PointerType;
 import fr.n7.stl.block.ast.type.Type;
 import fr.n7.stl.tam.ast.Fragment;
 import fr.n7.stl.tam.ast.TAMFactory;
@@ -41,7 +42,6 @@ public class PointerAllocation implements Expression {
 	 */
 	@Override
 	public boolean resolve(HierarchicalScope<Declaration> _scope) {
-	    System.out.println(element);
 		return ! _scope.contains(name) && element.resolve(_scope);
 	}
 
@@ -50,7 +50,7 @@ public class PointerAllocation implements Expression {
 	 */
 	@Override
 	public Type getType() {
-	    return element;
+	    return new PointerType(element);
 	}
 
 	/* (non-Javadoc)

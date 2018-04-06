@@ -73,7 +73,7 @@ public enum AtomicType implements Type {
 	@Override
 	public int length() {
 		switch (this) {
-			case NullType : 
+			case NullType :
 			case BooleanType :
 			case CharacterType :
 			case FloatingType :

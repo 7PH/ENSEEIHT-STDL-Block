@@ -71,7 +71,7 @@ public class CoupleType implements Type {
 	 */
 	@Override
 	public int length() {
-		return this.first.length() + this.second.length();
+		return first.length() + second.length();
 	}
 
 	/* (non-Javadoc)

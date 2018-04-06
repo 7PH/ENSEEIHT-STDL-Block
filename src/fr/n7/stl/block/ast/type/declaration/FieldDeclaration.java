@@ -52,7 +52,7 @@ public class FieldDeclaration implements Declaration {
 	 * @return Offset of the field.
 	 */
 	public int getOffset() {
-		return this.offset;
+		return this.offset * type.length();
 	}
 
 }

@@ -1,8 +1,11 @@
 pointer {
+    int *ptr = new int();
+    *ptr = 1;
+
+    int *ptr2 = ptr;
+
     typedef int entier;
-    entier *ptr = new entier();
-    //print *ptr;
-    // le PointerAcces correspond à * appliqué sur ptr, son getType renvoie le résultat donc le type entier. (comme tu le dis bien dans ton message)
-    //*ptr = 1;
-    // Le PointerAssignment correspond aussi à * appliqué sur ptr, son getType est utilisé pour vérifier le typage de l'affectation = (Assignment). Il faut donc comparer le type de 1 (int) qui doit être compatible avec le type de *ptr. Donc le type de *ptr doit être entier et non pas pointeur sur entier.
+    int *ptr3 = new entier();
+
+    int *ptr4 = &(*ptr);
 }

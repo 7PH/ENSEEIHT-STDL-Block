@@ -94,8 +94,8 @@ public class TypeDeclaration implements Declaration, Instruction {
 	 * @see fr.n7.stl.block.ast.Instruction#getCode(fr.n7.stl.tam.ast.TAMFactory)
 	 */
 	@Override
-	public Fragment getCode(TAMFactory _factory) {
-		return _factory.createFragment();
+	public Fragment getCode(TAMFactory factory) {
+		return factory.createFragment();
 	}
 
 	@Override
