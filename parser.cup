@@ -121,10 +121,11 @@ Program ::= UL_Identificateur:nom Bloc:bloc
 				boolean checkType = bloc.checkType();
 		        double checkTypeTimeMs = System.currentTimeMillis() - t1;
 		        t1 = System.currentTimeMillis();
-				Fragment fragment = null;
-				Exception getCodeException = null;
-				try { fragment = bloc.getCode(new TAMFactoryImpl()); }
-				catch(Exception e) { getCodeException = e; }
+				bloc.allocateMemory(Register.SB, 0);
+		        double allocateTimeMs = System.currentTimeMillis() - t1;
+		        t1 = System.currentTimeMillis();
+				Fragment fragment = bloc.getCode(new TAMFactoryImpl());
+				if (fragment != null) fragment.add(new TAMFactoryImpl().createHalt());
 		        double getCodeTimeMs = System.currentTimeMillis() - t1;
                 System.out.println("===============================================");
 				System.out.println("content     : " + bloc.toString());
@@ -133,7 +134,7 @@ Program ::= UL_Identificateur:nom Bloc:bloc
 				System.out.println("getType     : " + (checkType ? "OK   " : "ERROR") + " (" + checkTypeTimeMs + "ms)");
                 System.out.println("===============================================");
 				System.out.println("TAM         : ");
-				System.out.println(getCodeException != null ? ("ERR " + getCodeException.getCause()) : fragment);
+				System.out.println(fragment == null ? "ERROR" : fragment);
                 System.out.println("===============================================");
 			:}
 		;

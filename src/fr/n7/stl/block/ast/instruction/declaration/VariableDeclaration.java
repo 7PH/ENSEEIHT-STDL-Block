@@ -117,7 +117,6 @@ public class VariableDeclaration implements Declaration, Instruction {
 	 */
 	@Override
 	public boolean checkType() {
-		System.out.println("debug (decl): " + value.getType() + " compatible with " + type + " ?");
 	    return value.getType().compatibleWith(type);
 	}
 
@@ -138,7 +137,6 @@ public class VariableDeclaration implements Declaration, Instruction {
 	public Fragment getCode(TAMFactory factory) {
         Fragment fragment = factory.createFragment();
         fragment.append(value.getCode(factory));
-        fragment.add(factory.createStore(register, offset, value.getType().length()));
         return fragment;
 	}
 

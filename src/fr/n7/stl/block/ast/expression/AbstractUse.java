@@ -11,25 +11,17 @@ import fr.n7.stl.tam.ast.TAMFactory;
  *
  */
 public abstract class AbstractUse {
-	
-	protected Declaration declaration;
-	
-	/**
-	 * Creates a variable use expression Abstract Syntax Tree node.
-	 * @param _declaration Name of the used variable.
-	 */
-	public AbstractUse(Declaration _declaration) {
-		this.declaration = _declaration;
-	}
-	
+
+	protected abstract Declaration getDeclaration();
+
 	/**
 	 * Synthesized Semantics attribute to compute the type of an identifier expression.
 	 * @return Synthesized Type of the expression.
 	 */
 	public Type getType() {
-		return declaration.getType();
+		return this.getDeclaration().getType();
 	}
-	
+
 	/**
 	 * Synthesized Semantics attribute to generate the code of an identifier expression.
 	 * @return Synthesized Type of the expression.

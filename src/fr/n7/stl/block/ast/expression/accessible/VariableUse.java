@@ -5,6 +5,7 @@ package fr.n7.stl.block.ast.expression.accessible;
 
 import fr.n7.stl.block.ast.expression.AbstractUse;
 import fr.n7.stl.block.ast.instruction.declaration.VariableDeclaration;
+import fr.n7.stl.block.ast.scope.Declaration;
 import fr.n7.stl.tam.ast.Fragment;
 import fr.n7.stl.tam.ast.TAMFactory;
 
@@ -18,21 +19,26 @@ public class VariableUse extends AbstractUse {
 	
 	/**
 	 * Creates a variable use expression Abstract Syntax Tree node.
-	 * @param _declaration Name of the used variable.
+	 * @param declaration Name of the used variable.
 	 */
-	VariableUse(VariableDeclaration _declaration) {
-		super(_declaration);
+	VariableUse(VariableDeclaration declaration) {
+	    this.declaration = declaration;
 	}
 
-	/* (non-Javadoc)
-	 * @see fr.n7.stl.block.ast.expression.AbstractUse#getCode(fr.n7.stl.tam.ast.TAMFactory)
-	 */
+    @Override
+    protected Declaration getDeclaration() {
+        return declaration;
+    }
+
+    /* (non-Javadoc)
+         * @see fr.n7.stl.block.ast.expression.AbstractUse#getCode(fr.n7.stl.tam.ast.TAMFactory)
+         */
 	public Fragment getCode(TAMFactory _factory) {
 		Fragment _result = _factory.createFragment();
 		_result.add(_factory.createLoad(
-				this.declaration.getRegister(), 
-				this.declaration.getOffset(),
-				this.declaration.getType().length()));
+				declaration.getRegister(),
+				declaration.getOffset(),
+				declaration.getType().length()));
 		_result.addComment(this.toString());
 		return _result;
 	}

@@ -15,6 +15,7 @@ import fr.n7.stl.block.ast.type.Type;
 import fr.n7.stl.tam.ast.Fragment;
 import fr.n7.stl.tam.ast.Register;
 import fr.n7.stl.tam.ast.TAMFactory;
+import fr.n7.stl.tam.ast.impl.FragmentImpl;
 import org.apache.commons.text.StrSubstitutor;
 
 /**
@@ -84,15 +85,26 @@ public class Conditional implements Instruction {
 	@Override
 	public Fragment getCode(TAMFactory factory) {
 		Fragment fragment = factory.createFragment();
-		fragment.append(condition.getCode(factory));
 
-		factory.createLabelNumber();
+        String endLabel = "endif_" + factory.createLabelNumber();
+        String elseLabel = "else_" + factory.createLabelNumber();
 
-		if (elseBranch.isPresent()) {
-		    fragment.add(factory.createJumpIf("aaa", 0));
+		if (! elseBranch.isPresent()) {
+            fragment.append(condition.getCode(factory));
+            fragment.add(factory.createJumpIf(endLabel, 0));
+            fragment.append(thenBranch.getCode(factory));
+            fragment.addSuffix(endLabel + ":");
+        } else {
+		    fragment.append(condition.getCode(factory));
+		    fragment.add(factory.createJumpIf(elseLabel, 0));
+		    fragment.append(thenBranch.getCode(factory));
+		    fragment.add(factory.createJump(endLabel));
+		    fragment.addSuffix(elseLabel + ":");
+		    fragment.append(elseBranch.get().getCode(factory));
+		    fragment.addSuffix(endLabel + ":");
         }
 
-		throw new SemanticsUndefinedException( "Semantics getCode is undefined in Conditional.");
+        return fragment;
 	}
 
 	@Override

@@ -67,7 +67,13 @@ public class Iteration implements Instruction {
 	 */
 	@Override
 	public Fragment getCode(TAMFactory factory) {
-		throw new SemanticsUndefinedException( "Semantics getCode is undefined in Iteration.");
+	    String endLabel = "end_" + factory.createLabelNumber();
+		Fragment fragment = factory.createFragment();
+		fragment.append(condition.getCode(factory));
+		fragment.add(factory.createJumpIf(endLabel, 0));
+        fragment.append(body.getCode(factory));
+        fragment.addSuffix(endLabel + ":");
+		return fragment;
 	}
 
 	@Override

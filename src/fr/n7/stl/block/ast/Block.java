@@ -91,11 +91,12 @@ public class Block {
 	/**
 	 * Inherited Semantics attribute to allocate memory for the variables declared in the instruction.
 	 * Synthesized Semantics attribute that compute the size of the allocated memory. 
-	 * @param _register Inherited Register associated to the address of the variables.
-	 * @param _offset Inherited Current offset for the address of the variables.
+	 * @param offset Inherited Register associated to the address of the variables.
+	 * @param offset Inherited Current offset for the address of the variables.
 	 */	
-	public void allocateMemory(Register _register, int _offset) {
-		throw new SemanticsUndefinedException("Semantics allocateMemory is undefined in Block.");
+	public void allocateMemory(Register register, int offset) {
+		for (Instruction instruction: instructions)
+		    offset += instruction.allocateMemory(register, offset);
 	}
 
 	/**

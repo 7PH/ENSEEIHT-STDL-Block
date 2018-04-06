@@ -1,3 +1,13 @@
 issou {
-    int a[] = {1, 2};
+    int a = 1;
+    int b = 0;
+    if (false) {
+        b = 1;
+    } else {
+        b = 2;
+        int c = 2;
+        c = 3;
+        a = 4;
+    }
+    a = 5;
 }

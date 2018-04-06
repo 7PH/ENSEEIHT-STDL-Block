@@ -21,13 +21,13 @@ public interface Fragment {
 	 * @param _comment Comment that is added to the first TAM instruction of the fragment.
 	 */
 	public void addComment(String _comment);
-	
+
 	/**
 	 * Adds a prefix label to the first TAM instruction of the fragment.
 	 * @param _label Label that is added to the first TAM instruction of the fragment.
 	 */
 	public void addPrefix(String _label);
-	
+
 	/**
 	 * Adds a suffix label to the last TAM instruction of the fragment.
 	 * @param _label Label that is added to the last TAM instruction of the fragment.

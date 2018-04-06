@@ -66,8 +66,10 @@ public class VariableAssignment extends AbstractIdentifier implements Assignable
 	 * @see fr.n7.stl.block.ast.impl.VariableUseImpl#getCode(fr.n7.stl.tam.ast.TAMFactory)
 	 */
 	@Override
-	public Fragment getCode(TAMFactory _factory) {
-		throw new SemanticsUndefinedException("Semantics getCode undefined in VariableAssignment.");
+	public Fragment getCode(TAMFactory factory) {
+		Fragment fragment = factory.createFragment();
+		fragment.add(factory.createStore(declaration.getRegister(), declaration.getOffset(), getType().length()));
+		return fragment;
 	}
 
 

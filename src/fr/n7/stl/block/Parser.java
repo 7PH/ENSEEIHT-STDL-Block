@@ -732,10 +732,11 @@ class CUP$Parser$actions {
 				boolean checkType = bloc.checkType();
 		        double checkTypeTimeMs = System.currentTimeMillis() - t1;
 		        t1 = System.currentTimeMillis();
-				Fragment fragment = null;
-				Exception getCodeException = null;
-				try { fragment = bloc.getCode(new TAMFactoryImpl()); }
-				catch(Exception e) { getCodeException = e; }
+				bloc.allocateMemory(Register.SB, 0);
+		        double allocateTimeMs = System.currentTimeMillis() - t1;
+		        t1 = System.currentTimeMillis();
+				Fragment fragment = bloc.getCode(new TAMFactoryImpl());
+				if (fragment != null) fragment.add(new TAMFactoryImpl().createHalt());
 		        double getCodeTimeMs = System.currentTimeMillis() - t1;
                 System.out.println("===============================================");
 				System.out.println("content     : " + bloc.toString());
@@ -744,7 +745,7 @@ class CUP$Parser$actions {
 				System.out.println("getType     : " + (checkType ? "OK   " : "ERROR") + " (" + checkTypeTimeMs + "ms)");
                 System.out.println("===============================================");
 				System.out.println("TAM         : ");
-				System.out.println(getCodeException != null ? ("ERR " + getCodeException.getCause()) : fragment);
+				System.out.println(fragment == null ? "ERROR" : fragment);
                 System.out.println("===============================================");
 			
               CUP$Parser$result = parser.getSymbolFactory().newSymbol("Program",0, ((java_cup.runtime.Symbol)CUP$Parser$stack.elementAt(CUP$Parser$top-1)), ((java_cup.runtime.Symbol)CUP$Parser$stack.peek()), RESULT);

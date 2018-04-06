@@ -65,7 +65,6 @@ public class Assignment implements Instruction, Expression {
 	 */
 	@Override
 	public boolean checkType() {
-		System.out.println("debug (asgn): " + value.getType() + " compatible with " + assignable.getType() + " ?");
 	    return value.getType().compatibleWith(assignable.getType());
 	}
 	
@@ -74,15 +73,21 @@ public class Assignment implements Instruction, Expression {
 	 */
 	@Override
 	public int allocateMemory(Register register, int offset) {
-		return value.getType().length();
+		return 0;
 	}
 
 	/* (non-Javadoc)
 	 * @see fr.n7.stl.block.ast.Instruction#getCode(fr.n7.stl.tam.ast.TAMFactory)
+	 * @TODO
 	 */
 	@Override
 	public Fragment getCode(TAMFactory factory) {
-		throw new SemanticsUndefinedException( "Semantics getCode is undefined in Assignment.");
+	    Fragment fragment = factory.createFragment();
+	    // compute value
+	    fragment.append(value.getCode(factory));
+	    // store value
+	    fragment.append(assignable.getCode(factory));
+        return fragment;
 	}
 
     @Override
