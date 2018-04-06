@@ -15,6 +15,7 @@ import fr.n7.stl.block.ast.type.Type;
 import fr.n7.stl.tam.ast.Fragment;
 import fr.n7.stl.tam.ast.Register;
 import fr.n7.stl.tam.ast.TAMFactory;
+import org.apache.commons.text.StrSubstitutor;
 
 /**
  * Implementation of the Abstract Syntax Tree node for a conditional instruction.
@@ -82,15 +83,22 @@ public class Conditional implements Instruction {
 	 */
 	@Override
 	public Fragment getCode(TAMFactory factory) {
+		Fragment fragment = factory.createFragment();
+		fragment.append(condition.getCode(factory));
+
+		factory.createLabelNumber();
+
+		if (elseBranch.isPresent()) {
+		    fragment.add(factory.createJumpIf("aaa", 0));
+        }
+
 		throw new SemanticsUndefinedException( "Semantics getCode is undefined in Conditional.");
 	}
 
 	@Override
 	public Type getReturnType() {
 		Type type = thenBranch.getReturnType();
-		if (elseBranch.isPresent())
-			type = type.merge(elseBranch.get().getReturnType());
-		return type;
+		return elseBranch.isPresent() ? type.merge(elseBranch.get().getReturnType()) : type;
 	}
 
 }

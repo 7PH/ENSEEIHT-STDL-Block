@@ -31,9 +31,9 @@ public interface Expression {
 	/**
 	 * Inherited Semantics attribute to build the nodes of the abstract syntax tree for the generated TAM code.
 	 * Synthesized Semantics attribute that provide the generated TAM code.
-	 * @param _factory Inherited Factory to build AST nodes for TAM code.
+	 * @param factory Inherited Factory to build AST nodes for TAM code.
 	 * @return Synthesized AST for the generated TAM code.
 	 */
-	public Fragment getCode(TAMFactory _factory);
+	public Fragment getCode(TAMFactory factory);
 
 }

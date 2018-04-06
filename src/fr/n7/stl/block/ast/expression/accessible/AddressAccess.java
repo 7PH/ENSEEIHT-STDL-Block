@@ -45,7 +45,7 @@ public class AddressAccess implements AccessibleExpression {
 	 * @see fr.n7.stl.block.ast.Expression#getCode(fr.n7.stl.tam.ast.TAMFactory)
 	 */
 	@Override
-	public Fragment getCode(TAMFactory _factory) {
+	public Fragment getCode(TAMFactory factory) {
 		throw new SemanticsUndefinedException( "getCode is undefined in AddressAccess.");
 	}
 
