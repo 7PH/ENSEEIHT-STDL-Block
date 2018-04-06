@@ -744,7 +744,7 @@ class CUP$Parser$actions {
 				System.out.println("getType     : " + (checkType ? "OK   " : "ERROR") + " (" + checkTypeTimeMs + "ms)");
                 System.out.println("===============================================");
 				System.out.println("TAM         : ");
-				System.out.println(getCodeException != null ? ("ERR " + getCodeException.getMessage()) : fragment);
+				System.out.println(getCodeException != null ? ("ERR " + getCodeException.getCause()) : fragment);
                 System.out.println("===============================================");
 			
               CUP$Parser$result = parser.getSymbolFactory().newSymbol("Program",0, ((java_cup.runtime.Symbol)CUP$Parser$stack.elementAt(CUP$Parser$top-1)), ((java_cup.runtime.Symbol)CUP$Parser$stack.peek()), RESULT);

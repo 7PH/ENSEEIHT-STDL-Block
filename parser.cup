@@ -133,7 +133,7 @@ Program ::= UL_Identificateur:nom Bloc:bloc
 				System.out.println("getType     : " + (checkType ? "OK   " : "ERROR") + " (" + checkTypeTimeMs + "ms)");
                 System.out.println("===============================================");
 				System.out.println("TAM         : ");
-				System.out.println(getCodeException != null ? ("ERR " + getCodeException.getMessage()) : fragment);
+				System.out.println(getCodeException != null ? ("ERR " + getCodeException.getCause()) : fragment);
                 System.out.println("===============================================");
 			:}
 		;
