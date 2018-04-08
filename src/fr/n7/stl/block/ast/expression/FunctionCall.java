@@ -3,10 +3,8 @@
  */
 package fr.n7.stl.block.ast.expression;
 
-import java.util.Iterator;
 import java.util.List;
 
-import fr.n7.stl.block.ast.SemanticsUndefinedException;
 import fr.n7.stl.block.ast.instruction.declaration.FunctionDeclaration;
 import fr.n7.stl.block.ast.instruction.declaration.ParameterDeclaration;
 import fr.n7.stl.block.ast.scope.Declaration;
@@ -102,8 +100,7 @@ public class FunctionCall implements Expression {
 	public Fragment getCode(TAMFactory factory) {
 		Fragment fragment = factory.createFragment();
         fragment.add(factory.createLoadL(0));
-        fragment.add(factory.createLoadL(function.getOffset()));
-        fragment.add(factory.createCallI(Register.LB));
+        fragment.add(factory.createLoadA("fun_start_1"));
 		return fragment;
 	}
 

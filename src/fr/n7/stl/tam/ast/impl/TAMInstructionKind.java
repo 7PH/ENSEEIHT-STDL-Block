@@ -17,5 +17,5 @@ enum TAMInstructionKind {
 	CALL, CALLI,
 	RETURN,
 	SUBR,
-	HALT
+	HALT;
 }

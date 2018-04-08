@@ -16,6 +16,7 @@ import fr.n7.stl.block.ast.type.Type;
 import fr.n7.stl.tam.ast.Fragment;
 import fr.n7.stl.tam.ast.Register;
 import fr.n7.stl.tam.ast.TAMFactory;
+import fr.n7.stl.tam.ast.TAMInstruction;
 
 /**
  * Abstract Syntax Tree node for a function declaration.
@@ -126,8 +127,8 @@ public class FunctionDeclaration implements Instruction, Declaration {
         if (! body.checkType())
             return false;
 
-		if (! body.getReturnType().equalsTo(type))
-		    return false;
+		//if (! body.getReturnType().equalsTo(type))
+		//    return false;
 
 	    return true;
 	}
@@ -144,6 +145,7 @@ public class FunctionDeclaration implements Instruction, Declaration {
         for (ParameterDeclaration parameterDeclaration: parameters)
             length += parameterDeclaration.type.length();
         body.allocateMemory(register, offset);
+
 	    return length;
 	}
 
@@ -155,14 +157,20 @@ public class FunctionDeclaration implements Instruction, Declaration {
 	@Override
 	public Fragment getCode(TAMFactory factory) {
 	    String id = String.valueOf(factory.createLabelNumber());
-	    String endLabel = "fun_end_" + id ;
+        String startLabel = "fun_start_" + id ;
+        String endLabel = "fun_end_" + id ;
 
-	    Fragment fragment = factory.createFragment();
-        fragment.add(factory.createJump(endLabel));
-	    fragment.append(body.getCode(factory));
-        fragment.addSuffix(endLabel + ":");
+	    Fragment fragment1 = factory.createFragment();
+        fragment1.add(factory.createJump(endLabel));
 
-        return fragment;
+        Fragment fragment2 = factory.createFragment();
+        fragment2.append(body.getCode(factory));
+        fragment2.addPrefix(startLabel + ":");
+        fragment2.addSuffix(endLabel + ":");
+
+        fragment1.append(fragment2);
+
+        return fragment1;
 	}
 
     @Override
