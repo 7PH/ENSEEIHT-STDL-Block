@@ -4,8 +4,11 @@ pointer {
 
     int *ptr2 = ptr;
 
-    typedef int entier;
-    int *ptr3 = new entier();
+    int a = *ptr;
 
-    int *ptr4 = &(*ptr);
+    //typedef int entier;
+    //int *ptr3 = new entier();
+
+    int *ptr4 = &a;
+
 }

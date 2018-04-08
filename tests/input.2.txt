@@ -1,4 +1,5 @@
 issou {
-    struct TPoint {int x; int y;} p = {1, 2};
-    int a = p.x;
+    int t[] = new int[6];
+    t[0] = 10;
+    int a = t[0];
 }

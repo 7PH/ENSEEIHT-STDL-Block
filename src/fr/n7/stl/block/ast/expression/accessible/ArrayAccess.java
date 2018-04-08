@@ -43,7 +43,6 @@ public class ArrayAccess extends AbstractArray implements AccessibleExpression {
         fragment.add(TAMFactory.createBinaryOperator(BinaryOperator.Add));
         fragment.add(factory.createLoadI(this.getType().length()));
 
-
         return fragment;
 	}
 
