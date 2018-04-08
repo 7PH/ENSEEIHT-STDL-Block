@@ -102,10 +102,12 @@ public class SequenceType implements Type {
         } else if (_other instanceof RecordType) {
 		    return this.compatibleWith(((RecordType)_other).erase());
         } else if (_other instanceof CoupleType) {
-            if (this.types.size() == 2) {
+            /*
+		    if (this.types.size() == 2) {
                 return this.types.get(0).compatibleWith(((CoupleType)_other).getFirst()) &&
                         this.types.get(1).compatibleWith(((CoupleType)_other).getSecond());
-            }
+            }*/
+            return false;
         } else if (_other instanceof NamedType) {
             return compatibleWith(((NamedType)_other).getType());
         }

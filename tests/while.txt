@@ -1,8 +1,7 @@
 while_test {
+    int i = 0;
+    while (i < 10) {
 
-
-    int a = 1;
-    while (a < 10) {
-        a = 12;
+        i = i + 1;
     }
 }

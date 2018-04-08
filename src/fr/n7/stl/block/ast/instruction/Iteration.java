@@ -67,11 +67,16 @@ public class Iteration implements Instruction {
 	 */
 	@Override
 	public Fragment getCode(TAMFactory factory) {
-	    String endLabel = "end_" + factory.createLabelNumber();
+	    String id = String.valueOf(factory.createLabelNumber());
+        String startLabel = "start_" + id;
+        String endLabel = "end_" + id;
+
 		Fragment fragment = factory.createFragment();
 		fragment.append(condition.getCode(factory));
+        fragment.addPrefix(startLabel + ":");
 		fragment.add(factory.createJumpIf(endLabel, 0));
         fragment.append(body.getCode(factory));
+        fragment.add(factory.createJump(startLabel));
         fragment.addSuffix(endLabel + ":");
 		return fragment;
 	}

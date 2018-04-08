@@ -61,10 +61,15 @@ public class First implements Expression {
 
 	/* (non-Javadoc)
 	 * @see fr.n7.stl.block.ast.Expression#getCode(fr.n7.stl.tam.ast.TAMFactory)
+	 * @TODO Handle non-atomic types
 	 */
 	@Override
-	public Fragment getCode(TAMFactory _factory) {
-		throw new SemanticsUndefinedException("Semantics getCode undefined in First.");
+	public Fragment getCode(TAMFactory factory) {
+	    final int secondLength = ((CoupleType)target.getType()).getSecond().length();
+	    Fragment fragment = factory.createFragment();
+	    fragment.append(target.getCode(factory));
+        fragment.add(factory.createPop(0, secondLength));
+	    return fragment;
 	}
 
 }

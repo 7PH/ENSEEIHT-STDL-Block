@@ -68,8 +68,11 @@ public class Couple implements Expression {
 	 * @see fr.n7.stl.block.ast.Expression#getCode(fr.n7.stl.tam.ast.TAMFactory)
 	 */
 	@Override
-	public Fragment getCode(TAMFactory _factory) {
-		throw new SemanticsUndefinedException( "Semantics getCode is undefined in Couple.");
+	public Fragment getCode(TAMFactory factory) {
+        Fragment fragment = factory.createFragment();
+        fragment.append(first.getCode(factory));
+        fragment.append(second.getCode(factory));
+        return fragment;
 	}
 
 }

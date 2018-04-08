@@ -1,0 +1,15 @@
+fact {
+
+    /*
+    int fact(int n) {
+        return n;
+    }
+    int a = fact(5);
+    */
+
+    int fun() {
+        return 1;
+    }
+
+    int a = fun();
+}

@@ -79,8 +79,11 @@ public class Sequence implements Expression {
 	 * @see fr.n7.stl.block.ast.Expression#getCode(fr.n7.stl.tam.ast.TAMFactory)
 	 */
 	@Override
-	public Fragment getCode(TAMFactory _factory) {
-		throw new SemanticsUndefinedException("Semantics getCode undefined in Sequence.");
+	public Fragment getCode(TAMFactory factory) {
+        Fragment fragment = factory.createFragment();
+        for (Expression expression: values) {
+            fragment.append(expression.getCode(factory));
+        }
+        return fragment;
 	}
-
 }

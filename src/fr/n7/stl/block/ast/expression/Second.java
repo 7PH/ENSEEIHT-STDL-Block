@@ -60,8 +60,13 @@ public class Second implements Expression {
 	 * @see fr.n7.stl.block.ast.Expression#getCode(fr.n7.stl.tam.ast.TAMFactory)
 	 */
 	@Override
-	public Fragment getCode(TAMFactory _factory) {
-		throw new SemanticsUndefinedException("Semantics getCode undefined in Second.");
+	public Fragment getCode(TAMFactory factory) {
+        final int firstLength = ((CoupleType)target.getType()).getFirst().length();
+        final int secondLength = ((CoupleType)target.getType()).getSecond().length();
+        Fragment fragment = factory.createFragment();
+        fragment.append(target.getCode(factory));
+        fragment.add(factory.createPop(secondLength, firstLength));
+        return fragment;
 	}
 
 }

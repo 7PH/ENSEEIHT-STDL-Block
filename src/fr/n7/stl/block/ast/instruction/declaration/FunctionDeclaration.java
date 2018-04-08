@@ -7,8 +7,6 @@ import java.util.Iterator;
 import java.util.List;
 
 import fr.n7.stl.block.ast.Block;
-import fr.n7.stl.block.ast.SemanticsUndefinedException;
-import fr.n7.stl.block.ast.expression.Expression;
 import fr.n7.stl.block.ast.instruction.Instruction;
 import fr.n7.stl.block.ast.scope.Declaration;
 import fr.n7.stl.block.ast.scope.HierarchicalScope;
@@ -45,7 +43,11 @@ public class FunctionDeclaration implements Instruction, Declaration {
 	 */
 	protected Block body;
 
-	/**
+	/** Offset of the function */
+    private int offset;
+    private Register register;
+
+    /**
 	 * Builds an AST node for a function declaration
 	 * @param _name : Name of the function
 	 * @param _type : AST node for the returned type of the function
@@ -114,7 +116,6 @@ public class FunctionDeclaration implements Instruction, Declaration {
 
 	/* (non-Javadoc)
 	 * @see fr.n7.stl.block.ast.instruction.Instruction#checkType()
-	 * * @TODO
 	 */
 	@Override
 	public boolean checkType() {
@@ -122,9 +123,11 @@ public class FunctionDeclaration implements Instruction, Declaration {
 	        if (parameterDeclaration.getType().equalsTo(AtomicType.ErrorType))
 	            return false;
         }
-        if (! body.checkType()) return false;
+        if (! body.checkType())
+            return false;
 
-        // @TODO ensure body type = return type
+		if (! body.getReturnType().equalsTo(type))
+		    return false;
 
 	    return true;
 	}
@@ -134,15 +137,32 @@ public class FunctionDeclaration implements Instruction, Declaration {
 	 */
 	@Override
 	public int allocateMemory(Register register, int offset) {
-		throw new SemanticsUndefinedException( "Semantics allocateMemory is undefined in FunctionDeclaration.");
+	    this.register = register;
+	    this.offset = offset;
+
+	    int length = 0;
+        for (ParameterDeclaration parameterDeclaration: parameters)
+            length += parameterDeclaration.type.length();
+        body.allocateMemory(register, offset);
+	    return length;
 	}
 
 	/* (non-Javadoc)
 	 * @see fr.n7.stl.block.ast.instruction.Instruction#getCode(fr.n7.stl.tam.ast.TAMFactory)
+	 * @TODO Handle the case of 'void' return
+	 * @TODO Handle parameters
 	 */
 	@Override
 	public Fragment getCode(TAMFactory factory) {
-		throw new SemanticsUndefinedException( "Semantics getCode is undefined in FunctionDeclaration.");
+	    String id = String.valueOf(factory.createLabelNumber());
+	    String endLabel = "fun_end_" + id ;
+
+	    Fragment fragment = factory.createFragment();
+        fragment.add(factory.createJump(endLabel));
+	    fragment.append(body.getCode(factory));
+        fragment.addSuffix(endLabel + ":");
+
+        return fragment;
 	}
 
     @Override
@@ -150,4 +170,11 @@ public class FunctionDeclaration implements Instruction, Declaration {
         return AtomicType.VoidType;
     }
 
+    public int getOffset() {
+        return offset;
+    }
+
+    public Register getRegister() {
+        return register;
+    }
 }

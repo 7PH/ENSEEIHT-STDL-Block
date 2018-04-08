@@ -39,7 +39,6 @@ public class IdentifierAccess extends AbstractIdentifier implements AccessibleEx
 		if (_scope.knows(this.name)) {
 			Declaration _declaration = _scope.get(this.name);
 			if (_declaration instanceof VariableDeclaration) {
-			    System.out.println("Built VariableUse with declaration " + _declaration);
 				this.expression = new VariableUse((VariableDeclaration) _declaration);
 				return true;
 			} else if (_declaration instanceof ParameterDeclaration) {

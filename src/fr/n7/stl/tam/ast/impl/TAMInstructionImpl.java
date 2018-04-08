@@ -83,16 +83,19 @@ class TAMInstructionImpl implements TAMInstruction {
 	 * @param _size Optional Integer size for the TAM instruction.
 	 * @param _frame Optional Register frame for the TAM instruction.
 	 */
-	public TAMInstructionImpl(TAMInstructionKind _kind, Optional<String> _label, 
-			Optional<Register> _register, Optional<Integer> _offset, 
-			Optional<String> _target, Optional<Integer> _size, Optional<Register> _frame) {
+	public TAMInstructionImpl(
+	        TAMInstructionKind _kind,
+            Optional<String> _label,
+			Optional<Register> _register,
+            Optional<Integer> _offset,
+			Optional<String> _target,
+            Optional<Integer> _size,
+            Optional<Register> _frame) {
 		this.kind = _kind;
 		this.comments = new LinkedList<String>();
 		this.prefixes = new LinkedList<String>();
 		this.suffixes = new LinkedList<String>();
-		if (_label.isPresent()) {
-			this.prefixes.add(_label.get());
-		}
+        _label.ifPresent(s -> this.prefixes.add(s));
 		this.register = _register;
 		this.offset = _offset;
 		this.target = _target;
@@ -133,14 +136,17 @@ class TAMInstructionImpl implements TAMInstruction {
 			_result += _label + "\n";
 		}
 		_result += this.kind;
-		_result += ((this.size.isPresent())?(" (" + this.size.get() + ")"):((this.frame.isPresent())?(this.frame.get()):""));
+        //_result += ((this.size.isPresent())?(" (" + this.size.get() + ")"):((this.frame.isPresent())?(this.frame.get()):""));
+        _result += ((this.size.isPresent())?(" (" + this.size.get() + ")"):((this.frame.isPresent())?(" " + this.frame.get()):""));
 		_result += ((this.offset.isPresent())?(" " + this.offset.get()):"");
 		_result += ((this.register.isPresent())?("[" + this.register.get() + "]"):"");
 		_result += ((this.target.isPresent())?(" " + this.target.get()):"");
 		_result += "\n";
+
 		for (String _label : this.suffixes) {
 			_result += _label + "\n";
 		}
+
 		return _result;
 	}
 
