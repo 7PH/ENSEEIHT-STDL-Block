@@ -1,0 +1,6 @@
+issou {
+    <int, int> b = <1, 2>;
+    <int, int> c = b;
+    <int, int> *p_b = &b;
+    <int, int> *p_c = &c;
+}

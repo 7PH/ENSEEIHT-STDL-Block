@@ -1,0 +1,7 @@
+print_test {
+    int a = 11;
+    print a;
+
+    int b = 20;
+    print b;
+}

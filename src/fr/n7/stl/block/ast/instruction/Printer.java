@@ -10,6 +10,7 @@ import fr.n7.stl.block.ast.scope.HierarchicalScope;
 import fr.n7.stl.block.ast.type.AtomicType;
 import fr.n7.stl.block.ast.type.Type;
 import fr.n7.stl.tam.ast.Fragment;
+import fr.n7.stl.tam.ast.Library;
 import fr.n7.stl.tam.ast.Register;
 import fr.n7.stl.tam.ast.TAMFactory;
 
@@ -65,7 +66,11 @@ public class Printer implements Instruction {
 	 */
 	@Override
 	public Fragment getCode(TAMFactory factory) {
-		throw new SemanticsUndefinedException("Semantics getCode undefined in Printer.");
+        Fragment fragment = factory.createFragment();
+        fragment.add(Library.IOut);
+        fragment.add(factory.createLoadL("\\n"));
+        fragment.add(Library.SOut);
+        return fragment;
 	}
 
 	@Override

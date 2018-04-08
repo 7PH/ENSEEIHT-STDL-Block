@@ -44,6 +44,18 @@ public class TAMFactoryImpl implements TAMFactory {
 				Optional.empty());
 	}
 
+    @Override
+    public TAMInstruction createLoadL(String s) {
+        return new TAMInstructionImpl(
+                TAMInstructionKind.LOADL,
+                Optional.empty(),
+                Optional.empty(),
+                Optional.empty(),
+                Optional.of('"' + s + '"'),
+                Optional.empty(),
+                Optional.empty());
+    }
+
 	/* (non-Javadoc)
 	 * @see fr.n7.stl.tam.ast.TAMFactory#createPush(int)
 	 */

@@ -44,7 +44,6 @@ class Driver {
 
             case 2:
                 json(parser);
-                System.out.println("not defined");
                 break;
 
             default:

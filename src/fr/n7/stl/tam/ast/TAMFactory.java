@@ -239,4 +239,5 @@ public interface TAMFactory {
 	
 	public int createLabelNumber();
 
+    TAMInstruction createLoadL(String s);
 }

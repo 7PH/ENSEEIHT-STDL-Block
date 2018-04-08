@@ -1,5 +1,0 @@
-issou {
-    int t[] = new int[6];
-    t[0] = 10;
-    int a = t[0];
-}
