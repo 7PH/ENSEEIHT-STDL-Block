@@ -1,4 +1,6 @@
 couple {
     <int, int> a = <10, 20>;
-    int b = snd a;
+    int b = fst a;
+    //<int, int> c = a;
+    //<int, int> d = <fst a, snd a>;
 }

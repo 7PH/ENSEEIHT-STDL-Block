@@ -1,13 +1,10 @@
 package fr.n7.stl.block.ast.expression;
 
-import fr.n7.stl.block.ast.SemanticsUndefinedException;
 import fr.n7.stl.block.ast.scope.Declaration;
 import fr.n7.stl.block.ast.scope.HierarchicalScope;
 import fr.n7.stl.block.ast.type.ArrayType;
 import fr.n7.stl.block.ast.type.AtomicType;
 import fr.n7.stl.block.ast.type.Type;
-
-import javax.lang.model.type.ErrorType;
 
 /**
  * Common elements between left (Assignable) and right (Expression) end sides of assignments. These elements

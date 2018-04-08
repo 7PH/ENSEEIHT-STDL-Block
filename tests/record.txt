@@ -1,6 +1,6 @@
 record {
     typedef struct TPoint {int x; int y;} Point;
-    typedef struct TCircle {int x; int y; int radius;} Circle1;
+    typedef struct TCircle {int x; int y; int radius;} Circle;
     typedef struct TCircle {int y; int x; int radius;} Circle2;
 
     Point A = {1, 1};

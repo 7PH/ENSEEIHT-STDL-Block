@@ -1,0 +1,36 @@
+array {
+    int a[] = new int[2];
+    a[0] = 8;
+    a[1] = 4;
+
+    int b = 10;
+    int c = 10;
+    int d = 10;
+
+    int e[] = new int[3];
+    e[1] = 2;
+    e[0] = 1;
+    e[2] = 3;
+
+    int f = e[2];
+
+    /*
+        Test: OK
+
+        Stack:
+            @a
+            10
+            10
+            10
+            @b
+            3
+
+        Heap:
+            4
+            8
+            3
+            2
+            1
+
+    */
+}

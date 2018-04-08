@@ -81,9 +81,8 @@ public class Sequence implements Expression {
 	@Override
 	public Fragment getCode(TAMFactory factory) {
         Fragment fragment = factory.createFragment();
-        for (Expression expression: values) {
+        for (Expression expression: values)
             fragment.append(expression.getCode(factory));
-        }
         return fragment;
 	}
 }

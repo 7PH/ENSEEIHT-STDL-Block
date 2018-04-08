@@ -72,8 +72,8 @@ public class IdentifierAccess extends AbstractIdentifier implements AccessibleEx
 	 * @see fr.n7.stl.block.ast.Expression#getCode(fr.n7.stl.tam.ast.TAMFactory)
 	 */
 	@Override
-	public Fragment getCode(TAMFactory _factory) {
-		return expression.getCode(_factory);
+	public Fragment getCode(TAMFactory factory) {
+		return expression.getCode(factory);
 	}
 
 }

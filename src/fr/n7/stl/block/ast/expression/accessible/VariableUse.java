@@ -34,9 +34,9 @@ public class VariableUse extends AbstractUse {
          * @see fr.n7.stl.block.ast.expression.AbstractUse#getCode(fr.n7.stl.tam.ast.TAMFactory)
          */
 	public Fragment getCode(TAMFactory factory) {
-		Fragment _result = factory.createFragment();
-		_result.add(factory.createLoadL(declaration.getOffset()));
-		return declaration.getCode(factory);
+		Fragment fragment = factory.createFragment();
+        fragment.add(factory.createLoad(declaration.getRegister(), declaration.getOffset(), declaration.getType().length()));
+		return fragment;
 	}
 
 }

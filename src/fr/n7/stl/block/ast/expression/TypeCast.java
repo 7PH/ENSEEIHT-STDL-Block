@@ -6,6 +6,7 @@ package fr.n7.stl.block.ast.expression;
 import fr.n7.stl.block.ast.SemanticsUndefinedException;
 import fr.n7.stl.block.ast.scope.Declaration;
 import fr.n7.stl.block.ast.scope.HierarchicalScope;
+import fr.n7.stl.block.ast.type.AtomicType;
 import fr.n7.stl.block.ast.type.NamedType;
 import fr.n7.stl.block.ast.type.Type;
 import fr.n7.stl.tam.ast.Fragment;
@@ -62,15 +63,20 @@ public class TypeCast implements Expression {
      */
     @Override
     public Type getType() {
+        // 2 types of different length can't be the same
+        if (target.getType().length() != targetType.length())
+            return AtomicType.ErrorType;
+
         return targetType;
     }
 
     /* (non-Javadoc)
      * @see fr.n7.stl.block.ast.Expression#getCode(fr.n7.stl.tam.ast.TAMFactory)
+     * @TODO Runtime check???
      */
     @Override
-    public Fragment getCode(TAMFactory _factory) {
-        throw new SemanticsUndefinedException("Semantics getCode undefined in Type Cast.");
+    public Fragment getCode(TAMFactory factory) {
+        return target.getCode(factory);
     }
 
 }

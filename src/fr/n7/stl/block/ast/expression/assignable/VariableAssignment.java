@@ -30,8 +30,12 @@ public class VariableAssignment extends AbstractIdentifier implements Assignable
 	public VariableAssignment(String _name) {
 		super(_name);
 	}
-	
-	/* (non-Javadoc)
+
+    public VariableDeclaration getDeclaration() {
+        return declaration;
+    }
+
+    /* (non-Javadoc)
 	 * @see fr.n7.stl.block.ast.expression.AbstractIdentifier#resolve(fr.n7.stl.block.ast.scope.HierarchicalScope)
 	 */
 	@Override
