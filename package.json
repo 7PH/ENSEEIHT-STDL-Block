@@ -7,7 +7,7 @@
     "test": "tests"
   },
   "scripts": {
-    "test": "tsc; node tests/test.js;"
+    "test": "sh test.sh"
   },
   "repository": {
     "type": "git",

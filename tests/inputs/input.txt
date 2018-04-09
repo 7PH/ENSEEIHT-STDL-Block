@@ -8,6 +8,7 @@ test {
     <int, int> p = <3, 4>;
     int k = fst p;
 
+    /* com 2 */
     if (i >= 2) {
         i = i - i * 2;
     }
@@ -30,5 +31,6 @@ test {
         }
         print p;
     }
+
     print j;
 }

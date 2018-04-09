@@ -19,7 +19,7 @@ export interface TAMResult {
 export class TAM {
 
     public static parse(fileName: string): TAMResult {
-        const shellResult: Buffer = child_process.execSync("./launch.sh tests/inputs/" + fileName + " 2");
+        const shellResult: Buffer = child_process.execSync("./launch.sh " + fileName + " 2");
         return JSON.parse(shellResult.toString());
     }
 
@@ -40,8 +40,9 @@ export class TAM {
         return parsed;
     }
 
-    public static ensureResult(expected: TAMExpectedResult, fileName: string): void {
-        let result: TAMResult = TAM.parseAndExecute(fileName);
+    public static ensureResult(code: string, expected: TAMExpectedResult): void {
+        const fileName: string = TAM.storeCodeInTmp(code);
+        const result: TAMResult = TAM.parseAndExecute(fileName);
 
         if (expected.resolve !== result.resolve)
             throw new Error("Resolve expected to be " + expected.resolve + " but is " + result.resolve);
@@ -66,5 +67,17 @@ export class TAM {
         }
 
         return;
+    }
+
+    private static storeCodeInTmp(code: string) {
+        const program: string = `
+        
+        test_program {
+            ${code}
+        }
+        
+        `;
+        fs.writeFileSync('tmp.bc', program);
+        return 'tmp.bc';
     }
 }

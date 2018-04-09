@@ -56,6 +56,7 @@ import java.io.InputStreamReader;
 PassageLigne		= \r | \n | \r\n
 Blanc 			= [ \t\f] | {PassageLigne}
 Entier     		= [0-9]+
+Flottant        = [0-9]+\.?[0-9]*
 
 /* comments */
 Commentaire 			= {BlocCommentaire} | {CommentaireFinLigne}
@@ -133,6 +134,7 @@ Identificateur = ([:jletter:] | "_" ) ([:jletterdigit:] | [:jletter:] | "_" )*
   {Caractere}		{ return symbolFactory.newSymbol("Caractère", UL_Caractere, yytext()); }
   {Chaine}			{ return symbolFactory.newSymbol("Chaine de caractères", UL_Chaine, yytext()); }
   {Entier}     		{ return symbolFactory.newSymbol("Nombre Entier", UL_Nombre_Entier, yytext()); }
+  {Flottant}     	{ return symbolFactory.newSymbol("Nombre Flottant", UL_Nombre_Flottant, yytext()); }
   {Identificateur}	{ return symbolFactory.newSymbol("Identificateur", UL_Identificateur, yytext()); }
 }
 

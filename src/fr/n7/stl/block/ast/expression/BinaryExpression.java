@@ -135,17 +135,12 @@ public class BinaryExpression implements Expression {
 	 * @see fr.n7.stl.block.ast.Expression#getCode(fr.n7.stl.tam.ast.TAMFactory)
 	 */
 	@Override
-	public Fragment getCode(TAMFactory _factory) {
-		Fragment _result = this.left.getCode(_factory);
-		if (this.left instanceof AccessibleExpression) {
-			_result.add(_factory.createLoadI(this.left.getType().length()));
-		}
-		_result.append(this.right.getCode(_factory));
-		if (this.right instanceof AccessibleExpression) {
-			_result.add(_factory.createLoadI(this.right.getType().length()));
-		}
-		_result.add(TAMFactory.createBinaryOperator(this.operator));
-		return _result;
+	public Fragment getCode(TAMFactory factory) {
+		Fragment result = factory.createFragment();
+        result.append(left.getCode(factory));
+        result.append(right.getCode(factory));
+		result.add(TAMFactory.createBinaryOperator(this.operator));
+		return result;
 	}
 
 }
