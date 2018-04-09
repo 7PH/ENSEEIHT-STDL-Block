@@ -2,15 +2,18 @@ import {TAM} from "./TAM";
 
 
 
-const testSlow: number = 1000;
+const testSlow: number = 2000;
+
+
 
 describe('getType()', function () {
     // slow test <=> takes more than 1 second
     this.slow(testSlow);
     this.timeout(10000);
 
-    describe('# declaration', function () {
-        it('integer (invalid - 3 tests)', function (done: () => any) {
+    describe('# Declaration', function () {
+
+        it('IntegerType (invalid - 3 tests)', function (done: () => any) {
             this.slow(testSlow * 3);
             TAM.ensureResult(`int a = "1";`, {resolve: true, checkType: false});
             TAM.ensureResult(`int a = '1';`, {resolve: true, checkType: false});
@@ -18,7 +21,7 @@ describe('getType()', function () {
             done();
         });
 
-        it('character (invalid - 3 tests)', function (done: () => any) {
+        it('CharacterType (invalid - 3 tests)', function (done: () => any) {
             this.slow(testSlow * 3);
             TAM.ensureResult(`character a = "c";`, {resolve: true, checkType: false});
             TAM.ensureResult(`character a = 1;`, {resolve: true, checkType: false});
@@ -26,7 +29,7 @@ describe('getType()', function () {
             done();
         });
 
-        it('String (invalid - 3 tests)', function (done: () => any) {
+        it('StringType (invalid - 3 tests)', function (done: () => any) {
             this.slow(testSlow * 3);
             TAM.ensureResult(`String a = 'H';`, {resolve: true, checkType: false});
             TAM.ensureResult(`String a = 1;`, {resolve: true, checkType: false});
@@ -34,18 +37,162 @@ describe('getType()', function () {
             done();
         });
 
-        it('boolean (invalid - 3 tests)', function (done: () => any) {
+        it('BooleanType (invalid - 3 tests)', function (done: () => any) {
             this.slow(testSlow * 3);
             TAM.ensureResult(`boolean a = '1';`, {resolve: true, checkType: false});
             TAM.ensureResult(`boolean a = 1;`, {resolve: true, checkType: false});
             TAM.ensureResult(`boolean a = "true";`, {resolve: true, checkType: false});
             done();
         });
+
+        it('CoupleType (invalid - 3 tests)', function (done: () => any) {
+            this.slow(testSlow * 3);
+            TAM.ensureResult(`<int, int> a = <"a", 1>;`, {resolve: true, checkType: false});
+            TAM.ensureResult(`<<int, boolean>, character> a = <<1, false>, 3>;`, {resolve: true, checkType: false});
+            TAM.ensureResult(`int b = 1; <int, boolean> a = <1, b>;`, {resolve: true, checkType: false});
+            done();
+        });
     });
 
-    describe('# full working example', function() {
-        it('must be ok', function (done: () => any) {
-            TAM.ensureResult(`    // com 1
+    describe('# RecordType', function() {
+        it("invalid 1", function(done: () => any) {
+            TAM.ensureResult(`struct A{int x; int y;} a = {1, 'a'};`, {resolve: true, checkType: false});
+            done();
+        });
+        it("invalid 2", function(done: () => any) {
+            TAM.ensureResult(`struct A{boolean x; int y;} a = {1, true};`, {resolve: true, checkType: false});
+            done();
+        });
+        it("invalid 3", function(done: () => any) {
+            TAM.ensureResult(`struct A{int x; int y;} a = {true, 0};`, {resolve: true, checkType: false});
+            done();
+        });
+        it("struct containing struct", function(done: () => any) {
+            TAM.ensureResult(`
+                    typedef struct SPoint {int x; int y;} Point;
+                    struct Circle {Point center; int radius;} circle = {{0, 1}, 10};
+                `, {resolve: true, checkType: true});
+            done();
+        });
+        it("struct invalid access", function(done: () => any) {
+            TAM.ensureResult(`
+                    typedef struct SPoint {int x; int y;} Point;
+                    Point point = {1, 2};
+                    int a = point.foo;
+                `, {resolve: false, checkType: false});
+            done();
+        });
+        it("struct access with invalid type", function(done: () => any) {
+            TAM.ensureResult(`
+                    typedef struct SPoint {int x; int y;} Point;
+                    Point point = {1, 2};
+                    character a = point.x;
+                `, {resolve: true, checkType: false});
+            done();
+        });
+        it("struct valid access", function(done: () => any) {
+            TAM.ensureResult(`
+                    typedef struct SPoint {int x; int y;} Point;
+                    Point point = {1, 2};
+                    int a = point.x;
+                `, {resolve: true, checkType: true});
+            done();
+        });
+    });
+
+    describe('# Functions', function () {
+        it('Unreachable statement', function (done: () => any) {
+            TAM.ensureResult(`int f() { return 1; return 2; }`, {resolve: false, checkType: true});
+            done();
+        });
+        it('Unreachable statement and wrong return type', function (done: () => any) {
+            TAM.ensureResult(`int f() { return 1; return 'a'; }`, {resolve: false, checkType: false});
+            done();
+        });
+        it('Wrong return type 1', function (done: () => any) {
+            TAM.ensureResult(`int f() { int a = 1; if (a > 0) { return 1; } else { return 'a'; } }`, {resolve: true, checkType: false});
+            done();
+        });
+        it('Wrong return type 2', function (done: () => any) {
+            TAM.ensureResult(`int f() { int a = 1; if (a > 0) { return 'a'; } else { return 1; } }`, {resolve: true, checkType: false});
+            done();
+        });
+        it('Function returning a NamedType', function (done: () => any) {
+            TAM.ensureResult(`
+                    typedef struct SPoint {int x; int y;} Point;
+                    Point f(int a) {
+                        return {a, a};
+                    }
+                `, {resolve: true, checkType: true});
+            done();
+        });
+    });
+
+    describe('# While', function () {
+        it('while ({not boolean}) { .. }', function (done: () => any) {
+            TAM.ensureResult(`while (1) { }`, {resolve: true, checkType: false});
+            done();
+        });
+    });
+
+
+    describe('# Assignment', function () {
+        it('IntegerType (invalid - 3 tests)', function (done: () => any) {
+            this.slow(testSlow * 3);
+            TAM.ensureResult(`int a = 0; a = "1";`, {resolve: true, checkType: false});
+            TAM.ensureResult(`int a = 0; a = '1';`, {resolve: true, checkType: false});
+            TAM.ensureResult(`int a = 0; a = true;`, {resolve: true, checkType: false});
+            done();
+        });
+
+        it('CharacterType (invalid - 3 tests)', function (done: () => any) {
+            this.slow(testSlow * 3);
+            TAM.ensureResult(`character a = 'a'; a = "c";`, {resolve: true, checkType: false});
+            TAM.ensureResult(`character a = 'a'; a = 1;`, {resolve: true, checkType: false});
+            TAM.ensureResult(`character a = 'a'; a = true;`, {resolve: true, checkType: false});
+            done();
+        });
+
+        it('StringType (invalid - 3 tests)', function (done: () => any) {
+            this.slow(testSlow * 3);
+            TAM.ensureResult(`String a = "a"; a = 'H';`, {resolve: true, checkType: false});
+            TAM.ensureResult(`String a = "a"; a = 1;`, {resolve: true, checkType: false});
+            TAM.ensureResult(`String a = "a"; a = true;`, {resolve: true, checkType: false});
+            done();
+        });
+
+        it('BooleanType (invalid - 3 tests)', function (done: () => any) {
+            this.slow(testSlow * 3);
+            TAM.ensureResult(`boolean a = true; a = '1';`, {resolve: true, checkType: false});
+            TAM.ensureResult(`boolean a = true; a = 1;`, {resolve: true, checkType: false});
+            TAM.ensureResult(`boolean a = true; a = "true";`, {resolve: true, checkType: false});
+            done();
+        });
+
+        it('CoupleType (invalid - 3 tests)', function (done: () => any) {
+            this.slow(testSlow * 3);
+            TAM.ensureResult(`<int, int> a = <0, 0>; a = <"a", 1>;`, {resolve: true, checkType: false});
+            TAM.ensureResult(`<<int, boolean>, character> a = <<1, true>, 2>; a = <<1, false>, 3>;`, {resolve: true, checkType: false});
+            TAM.ensureResult(`int b = 1; <int, boolean> a = <0, true>; a = <1, b>;`, {resolve: true, checkType: false});
+            done();
+        });
+
+        it('RecordType (invalid - 3 tests)', function (done: () => any) {
+            this.slow(testSlow * 3);
+            TAM.ensureResult(`struct A{int x; int y;} a = {0, 0}; a = {1, 'a'};`, {resolve: true, checkType: false});
+            TAM.ensureResult(`struct A{boolean x; int y;} a = {false, 0}; a = {1, true};`, {resolve: true, checkType: false});
+            TAM.ensureResult(`struct A{int x; int y;} a = {0, 0}; a = {true, 0};`, {resolve: true, checkType: false});
+            done();
+        });
+    });
+
+    describe('# Valid examples', function() {
+        it('full basic example (valid)', function (done: () => any) {
+            TAM.ensureResult(`
+                // com 1
+                <<int, boolean>, character> hello = <<1, false>, 'a'>;
+                typedef struct SB {boolean active;} B;
+                struct A{int x; int y; B target;} world = {-1, 1, {true}};
                 int a = 6;
                 boolean even = (a + 1) % 2 == 0;
                 int i = 1;
@@ -53,7 +200,7 @@ describe('getType()', function () {
                 const int j = 2;
                 <int, int> p = <3, 4>;
                 int k = fst p;
-            
+                
                 /* com 2 */
                 if (i >= 2) {
                     i = i - i * 2;
@@ -75,10 +222,23 @@ describe('getType()', function () {
                         const boolean p = false;
                         print p;
                     }
-                    print p;
+                    print fst p;
                 }
             
                 print j;
+            `,
+                {
+                    resolve: true,
+                    checkType: true
+                });
+            done();
+        });
+
+        it('complex example (valid)', function (done: () => any) {
+            TAM.ensureResult(`
+                typedef <int, int> Point;
+                typedef struct SCircle {<int, int> center; int radius;} Circle;
+                Circle circle = {<-1, 1>, 2};
             `,
                 {
                     resolve: true,
@@ -90,14 +250,14 @@ describe('getType()', function () {
 });
 
 
-describe('end to end tests', function() {
+describe('execute()', function() {
 
     // slow test <=> takes more than 500ms
     this.slow(500);
     this.timeout(10000);
 
 
-    describe('# binary expressions', function () {
+    describe('# BinaryExpression', function () {
         it('a + b, a * b, a % b, a > b', function (done: () => any) {
             TAM.ensureResult(`
                 int a = 10;
@@ -132,7 +292,7 @@ describe('end to end tests', function() {
     });
 
 
-    describe('# print', function () {
+    describe('# Printer', function () {
         it('print {variable:int}', function (done: () => any) {
             TAM.ensureResult(`
                 int a = 10;
@@ -159,10 +319,34 @@ describe('end to end tests', function() {
             });
             done();
         });
+        it('print {character}', function (done: () => any) {
+            TAM.ensureResult(`
+                const character a = 'c';
+                print a;
+            `, {
+                resolve: true,
+                checkType: true,
+                output: ['\'c\'']
+            });
+            done();
+        });
+        it('print {boolean}', function (done: () => any) {
+            TAM.ensureResult(`
+                boolean a = true;
+                print a;
+                a = false;
+                print a;
+            `, {
+                resolve: true,
+                checkType: true,
+                output: ['1', '0']
+            });
+            done();
+        });
     });
 
 
-    describe('# ternary operator', function () {
+    describe('# TernaryExpression', function () {
         it('a ? b : c', function (done: any) {
             TAM.ensureResult(`
                 int a = true ? 1 : 2;
@@ -191,7 +375,59 @@ describe('end to end tests', function() {
     });
 
 
-    describe('# array', function () {
+    describe('# Pointer', function () {
+        it('basic usage', function (done: any) {
+            TAM.ensureResult(`
+                int *ptr = new int();
+                *ptr = 2;
+                print *ptr;
+            `, {resolve: true, checkType: true, output: ['2']});
+            done();
+        });
+        it('shared pointer', function (done: any) {
+            TAM.ensureResult(`
+                int *ptr = new int();
+                *ptr = 2;
+                int *addr = ptr;
+                *ptr = 4;
+                print *addr;
+            `, {resolve: true, checkType: true, output: ['4']});
+            done();
+        });
+    });
+
+    describe('# NamedType', function() {
+        it('declaration', function (done: () => any) {
+            TAM.ensureResult(`
+                typedef int entier;
+                entier a = 2;
+                print a;
+            `, {
+                resolve: true,
+                checkType: true,
+                output: ['2']
+            });
+            done();
+        });
+    });
+
+    describe('# Record', function () {
+        it('access', function (done: () => any) {
+            TAM.ensureResult(`
+                struct SCircle {int x; int y; int radius;} circle = {1, 2, 3};
+                print circle.y;
+                print circle.x;
+                print circle.radius;
+            `, {
+                resolve: true,
+                checkType: true,
+                output: ['2', '1', '3']
+            });
+            done();
+        });
+    });
+
+    describe('# Array', function () {
         it('int a[] = new int[2]', function (done: any) {
             TAM.ensureResult(`
                 int a[] = new int[2];
@@ -232,11 +468,55 @@ describe('end to end tests', function() {
                 output: ['8', '4', '10', '1', '2', '3']
             });
             done();
-        })
+        });
+
+        it('Array<Record(int, int)>', function (done: () => any) {
+            TAM.ensureResult(`
+                typedef struct SPoint {int x; int y;} Point;
+                Point a[] = new Point[2];
+                a[0] = {0, 1};
+                a[1] = {2, 3};
+                print a[0].x;
+                print a[0].y;
+                print a[1].y;
+                print a[1].x;
+            `, {
+                resolve: true,
+                checkType: true,
+                output: ['0', '1', '3', '2']
+            });
+            done();
+        });
+
+        it('Array<Record(<int, boolean>, char)>', function (done: () => any) {
+            TAM.ensureResult(`
+                typedef struct SS {<int, boolean> a; int b;} S;
+                S a[] = new S[2];
+                a[0] = {<1, true>, 2};
+                a[1] = {<3, false>, 4};
+                int r1 = fst (a[0].a);
+                boolean r2 = snd (a[0].a);
+                int r3 = a[0].b;
+                int r4 = fst (a[1].a);
+                boolean r5 = snd (a[1].a);
+                int r6 = a[1].b;
+                print r1;
+                print r2;
+                print r3;
+                print r4;
+                print r5;
+                print r6;
+            `, {
+                resolve: true,
+                checkType: true,
+                output: ['1', '1', '2', '3', '0', '4']
+            });
+            done();
+        });
     });
 
 
-    describe('# while', function () {
+    describe('# While', function () {
         it('int i = 0; while (i < N) { ++i; }', function (done: any) {
             TAM.ensureResult(`
                 const int N = 4;

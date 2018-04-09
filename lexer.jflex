@@ -56,7 +56,6 @@ import java.io.InputStreamReader;
 PassageLigne		= \r | \n | \r\n
 Blanc 			= [ \t\f] | {PassageLigne}
 Entier     		= [0-9]+
-Flottant        = [0-9]+\.?[0-9]*
 
 /* comments */
 Commentaire 			= {BlocCommentaire} | {CommentaireFinLigne}
@@ -115,7 +114,6 @@ Identificateur = ([:jletter:] | "_" ) ([:jletterdigit:] | [:jletter:] | "_" )*
   "struct"			{ return symbolFactory.newSymbol("Enregistrement", UL_Enregistrement); }
   "enum"			{ return symbolFactory.newSymbol("Enumération", UL_Enumeration); }
   "int"				{ return symbolFactory.newSymbol("Type Entier", UL_Type_Entier); }
-  "float"			{ return symbolFactory.newSymbol("Type Entier", UL_Type_Flottant); }
   "character"		{ return symbolFactory.newSymbol("Type Caractère", UL_Type_Caractere); }
   "String"			{ return symbolFactory.newSymbol("Type Chaîne", UL_Type_Chaine); }
   "boolean"			{ return symbolFactory.newSymbol("Type Booléen", UL_Type_Booleen); }
@@ -134,7 +132,6 @@ Identificateur = ([:jletter:] | "_" ) ([:jletterdigit:] | [:jletter:] | "_" )*
   {Caractere}		{ return symbolFactory.newSymbol("Caractère", UL_Caractere, yytext()); }
   {Chaine}			{ return symbolFactory.newSymbol("Chaine de caractères", UL_Chaine, yytext()); }
   {Entier}     		{ return symbolFactory.newSymbol("Nombre Entier", UL_Nombre_Entier, yytext()); }
-  {Flottant}     	{ return symbolFactory.newSymbol("Nombre Flottant", UL_Nombre_Flottant, yytext()); }
   {Identificateur}	{ return symbolFactory.newSymbol("Identificateur", UL_Identificateur, yytext()); }
 }
 

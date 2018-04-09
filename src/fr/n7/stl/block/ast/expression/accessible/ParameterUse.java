@@ -28,7 +28,8 @@ public class ParameterUse extends AbstractUse {
     }
 
     @Override
-    public Fragment getCode(TAMFactory _factory) {
-        throw new Error("not yet implemented");
+    public Fragment getCode(TAMFactory factory) {
+        Fragment fragment = factory.createFragment();
+        return fragment;
     }
 }

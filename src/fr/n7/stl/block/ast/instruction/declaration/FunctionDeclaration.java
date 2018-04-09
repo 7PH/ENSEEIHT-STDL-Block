@@ -17,6 +17,7 @@ import fr.n7.stl.tam.ast.Fragment;
 import fr.n7.stl.tam.ast.Register;
 import fr.n7.stl.tam.ast.TAMFactory;
 import fr.n7.stl.tam.ast.TAMInstruction;
+import fr.n7.stl.util.Logger;
 
 /**
  * Abstract Syntax Tree node for a function declaration.
@@ -127,8 +128,9 @@ public class FunctionDeclaration implements Instruction, Declaration {
         if (! body.checkType())
             return false;
 
-		//if (! body.getReturnType().equalsTo(type))
-		//    return false;
+		if (! body.getReturnType().compatibleWith(type)) {
+            return false;
+		}
 
 	    return true;
 	}

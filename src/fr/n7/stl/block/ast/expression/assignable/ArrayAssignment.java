@@ -8,10 +8,13 @@ import fr.n7.stl.block.ast.expression.AbstractArray;
 import fr.n7.stl.block.ast.expression.Expression;
 import fr.n7.stl.block.ast.expression.accessible.IdentifierAccess;
 import fr.n7.stl.block.ast.expression.accessible.VariableUse;
+import fr.n7.stl.block.ast.type.ArrayType;
 import fr.n7.stl.tam.ast.Fragment;
 import fr.n7.stl.tam.ast.Library;
 import fr.n7.stl.tam.ast.Register;
 import fr.n7.stl.tam.ast.TAMFactory;
+
+import java.lang.reflect.Array;
 
 /**
  * Abstract Syntax Tree node for an expression whose computation assigns a cell in an array.
@@ -38,11 +41,11 @@ public class ArrayAssignment extends AbstractArray implements AssignableExpressi
 
         Fragment fragment = factory.createFragment();
         fragment.append(index.getCode(factory));
-        fragment.add(factory.createLoadL(array.getType().length()));
+        fragment.add(factory.createLoadL(((ArrayType)array.getType()).getType().length()));
 	    fragment.add(Library.IMul);
-        fragment.add(factory.createLoad(Register.SB, offset, array.getType().length()));
+        fragment.add(factory.createLoad(Register.SB, offset, 1));
 	    fragment.add(Library.IAdd);
-	    fragment.add(factory.createStoreI(array.getType().length()));
+	    fragment.add(factory.createStoreI(((ArrayType)array.getType()).getType().length()));
         return fragment;
 	}
 

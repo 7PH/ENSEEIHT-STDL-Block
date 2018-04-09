@@ -13,8 +13,7 @@ public interface sym {
   public static final int UL_Moins_Unaire = 15;
   public static final int UL_Double_Plus = 9;
   public static final int UL_Afficher = 40;
-  public static final int UL_Nombre_Flottant = 56;
-  public static final int UL_Identificateur = 52;
+  public static final int UL_Identificateur = 51;
   public static final int UL_Moins = 14;
   public static final int UL_Virgule = 3;
   public static final int UL_Parenthese_Fermante = 23;
@@ -25,19 +24,18 @@ public interface sym {
   public static final int UL_Superieur_Egal = 33;
   public static final int UL_Double_Barre = 20;
   public static final int UL_Esperluette = 19;
-  public static final int UL_Chaine = 53;
+  public static final int UL_Chaine = 52;
   public static final int UL_Double_Plus_Prefixe = 11;
   public static final int UL_Point = 4;
   public static final int UL_Premier = 24;
   public static final int UL_Pour_Cent = 18;
   public static final int UL_Accolade_Ouvrante = 26;
   public static final int UL_Double_Esperluette = 21;
-  public static final int UL_Nombre_Entier = 55;
+  public static final int UL_Nombre_Entier = 54;
   public static final int UL_Plus = 13;
   public static final int UL_Point_Exclamation = 7;
   public static final int UL_Enumeration = 45;
   public static final int UL_Second = 25;
-  public static final int UL_Type_Flottant = 50;
   public static final int UL_Type_Booleen = 46;
   public static final int UL_Crochet_Fermant = 29;
   public static final int UL_Type_Caractere = 47;
@@ -45,7 +43,7 @@ public interface sym {
   public static final int UL_Superieur = 31;
   public static final int UL_Oblique = 17;
   public static final int EOF = 0;
-  public static final int UL_Faux = 59;
+  public static final int UL_Faux = 57;
   public static final int UL_Double_Moins_Prefixe = 12;
   public static final int UL_Point_Virgule = 2;
   public static final int error = 1;
@@ -55,13 +53,13 @@ public interface sym {
   public static final int UL_Inferieur = 30;
   public static final int UL_Enregistrement = 44;
   public static final int UL_Crochet_Ouvrant = 28;
-  public static final int UL_Nul = 57;
+  public static final int UL_Nul = 55;
   public static final int UL_Double_Egal = 34;
   public static final int UL_Si = 36;
-  public static final int UL_Caractere = 54;
-  public static final int UL_Vrai = 58;
+  public static final int UL_Caractere = 53;
+  public static final int UL_Vrai = 56;
   public static final int UL_Nouveau = 39;
-  public static final int UL_Type_Vide = 51;
+  public static final int UL_Type_Vide = 50;
   public static final int UL_Point_Interrogation = 6;
   public static final int UL_Deux_Points = 5;
   public static final int UL_Asterisque = 16;
@@ -119,13 +117,11 @@ public interface sym {
   "UL_Type_Caractere",
   "UL_Type_Chaine",
   "UL_Type_Entier",
-  "UL_Type_Flottant",
   "UL_Type_Vide",
   "UL_Identificateur",
   "UL_Chaine",
   "UL_Caractere",
   "UL_Nombre_Entier",
-  "UL_Nombre_Flottant",
   "UL_Nul",
   "UL_Vrai",
   "UL_Faux"

@@ -103,7 +103,7 @@ public class NamedType implements Type {
 	 */
 	@Override
 	public int length() {
-		return declaration.getType().length();
+		return getType().length();
 	}
 
 	/*

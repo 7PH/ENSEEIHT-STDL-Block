@@ -87,7 +87,7 @@ public class TypeDeclaration implements Declaration, Instruction {
 	 */
 	@Override
 	public int allocateMemory(Register register, int offset) {
-		return type.length();
+		return 0;
 	}
 
 	/* (non-Javadoc)

@@ -58,13 +58,13 @@ public enum AtomicType implements Type {
 	public Type merge(Type _other) {
 		if (this.compatibleWith(_other)) {
 			return _other;
-		} else {
-			if (_other.compatibleWith(this)) {
-				return this;
-			} else {
-				return ErrorType;
-			}
-		}
+		} else if (_other.compatibleWith(this)) {
+            return this;
+        } else if (this == AtomicType.VoidType) {
+            return _other;
+        } else {
+            return ErrorType;
+        }
 	}
 	
 	/* (non-Javadoc)

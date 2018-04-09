@@ -100,7 +100,7 @@ public class FunctionCall implements Expression {
 	public Fragment getCode(TAMFactory factory) {
 		Fragment fragment = factory.createFragment();
         fragment.add(factory.createLoadL(0));
-        fragment.add(factory.createLoadA("fun_start_1"));
+        fragment.add(factory.createJump("fun_start_1"));
 		return fragment;
 	}
 

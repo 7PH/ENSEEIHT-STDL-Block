@@ -1,9 +1,12 @@
-issou {
-    /*
-    <int, int> b = <1, 2>;
-    <int, int> c = b;
-    <int, int> *p_b = &b;
-    <int, int> *p_c = &c;
-    */
-    float a = 1;
+test_p {
+                typedef struct SS {<int, boolean> a; int b;} S;
+                S a[] = new S[2];
+                a[0] = {<1, true>, 2};
+                a[1] = {<3, false>, 4};
+                int r1 = fst (a[0].a);
+                boolean r2 = snd (a[0].a);
+                int r3 = a[0].b;
+                int r4 = fst (a[1].a);
+                boolean r5 = snd (a[1].a);
+                int r6 = a[1].b;
 }

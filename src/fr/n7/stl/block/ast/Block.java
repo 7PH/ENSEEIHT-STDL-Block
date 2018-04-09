@@ -6,6 +6,7 @@ package fr.n7.stl.block.ast;
 import java.util.List;
 
 import fr.n7.stl.block.ast.instruction.Instruction;
+import fr.n7.stl.block.ast.instruction.Return;
 import fr.n7.stl.block.ast.scope.Declaration;
 import fr.n7.stl.block.ast.scope.HierarchicalScope;
 import fr.n7.stl.block.ast.scope.SymbolTable;
@@ -14,6 +15,7 @@ import fr.n7.stl.block.ast.type.Type;
 import fr.n7.stl.tam.ast.Fragment;
 import fr.n7.stl.tam.ast.Register;
 import fr.n7.stl.tam.ast.TAMFactory;
+import fr.n7.stl.util.Logger;
 
 /**
  * Represents a Block node in the Abstract Syntax Tree node for the Bloc language.
@@ -61,9 +63,14 @@ public class Block {
 	public boolean resolve(HierarchicalScope<Declaration> _scope) {
 		HierarchicalScope<Declaration> newScope = new SymbolTable(_scope);
 
+		boolean reachedReturn = false;
         for (Instruction instruction: instructions) {
 		    if (! instruction.resolve(newScope))
 		        return false;
+		    if (reachedReturn) {
+                return false;
+		    }
+		    reachedReturn = instruction instanceof Return;
         }
 
         return true;
@@ -71,8 +78,10 @@ public class Block {
 
 	public Type getReturnType() {
 	    Type res = AtomicType.VoidType;
-	    for (Instruction instruction: instructions)
+	    for (Instruction instruction: instructions) {
+	        if (! (instruction instanceof Return)) continue;
 	        res = res.merge(instruction.getReturnType());
+        }
 	    return res;
     }
 

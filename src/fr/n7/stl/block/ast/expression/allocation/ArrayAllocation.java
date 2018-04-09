@@ -72,7 +72,7 @@ public class ArrayAllocation implements Expression {
 	public Fragment getCode(TAMFactory factory) {
         Fragment fragment = factory.createFragment();
         fragment.append(size.getCode(factory));
-        fragment.add(factory.createLoadL(getType().length()));
+        fragment.add(factory.createLoadL((element == null ? new NamedType(name) : element).length()));
         fragment.add(TAMFactory.createBinaryOperator(BinaryOperator.Multiply));
         fragment.add(Library.MAlloc);
         return fragment;

@@ -47,7 +47,9 @@ public class CoupleType implements Type {
 		if (_other instanceof CoupleType) {
 			return this.first.compatibleWith(((CoupleType) _other).first)
 					&& this.second.compatibleWith(((CoupleType) _other).second);
-		} else {
+		} else if (_other instanceof NamedType) {
+		    return compatibleWith(((NamedType)_other).getType());
+        } else {
 			return false;
 		}
 	}
