@@ -1,6 +1,0 @@
-ternary {
-    int a = true ? 1 : 2;
-    int b = a > 1 ? (a > 2 ? 0 : 1) : (a < 0 ? 2 : 3);
-    print a;
-    print b;
-}

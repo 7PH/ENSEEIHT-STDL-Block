@@ -1,6 +1,0 @@
-test {
-    typedef int entier;
-    int tab[] = new entier[2];
-    tab[0] = 1;
-    tab[1] = tab[0] + 1;
-}
