@@ -343,6 +343,18 @@ describe('execute()', function() {
             });
             done();
         });
+        it('print {NamedType}', function (done: () => any) {
+            TAM.ensureResult(`
+                typedef int Entier;
+                Entier a = 2;
+                print a;
+            `, {
+                resolve: true,
+                checkType: true,
+                output: ['2']
+            });
+            done();
+        });
     });
 
 
