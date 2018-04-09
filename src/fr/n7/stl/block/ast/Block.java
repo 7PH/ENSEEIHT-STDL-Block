@@ -33,8 +33,9 @@ public class Block {
 	 * Sequence of instructions contained in a block.
 	 */
 	protected List<Instruction> instructions;
+    private int allocated;
 
-	/**
+    /**
 	 * Constructor for a block.
 	 */
 	public Block(List<Instruction> _instructions) {
@@ -104,8 +105,10 @@ public class Block {
 	 * @param offset Inherited Current offset for the address of the variables.
 	 */	
 	public void allocateMemory(Register register, int offset) {
-		for (Instruction instruction: instructions)
-		    offset += instruction.allocateMemory(register, offset);
+	    int currentOffset = offset;
+	    for (Instruction instruction: instructions)
+            currentOffset += instruction.allocateMemory(register, currentOffset);
+        allocated = currentOffset - offset;
 	}
 
 	/**
@@ -118,6 +121,7 @@ public class Block {
         Fragment fragment = factory.createFragment();
         for (Instruction instruction: instructions)
             fragment.append(instruction.getCode(factory));
+        fragment.add(factory.createPop(0, allocated));
         return fragment;
 	}
 

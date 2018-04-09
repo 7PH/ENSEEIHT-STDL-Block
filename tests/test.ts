@@ -532,6 +532,26 @@ describe('execute()', function() {
             });
             done();
         });
+        it('while (..) { while (..) { .. } }', function (done: any) {
+            TAM.ensureResult(`
+                const int N = 2;
+                int i = 0;
+                while (i < N) {
+                    int j = 0;
+                    while (j < N) {
+                        // do stuff
+                        print j;
+                        j = j + 1;
+                    }
+                    i = i + 1;
+                }
+            `, {
+                resolve: true,
+                checkType: true,
+                output: ['0', '1', '0', '1']
+            });
+            done();
+        });
     });
 
 
