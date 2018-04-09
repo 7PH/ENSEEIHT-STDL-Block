@@ -79,8 +79,21 @@ public class ConditionalExpression implements Expression {
 	 * @see fr.n7.stl.block.ast.Expression#getCode(fr.n7.stl.tam.ast.TAMFactory)
 	 */
 	@Override
-	public Fragment getCode(TAMFactory _factory) {
-		throw new SemanticsUndefinedException( "Semantics getCode is undefined in ConditionalExpression.");
+	public Fragment getCode(TAMFactory factory) {
+        Fragment fragment = factory.createFragment();
+
+        String endLabel = "endif_" + factory.createLabelNumber();
+        String elseLabel = "else_" + factory.createLabelNumber();
+
+        fragment.append(condition.getCode(factory));
+        fragment.add(factory.createJumpIf(elseLabel, 0));
+        fragment.append(thenExpression.getCode(factory));
+        fragment.add(factory.createJump(endLabel));
+        fragment.addSuffix(elseLabel + ":");
+        fragment.append(elseExpression.getCode(factory));
+        fragment.addSuffix(endLabel + ":");
+
+        return fragment;
 	}
 
 }

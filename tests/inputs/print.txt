@@ -4,4 +4,7 @@ print_test {
 
     int b = 20;
     print b;
+
+    a = 15;
+    print a;
 }

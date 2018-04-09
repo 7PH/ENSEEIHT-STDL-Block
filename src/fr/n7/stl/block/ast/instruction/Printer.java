@@ -67,6 +67,7 @@ public class Printer implements Instruction {
 	@Override
 	public Fragment getCode(TAMFactory factory) {
         Fragment fragment = factory.createFragment();
+        fragment.append(parameter.getCode(factory));
         fragment.add(Library.IOut);
         fragment.add(factory.createLoadL("\\n"));
         fragment.add(Library.SOut);
