@@ -9,9 +9,9 @@ describe('Running all tests', function() {
             let a: string[] = TAM.parseAndExecute('print.txt');
 
             if (parseInt(a[0]) !== 11 || parseInt(a[1]) !== 20)
-                done(new Error("Invalid result"));
-            else
-                done();
+                throw new Error("Invalid result");
+
+            done();
         });
     });
 });

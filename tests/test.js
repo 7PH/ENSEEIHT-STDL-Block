@@ -7,9 +7,8 @@ describe('Running all tests', function () {
         it('integer', function (done) {
             var a = TAM_1.TAM.parseAndExecute('print.txt');
             if (parseInt(a[0]) !== 11 || parseInt(a[1]) !== 20)
-                done(new Error("Invalid result"));
-            else
-                done();
+                throw new Error("Invalid result");
+            done();
         });
     });
 });
