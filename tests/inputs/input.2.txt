@@ -1,4 +1,3 @@
 test_p {
-    typedef enum SWEEK_DAYS {MON, TUE, WED, THU, FRI, SAT, SUN} WEEK_DAYS;
-
+    int *ptr = new int();
 }

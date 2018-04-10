@@ -37,7 +37,8 @@ public class PointerType implements Type {
 	 */
 	@Override
 	public boolean compatibleWith(Type _other) {
-        return _other instanceof PointerType && element.compatibleWith(((PointerType) _other).element);
+        return _other instanceof PointerType
+                && element.compatibleWith(((PointerType) _other).element);
     }
 
 	/* (non-Javadoc)

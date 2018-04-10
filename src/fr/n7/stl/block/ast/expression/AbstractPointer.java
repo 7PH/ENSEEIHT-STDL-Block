@@ -50,8 +50,8 @@ public abstract class AbstractPointer implements Expression {
 	 */
 	public Type getType() {
 		Type type = pointer.getType();
-		if (! (type instanceof PointerType)) return AtomicType.ErrorType;
-		return ((PointerType)type).getPointedType();
+        if (! (type instanceof PointerType)) return AtomicType.ErrorType;
+        return ((PointerType)type).getPointedType();
 	}
 
 }
