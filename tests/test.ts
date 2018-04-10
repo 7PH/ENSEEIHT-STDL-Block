@@ -11,46 +11,111 @@ describe('getType()', function () {
     this.slow(testSlow);
     this.timeout(10000);
 
-    describe('# Declaration', function () {
+    describe('# AtomicType', function () {
+        describe('# Declaration', function() {
 
-        it('IntegerType (invalid - 3 tests)', function (done: () => any) {
-            this.slow(testSlow * 3);
-            TAM.ensureResult(`int a = "1";`, {resolve: true, checkType: false});
-            TAM.ensureResult(`int a = '1';`, {resolve: true, checkType: false});
-            TAM.ensureResult(`int a = true;`, {resolve: true, checkType: false});
-            done();
+            it('IntegerType (invalid - 4 tests)', function (done: () => any) {
+                this.slow(testSlow * 4);
+                TAM.ensureResult(`int a = "1";`, {resolve: true, checkType: false});
+                TAM.ensureResult(`int a = "1";`, {resolve: true, checkType: false});
+                TAM.ensureResult(`int a = '1';`, {resolve: true, checkType: false});
+                TAM.ensureResult(`int a = true;`, {resolve: true, checkType: false});
+                TAM.ensureResult(`int a = {1};`, {resolve: true, checkType: false});
+                done();
+            });
+
+            it('CharacterType (invalid - 4 tests)', function (done: () => any) {
+                this.slow(testSlow * 4);
+                TAM.ensureResult(`character a = "c";`, {resolve: true, checkType: false});
+                TAM.ensureResult(`character a = 1;`, {resolve: true, checkType: false});
+                TAM.ensureResult(`character a = true;`, {resolve: true, checkType: false});
+                TAM.ensureResult(`character a = {'c'};`, {resolve: true, checkType: false});
+                done();
+            });
+
+            it('StringType (invalid - 4 tests)', function (done: () => any) {
+                this.slow(testSlow * 4);
+                TAM.ensureResult(`String a = 'H';`, {resolve: true, checkType: false});
+                TAM.ensureResult(`String a = 1;`, {resolve: true, checkType: false});
+                TAM.ensureResult(`String a = true;`, {resolve: true, checkType: false});
+                TAM.ensureResult(`String a = {"Hello"};`, {resolve: true, checkType: false});
+                done();
+            });
+
+            it('BooleanType (invalid - 4 tests)', function (done: () => any) {
+                this.slow(testSlow * 4);
+                TAM.ensureResult(`boolean a = '1';`, {resolve: true, checkType: false});
+                TAM.ensureResult(`boolean a = 1;`, {resolve: true, checkType: false});
+                TAM.ensureResult(`boolean a = "true";`, {resolve: true, checkType: false});
+                TAM.ensureResult(`boolean a = {true};`, {resolve: true, checkType: false});
+                done();
+            });
+
+            it('CoupleType (invalid - 4 tests)', function (done: () => any) {
+                this.slow(testSlow * 4);
+                TAM.ensureResult(`<int, int> a = <"a", 1>;`, {resolve: true, checkType: false});
+                TAM.ensureResult(`<<int, boolean>, character> a = <<1, false>, 3>;`, {resolve: true, checkType: false});
+                TAM.ensureResult(`int b = 1; <int, boolean> a = <1, b>;`, {resolve: true, checkType: false});
+                TAM.ensureResult(`<int, int> a = {1, 1};`, {resolve: true, checkType: false});
+                done();
+            });
         });
 
-        it('CharacterType (invalid - 3 tests)', function (done: () => any) {
-            this.slow(testSlow * 3);
-            TAM.ensureResult(`character a = "c";`, {resolve: true, checkType: false});
-            TAM.ensureResult(`character a = 1;`, {resolve: true, checkType: false});
-            TAM.ensureResult(`character a = true;`, {resolve: true, checkType: false});
-            done();
-        });
 
-        it('StringType (invalid - 3 tests)', function (done: () => any) {
-            this.slow(testSlow * 3);
-            TAM.ensureResult(`String a = 'H';`, {resolve: true, checkType: false});
-            TAM.ensureResult(`String a = 1;`, {resolve: true, checkType: false});
-            TAM.ensureResult(`String a = true;`, {resolve: true, checkType: false});
-            done();
-        });
+        describe('# Assignment', function () {
+            it('IntegerType (invalid - 4 tests)', function (done: () => any) {
+                this.slow(testSlow * 4);
+                TAM.ensureResult(`int a = 0; a = "1";`, {resolve: true, checkType: false});
+                TAM.ensureResult(`int a = 0; a = '1';`, {resolve: true, checkType: false});
+                TAM.ensureResult(`int a = 0; a = true;`, {resolve: true, checkType: false});
+                TAM.ensureResult(`int a = 0; a = {1};`, {resolve: true, checkType: false});
+                done();
+            });
 
-        it('BooleanType (invalid - 3 tests)', function (done: () => any) {
-            this.slow(testSlow * 3);
-            TAM.ensureResult(`boolean a = '1';`, {resolve: true, checkType: false});
-            TAM.ensureResult(`boolean a = 1;`, {resolve: true, checkType: false});
-            TAM.ensureResult(`boolean a = "true";`, {resolve: true, checkType: false});
-            done();
-        });
+            it('CharacterType (invalid - 4 tests)', function (done: () => any) {
+                this.slow(testSlow * 4);
+                TAM.ensureResult(`character a = 'a'; a = "c";`, {resolve: true, checkType: false});
+                TAM.ensureResult(`character a = 'a'; a = 1;`, {resolve: true, checkType: false});
+                TAM.ensureResult(`character a = 'a'; a = true;`, {resolve: true, checkType: false});
+                TAM.ensureResult(`character a = 'a'; a = {'c'};`, {resolve: true, checkType: false});
+                done();
+            });
 
-        it('CoupleType (invalid - 3 tests)', function (done: () => any) {
-            this.slow(testSlow * 3);
-            TAM.ensureResult(`<int, int> a = <"a", 1>;`, {resolve: true, checkType: false});
-            TAM.ensureResult(`<<int, boolean>, character> a = <<1, false>, 3>;`, {resolve: true, checkType: false});
-            TAM.ensureResult(`int b = 1; <int, boolean> a = <1, b>;`, {resolve: true, checkType: false});
-            done();
+            it('StringType (invalid - 4 tests)', function (done: () => any) {
+                this.slow(testSlow * 4);
+                TAM.ensureResult(`String a = "a"; a = 'H';`, {resolve: true, checkType: false});
+                TAM.ensureResult(`String a = "a"; a = 1;`, {resolve: true, checkType: false});
+                TAM.ensureResult(`String a = "a"; a = true;`, {resolve: true, checkType: false});
+                TAM.ensureResult(`String a = "a"; a = {"HH"};`, {resolve: true, checkType: false});
+                done();
+            });
+
+            it('BooleanType (invalid - 4 tests)', function (done: () => any) {
+                this.slow(testSlow * 4);
+                TAM.ensureResult(`boolean a = true; a = '1';`, {resolve: true, checkType: false});
+                TAM.ensureResult(`boolean a = true; a = 1;`, {resolve: true, checkType: false});
+                TAM.ensureResult(`boolean a = true; a = "true";`, {resolve: true, checkType: false});
+                TAM.ensureResult(`boolean a = true; a = {true};`, {resolve: true, checkType: false});
+                done();
+            });
+
+            it('CoupleType (invalid - 4 tests)', function (done: () => any) {
+                this.slow(testSlow * 4);
+                TAM.ensureResult(`<int, int> a = <0, 0>; a = <"a", 1>;`, {resolve: true, checkType: false});
+                TAM.ensureResult(`<<int, boolean>, character> a = <<1, true>, 2>; a = <<1, false>, 3>;`, {resolve: true, checkType: false});
+                TAM.ensureResult(`int b = 1; <int, boolean> a = <0, true>; a = <1, b>;`, {resolve: true, checkType: false});
+                TAM.ensureResult(`<int, int> a = <0, 0>; a = {1, 2};`, {resolve: true, checkType: false});
+                done();
+            });
+
+            it('RecordType (invalid - 4 tests)', function (done: () => any) {
+                this.slow(testSlow * 4);
+                TAM.ensureResult(`struct A{int x; int y;} a = {0, 0}; a = {1, 'a'};`, {resolve: true, checkType: false});
+                TAM.ensureResult(`struct A{boolean x; int y;} a = {false, 0}; a = {1, true};`, {resolve: true, checkType: false});
+                TAM.ensureResult(`struct A{int x; int y;} a = {0, 0}; a = {true, 0};`, {resolve: true, checkType: false});
+                TAM.ensureResult(`struct A{int x; int y;} a = {0, 0}; a = {{1, 0}};`, {resolve: true, checkType: false});
+                done();
+            });
         });
     });
 
@@ -100,15 +165,14 @@ describe('getType()', function () {
         });
     });
 
+    describe('# PointerType', function() {
+        it('basic pointer', function(done: () => any) {
+            TAM.ensureResult(`int *ptr = new int();`, {resolve: true, checkType: true});
+            done();
+        });
+    });
+
     describe('# Functions', function () {
-        it('Unreachable statement', function (done: () => any) {
-            TAM.ensureResult(`int f() { return 1; return 2; }`, {resolve: false, checkType: true});
-            done();
-        });
-        it('Unreachable statement and wrong return type', function (done: () => any) {
-            TAM.ensureResult(`int f() { return 1; return 'a'; }`, {resolve: false, checkType: false});
-            done();
-        });
         it('Wrong return type 1', function (done: () => any) {
             TAM.ensureResult(`int f() { int a = 1; if (a > 0) { return 1; } else { return 'a'; } }`, {resolve: true, checkType: false});
             done();
@@ -126,6 +190,14 @@ describe('getType()', function () {
                 `, {resolve: true, checkType: true});
             done();
         });
+        it('Unreachable statement', function (done: () => any) {
+            TAM.ensureResult(`int f() { return 1; return 2; }`, {resolve: false, checkType: true});
+            done();
+        });
+        it('Unreachable statement and wrong return type', function (done: () => any) {
+            TAM.ensureResult(`int f() { return 1; return 'a'; }`, {resolve: false, checkType: false});
+            done();
+        });
     });
 
     describe('# While', function () {
@@ -136,55 +208,6 @@ describe('getType()', function () {
     });
 
 
-    describe('# Assignment', function () {
-        it('IntegerType (invalid - 3 tests)', function (done: () => any) {
-            this.slow(testSlow * 3);
-            TAM.ensureResult(`int a = 0; a = "1";`, {resolve: true, checkType: false});
-            TAM.ensureResult(`int a = 0; a = '1';`, {resolve: true, checkType: false});
-            TAM.ensureResult(`int a = 0; a = true;`, {resolve: true, checkType: false});
-            done();
-        });
-
-        it('CharacterType (invalid - 3 tests)', function (done: () => any) {
-            this.slow(testSlow * 3);
-            TAM.ensureResult(`character a = 'a'; a = "c";`, {resolve: true, checkType: false});
-            TAM.ensureResult(`character a = 'a'; a = 1;`, {resolve: true, checkType: false});
-            TAM.ensureResult(`character a = 'a'; a = true;`, {resolve: true, checkType: false});
-            done();
-        });
-
-        it('StringType (invalid - 3 tests)', function (done: () => any) {
-            this.slow(testSlow * 3);
-            TAM.ensureResult(`String a = "a"; a = 'H';`, {resolve: true, checkType: false});
-            TAM.ensureResult(`String a = "a"; a = 1;`, {resolve: true, checkType: false});
-            TAM.ensureResult(`String a = "a"; a = true;`, {resolve: true, checkType: false});
-            done();
-        });
-
-        it('BooleanType (invalid - 3 tests)', function (done: () => any) {
-            this.slow(testSlow * 3);
-            TAM.ensureResult(`boolean a = true; a = '1';`, {resolve: true, checkType: false});
-            TAM.ensureResult(`boolean a = true; a = 1;`, {resolve: true, checkType: false});
-            TAM.ensureResult(`boolean a = true; a = "true";`, {resolve: true, checkType: false});
-            done();
-        });
-
-        it('CoupleType (invalid - 3 tests)', function (done: () => any) {
-            this.slow(testSlow * 3);
-            TAM.ensureResult(`<int, int> a = <0, 0>; a = <"a", 1>;`, {resolve: true, checkType: false});
-            TAM.ensureResult(`<<int, boolean>, character> a = <<1, true>, 2>; a = <<1, false>, 3>;`, {resolve: true, checkType: false});
-            TAM.ensureResult(`int b = 1; <int, boolean> a = <0, true>; a = <1, b>;`, {resolve: true, checkType: false});
-            done();
-        });
-
-        it('RecordType (invalid - 3 tests)', function (done: () => any) {
-            this.slow(testSlow * 3);
-            TAM.ensureResult(`struct A{int x; int y;} a = {0, 0}; a = {1, 'a'};`, {resolve: true, checkType: false});
-            TAM.ensureResult(`struct A{boolean x; int y;} a = {false, 0}; a = {1, true};`, {resolve: true, checkType: false});
-            TAM.ensureResult(`struct A{int x; int y;} a = {0, 0}; a = {true, 0};`, {resolve: true, checkType: false});
-            done();
-        });
-    });
 
     describe('# Valid examples', function() {
         it('full basic example (valid)', function (done: () => any) {

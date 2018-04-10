@@ -1,3 +1,5 @@
 test_p {
-    int *ptr = new int();
+    typedef <int, int> Point;
+    Point *ptr = new Point();
+    *ptr = <1, 2>;
 }

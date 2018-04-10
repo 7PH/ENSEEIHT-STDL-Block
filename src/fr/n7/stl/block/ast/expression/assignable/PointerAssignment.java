@@ -2,6 +2,7 @@ package fr.n7.stl.block.ast.expression.assignable;
 
 import fr.n7.stl.block.ast.expression.AbstractPointer;
 import fr.n7.stl.block.ast.expression.Expression;
+import fr.n7.stl.block.ast.type.PointerType;
 import fr.n7.stl.tam.ast.Fragment;
 import fr.n7.stl.tam.ast.Register;
 import fr.n7.stl.tam.ast.TAMFactory;
@@ -27,11 +28,11 @@ public class PointerAssignment extends AbstractPointer implements AssignableExpr
 	@Override
 	public Fragment getCode(TAMFactory factory) {
         int offset = ((VariableAssignment)pointer).declaration.getOffset();
-        int size = pointer.getType().length();
+        int size = ((PointerType)pointer.getType()).getPointedType().length();
 
 	    Fragment fragment = factory.createFragment();
-	    fragment.add(factory.createLoad(Register.SB, offset, size));
-	    fragment.add(factory.createStoreI(size));
+	    fragment.add(factory.createLoad(Register.SB, offset, 1)); // load addr
+	    fragment.add(factory.createStoreI(size)); // store data
 	    return fragment;
 	}
 	
