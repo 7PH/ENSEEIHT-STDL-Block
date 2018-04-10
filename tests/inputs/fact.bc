@@ -1,0 +1,12 @@
+fact {
+    int fact(int n) {
+        if (n <= 1) {
+            return 1;
+        } else {
+            return n * fact(n - 1);
+        }
+    }
+
+    int a = fact(3);
+    print a;
+}

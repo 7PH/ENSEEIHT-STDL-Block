@@ -356,7 +356,12 @@ describe('getType()', function () {
         });
     });
 
-
+    describe('# RootBlock', function () {
+        it('no return in root block', function (done: () => any) {
+            TAM.ensureResult(`return 1;`, {resolve: true, checkType: false});
+            done();
+        });
+    });
 
     describe('# Valid examples', function() {
         it('full basic example (valid)', function (done: () => any) {
@@ -1071,7 +1076,7 @@ describe('execute()', function() {
                     Point p2 = {10, 20};
                     Point center = getCenter(p1, p2);
                     print center.x;
-                    print center.y;       
+                    print center.y;
                     `, {resolve: true, checkType: true, output: ['5', '10']});
                 done();
             });

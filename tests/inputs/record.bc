@@ -1,0 +1,12 @@
+record {
+    typedef struct SPoint {int x; int y;} Point;
+    typedef struct SCircle1 {int x; int y; int radius;} Circle1;
+    typedef struct SCircle2 {int x; int y; int radius;} Circle2;
+
+    Point A = {1, 2};
+    Point B = {0, -2};
+    Circle1 C1 = {A.x, A.y, 2};
+
+    Circle2 C2 = C1;
+    C1 = C2;
+}

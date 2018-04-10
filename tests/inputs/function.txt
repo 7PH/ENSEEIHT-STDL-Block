@@ -1,9 +1,0 @@
-function {
-
-    int a() {
-        return 1;
-    }
-
-
-    int b = a();
-}

@@ -1,0 +1,8 @@
+test_p {
+    int sum(int a, int b) {
+        return a + b;
+    }
+
+    print sum(1, 3);
+    print sum(3, 4);
+}

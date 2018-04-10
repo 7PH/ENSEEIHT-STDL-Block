@@ -1,0 +1,15 @@
+tst {
+    int a = -1;
+
+    int f1(int a, int b) {
+        int f2(int a, int b) {
+            int e = 10;
+            return a * 10 + b;
+        }
+
+        int result1 = f2(b, a); // 21
+        return result1;
+    }
+
+    print f1(1, 2);
+}

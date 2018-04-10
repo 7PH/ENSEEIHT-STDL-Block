@@ -96,24 +96,31 @@ public class FunctionCall implements Expression {
 	/* (non-Javadoc)
 	 * @see fr.n7.stl.block.ast.Expression#getCode(fr.n7.stl.tam.ast.TAMFactory)
 	 */
-	@Override
-	public Fragment getCode(TAMFactory factory) {
-		Fragment fragment = factory.createFragment();
+    @Override
+    public Fragment getCode(TAMFactory factory) {
+        Fragment fragment = factory.createFragment();
 
-        for (int i = 0; i< arguments.size(); i++) {
-            fragment.append(arguments.get(i).getCode(factory));
-            fragment.add(
-                    factory.createStore(
-                            Register.SB,
-                            function.getOffset() + function.getParameters().get(i).getOffset(),
-                            arguments.get(i).getType().length()
-                    )
-            );
+        int parametersLength = function.getParametersLength();
+        // work around - parameter erasing
+        if (false) {
+            fragment.add(factory.createLoad(Register.SB, function.getOffset(), parametersLength));
         }
+
+        for (Expression argument : arguments)
+            fragment.append(argument.getCode(factory));
+        fragment.add(factory.createStore(Register.SB, function.getOffset(), function.getParametersLength()));
         fragment.add(factory.createPush(function.getType().length()));
         fragment.add(factory.createCall(function.getStartLabel(), Register.SB));
-		return fragment;
-	}
+
+        // work around - parameter erasing
+        if (false) {
+            fragment.add(factory.createLoad(Register.ST, -function.getType().length() - parametersLength, parametersLength));
+            fragment.add(factory.createStore(Register.SB, function.getOffset(), parametersLength));
+            fragment.add(factory.createPop(function.getType().length(), function.getType().length()));
+        }
+
+        return fragment;
+    }
 
 
 }

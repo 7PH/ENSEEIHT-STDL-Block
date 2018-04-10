@@ -1,0 +1,15 @@
+tst {
+    typedef struct SPoint {int x; int y;} Point;
+
+    Point getCenter(Point point1, Point point2) {
+        int x = (point1.x + point2.x) / 2;
+        int y = (point1.y + point2.y) / 2;
+        return {x, y};
+    }
+
+    Point p1 = {0, 0};
+    Point p2 = {10, 20};
+    Point center = getCenter(p1, p2);
+    print center.x;
+    print center.y;
+}
