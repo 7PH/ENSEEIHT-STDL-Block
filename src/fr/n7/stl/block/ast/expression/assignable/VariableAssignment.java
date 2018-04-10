@@ -6,6 +6,7 @@ package fr.n7.stl.block.ast.expression.assignable;
 import fr.n7.stl.block.ast.SemanticsUndefinedException;
 import fr.n7.stl.block.ast.expression.AbstractIdentifier;
 import fr.n7.stl.block.ast.instruction.declaration.ConstantDeclaration;
+import fr.n7.stl.block.ast.instruction.declaration.ParameterDeclaration;
 import fr.n7.stl.block.ast.instruction.declaration.VariableDeclaration;
 import fr.n7.stl.block.ast.scope.Declaration;
 import fr.n7.stl.block.ast.scope.HierarchicalScope;
@@ -45,7 +46,10 @@ public class VariableAssignment extends AbstractIdentifier implements Assignable
 			if (_declaration instanceof VariableDeclaration) {
 				this.declaration = ((VariableDeclaration) _declaration);
 				return true;
-			} else if (_declaration instanceof ConstantDeclaration) {
+			} else if (_declaration instanceof ParameterDeclaration) {
+                Logger.error("Cannot edit parameter: " + this.name);
+                return false;
+            } else if (_declaration instanceof ConstantDeclaration) {
                 Logger.error("Trying to modify a constant variable: " + this.name);
                 return false;
 			} else {

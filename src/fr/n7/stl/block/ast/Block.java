@@ -33,7 +33,7 @@ public class Block {
 	 * Sequence of instructions contained in a block.
 	 */
 	protected List<Instruction> instructions;
-    private int allocated;
+    protected int allocated;
 
     /**
 	 * Constructor for a block.
@@ -110,6 +110,10 @@ public class Block {
             currentOffset += instruction.allocateMemory(register, currentOffset);
         allocated = currentOffset - offset;
 	}
+
+	public int getAllocated() {
+	    return allocated;
+    }
 
 	/**
 	 * Inherited Semantics attribute to build the nodes of the abstract syntax tree for the generated TAM code.

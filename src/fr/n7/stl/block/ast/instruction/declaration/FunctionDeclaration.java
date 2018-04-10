@@ -143,13 +143,8 @@ public class FunctionDeclaration implements Instruction, Declaration {
 	public int allocateMemory(Register register, int offset) {
 	    this.register = register;
 	    this.offset = offset;
-
-	    int length = 0;
-        for (ParameterDeclaration parameterDeclaration: parameters)
-            length += parameterDeclaration.type.length();
         body.allocateMemory(register, offset);
-
-	    return length;
+	    return 0;
 	}
 
 	/* (non-Javadoc)
