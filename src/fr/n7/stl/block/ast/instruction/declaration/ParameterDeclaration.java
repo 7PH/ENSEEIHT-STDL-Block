@@ -28,8 +28,9 @@ public class ParameterDeclaration implements Declaration {
 	 * i.e. the size of the memory allocated to the previous parameters
 	 */
 	protected int offset;
+    private FunctionDeclaration functionDeclaration;
 
-	/**
+    /**
 	 * Builds an AST node for a formal parameter declaration
 	 * @param _name : Name of the formal parameter
 	 * @param _type : AST node for the type of the formal parameter
@@ -37,7 +38,6 @@ public class ParameterDeclaration implements Declaration {
 	public ParameterDeclaration(String _name, Type _type) {
 		this.name = _name;
 		this.type = _type;
-		this.offset = -1; // This value should never occur...
 	}
 
 	/* (non-Javadoc)
@@ -71,4 +71,20 @@ public class ParameterDeclaration implements Declaration {
 	public int getOffset() {
 		return this.offset;
 	}
+
+    /**
+     * Set the offset of the format parameter in the list of formal parameters for the function
+     * @param offset Offset
+     */
+	public void setOffset(int offset) {
+	    this.offset = offset;
+    }
+
+    public void setFunctionDeclaration(FunctionDeclaration functionDeclaration) {
+        this.functionDeclaration = functionDeclaration;
+    }
+
+    public FunctionDeclaration getFunctionDeclaration() {
+        return functionDeclaration;
+    }
 }

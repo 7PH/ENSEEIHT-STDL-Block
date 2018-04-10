@@ -133,7 +133,7 @@ class TAMInstructionImpl implements TAMInstruction {
 			_result += _label + "\n";
 		}
 		_result += this.kind;
-		_result += ((this.size.isPresent())?(" (" + this.size.get() + ")"):((this.frame.isPresent())?(this.frame.get()):""));
+		_result += ((this.size.isPresent())?(" (" + this.size.get() + ")"):((this.frame.isPresent())?(" (" + this.frame.get() + ")"):""));
 		_result += ((this.offset.isPresent())?(" " + this.offset.get()):"");
 		_result += ((this.register.isPresent())?("[" + this.register.get() + "]"):"");
 		_result += ((this.target.isPresent())?(" " + this.target.get()):"");

@@ -599,20 +599,21 @@ describe('execute()', function() {
     });
 
     describe('# Functions', function() {
-        it('local variables', function(done: () => any) {
-            TAM.ensureResult(`
+        describe('f: () => any', function() {
+            it('local variables', function(done: () => any) {
+                TAM.ensureResult(`
                 int f() {
                     int a = 1;
                     int b = 2;
-                    return 10;
+                    return a + b;
                 }
                 int a = f();
                 print a;
-                `, {resolve: true, checkType: true, output: ['10']});
-            done();
-        });
-        it('function calling another', function(done: () => any) {
-            TAM.ensureResult(`
+                `, {resolve: true, checkType: true, output: ['3']});
+                done();
+            });
+            it('function calling another', function(done: () => any) {
+                TAM.ensureResult(`
                 int f1() {
                     return 20;
                 }
@@ -622,7 +623,203 @@ describe('execute()', function() {
                 int a = f2();
                 print a;
                 `, {resolve: true, checkType: true, output: ['21']});
-            done();
+                done();
+            });
+            it('local variables in nested functions', function(done: () => any) {
+                TAM.ensureResult(`
+                int f1() {
+                    return 20;
+                }
+                int f2() {
+                    return 1 + f1();
+                }
+                int a = f2();
+                print a;
+                `, {resolve: true, checkType: true, output: ['21']});
+                done();
+            });
+            it('multiple returns in one function', function(done: () => any) {
+                TAM.ensureResult(`
+                    int a = 1;
+                    
+                    int f() {
+                        if (a < 0) {
+                            return 1;
+                        } else {
+                            if (a < 10) {
+                                return 2;
+                            } else {
+                                return 3;
+                            }
+                        }
+                    }
+                    
+                    a = -1; print f();
+                    a = 1; print f();
+                    a = 20; print f();
+                `, {resolve: true, checkType: true, output: ['1', '2', '3']});
+                done();
+            });
+            it('returning complex values', function(done: () => any) {
+                TAM.ensureResult(`
+                    typedef struct SPoint {int x; int y;} Point;
+                    
+                    Point getReferential() {
+                        return {1, 4};
+                    }
+                    
+                    Point point = getReferential();
+                    print point.x;
+                    print point.y;
+                `, {resolve: true, checkType: true, output: ['1', '4']});
+                done();
+            });
+        });
+
+        describe('f: (a: any) => any', function() {
+
+            it('identity function', function(done: () => any) {
+                TAM.ensureResult(`
+                    // noise for filling the stack
+                    int a = 1;
+                    int b = 1;
+                    
+                    int func(int a) {
+                        return a;
+                    }
+                    
+                    // noise
+                    int c = 1;
+                    int d = 1;
+                    
+                    int e = func(3);
+                    print e;
+                `, {resolve: true, checkType: true, output: ['3']});
+                done();
+            });
+            it('with local variable', function(done: () => any) {
+                TAM.ensureResult(`
+                    // noise for filling the stack
+                    int a = 1;
+                    int b = 1;
+                    
+                    int add5(int a) {
+                        int add = 5;
+                        return a + add;
+                    }
+                    
+                    // noise
+                    int c = 1;
+                    int d = 1;
+                    
+                    int e = add5(5);
+                    print e;
+                `, {resolve: true, checkType: true, output: ['10']});
+                done();
+            });
+            it('nested functions with local variables', function(done: () => any) {
+                TAM.ensureResult(`
+                    // noise for filling the stack
+                    int a = 1;
+                    int b = 1;
+                    
+                    int add5(int a) {
+                        int add = 5;
+                        return a + add;
+                    }
+                    int add10(int a) {
+                        int add = 5;
+                        return add + add5(a);
+                    }
+                    
+                    // noise
+                    int c = 1;
+                    int d = 1;
+                    
+                    int e = add10(5);
+                    print e;
+                `, {resolve: true, checkType: true, output: ['15']});
+                done();
+            });
+            it('recursive (factorial)', function(done: () => any) {
+                TAM.ensureResult(`
+                    int fact(int n) {
+                        if (n <= 1) {
+                            return 1;
+                        } else {
+                            return n * fact(n - 1);
+                        }
+                    }
+                
+                    int a = fact(3);
+                    print a;
+                    `, {resolve: true, checkType: true, output: ['6']});
+                done();
+            });
+        });
+        describe('f: (a: any, b: any) => any', function() {
+            it('sum', function(done: () => any) {
+                TAM.ensureResult(`
+                    int sum(int a, int b) {
+                        return a + b;
+                    }
+                    
+                    print sum(1, 3);
+                    print sum(3, 4);
+                    `, {resolve: true, checkType: true, output: ['4', '7']});
+                done();
+            });
+            it('different scope access', function(done: () => any) {
+                TAM.ensureResult(`
+                    int a = 1;
+                    const int b = 10;
+                    
+                    int f(int c) {
+                        int d = 100;
+                        return a + b + c + d;
+                    }
+                    
+                    print f(1000);
+                    `, {resolve: true, checkType: true, output: ['1111']});
+                done();
+            });
+            it('different scope access in nested functions', function(done: () => any) {
+                TAM.ensureResult(`
+                    int a = -1;
+                    
+                    int f1(int a, int b) {
+                        int f2(int a, int b) {
+                            int e = 10;
+                            return a * 10 + b;
+                        }
+                        
+                        int result1 = f2(b, a); // 21
+                        return result1;
+                    }
+                    
+                    print f1(1, 2);
+                    `, {resolve: true, checkType: true, output: ['21']});
+                done();
+            });
+            it('with complex return type and complex parameter types', function(done: () => any) {
+                TAM.ensureResult(`
+                    
+                    typedef struct SPoint {int x; int y;} Point;
+                    
+                    Point getCenter(Point point1, Point point2) {
+                        int x = (point1.x + point2.x) / 2;
+                        int y = (point1.y + point2.y) / 2;
+                        return {x, y};
+                    }
+                    
+                    Point p1 = {0, 0};
+                    Point p2 = {10, 20};
+                    Point center = getCenter(p1, p2);
+                    print center.x;
+                    print center.y;       
+                    `, {resolve: true, checkType: true, output: ['5', '10']});
+                done();
+            });
         });
     });
 });

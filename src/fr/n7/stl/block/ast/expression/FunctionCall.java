@@ -99,7 +99,18 @@ public class FunctionCall implements Expression {
 	@Override
 	public Fragment getCode(TAMFactory factory) {
 		Fragment fragment = factory.createFragment();
-		fragment.add(factory.createPush(function.getType().length()));
+
+        for (int i = 0; i< arguments.size(); i++) {
+            fragment.append(arguments.get(i).getCode(factory));
+            fragment.add(
+                    factory.createStore(
+                            Register.SB,
+                            function.getOffset() + function.getParameters().get(i).getOffset(),
+                            arguments.get(i).getType().length()
+                    )
+            );
+        }
+        fragment.add(factory.createPush(function.getType().length()));
         fragment.add(factory.createCall(function.getStartLabel(), Register.SB));
 		return fragment;
 	}

@@ -5,6 +5,7 @@ package fr.n7.stl.block.ast;
 
 import java.util.List;
 
+import com.sun.org.apache.xalan.internal.xsltc.compiler.util.VoidType;
 import fr.n7.stl.block.ast.instruction.Instruction;
 import fr.n7.stl.block.ast.instruction.Return;
 import fr.n7.stl.block.ast.scope.Declaration;
@@ -34,6 +35,7 @@ public class Block {
 	 */
 	protected List<Instruction> instructions;
     protected int allocated;
+    private int offset;
 
     /**
 	 * Constructor for a block.
@@ -78,10 +80,11 @@ public class Block {
 	}
 
 	public Type getReturnType() {
-	    Type res = AtomicType.VoidType;
+	    Type res = AtomicType.Wildcard;
 	    for (Instruction instruction: instructions) {
-	        if (! (instruction instanceof Return)) continue;
-	        res = res.merge(instruction.getReturnType());
+	        Type instructionType = instruction.getReturnType();
+	        if (instructionType == AtomicType.VoidType) continue;
+	        res = res.merge(instructionType);
         }
 	    return res;
     }
@@ -105,15 +108,12 @@ public class Block {
 	 * @param offset Inherited Current offset for the address of the variables.
 	 */	
 	public void allocateMemory(Register register, int offset) {
+        this.offset = offset;
 	    int currentOffset = offset;
 	    for (Instruction instruction: instructions)
             currentOffset += instruction.allocateMemory(register, currentOffset);
         allocated = currentOffset - offset;
 	}
-
-	public int getAllocated() {
-	    return allocated;
-    }
 
 	/**
 	 * Inherited Semantics attribute to build the nodes of the abstract syntax tree for the generated TAM code.
@@ -129,4 +129,11 @@ public class Block {
         return fragment;
 	}
 
+    public int getOffset() {
+        return offset;
+    }
+
+    public int getAllocated() {
+        return allocated;
+    }
 }

@@ -18,6 +18,7 @@ public enum AtomicType implements Type {
 	IntegerType,
 	StringType,
 	VoidType,
+    Wildcard,
 	NullType,
 	ErrorType
 	;
@@ -60,7 +61,7 @@ public enum AtomicType implements Type {
 			return _other;
 		} else if (_other.compatibleWith(this)) {
             return this;
-        } else if (this == AtomicType.VoidType) {
+        } else if (this == AtomicType.Wildcard) {
             return _other;
         } else {
             return ErrorType;
@@ -79,7 +80,8 @@ public enum AtomicType implements Type {
 			case FloatingType :
 			case IntegerType :
 			case StringType : return 1;
-			case VoidType : return 0;
+            case VoidType : return 0;
+            case Wildcard : return 0;
 			default : throw new IllegalArgumentException( "Must not call length on the Error type.");
 		}
 	}
@@ -96,7 +98,8 @@ public enum AtomicType implements Type {
 		case FloatingType: return "float";
 		case IntegerType: return "int";
 		case StringType: return "String";
-		case VoidType: return "void";
+        case VoidType: return "void";
+        case Wildcard: return "any";
 		case NullType: return "unit";
 		default: throw new IllegalArgumentException( "The default case should never be triggered.");
 		}

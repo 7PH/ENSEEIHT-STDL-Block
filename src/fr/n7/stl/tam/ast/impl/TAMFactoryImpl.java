@@ -271,15 +271,16 @@ public class TAMFactoryImpl implements TAMFactory {
 	 */
 	@Override
 	public TAMInstruction createCall(String _label, Register _frame) {
-		return new TAMInstructionImpl(
-				TAMInstructionKind.CALL,
-				Optional.empty(),
+        return new TAMInstructionImpl(
+                TAMInstructionKind.CALL,
                 Optional.empty(),
-				Optional.empty(), 
-				Optional.of("("+_frame+") " + _label),
-				Optional.empty(),
-				Optional.empty());
-	}
+                Optional.empty(),
+                Optional.empty(),
+                Optional.of(_label),
+                Optional.empty(),
+                Optional.of(_frame));
+
+    }
 
 	/* (non-Javadoc)
 	 * @see fr.n7.stl.tam.ast.TAMFactory#createCallI(int)

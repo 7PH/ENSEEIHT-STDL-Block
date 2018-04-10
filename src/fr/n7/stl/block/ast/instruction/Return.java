@@ -66,7 +66,7 @@ public class Return implements Instruction {
     public Fragment getCode(TAMFactory factory) {
         Fragment fragment = factory.createFragment();
         fragment.append(value.getCode(factory));
-        fragment.add(factory.createReturn(1, 1));
+        fragment.add(factory.createReturn(value.getType().length(), value.getType().length()));
         return fragment;
     }
 

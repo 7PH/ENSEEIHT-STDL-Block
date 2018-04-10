@@ -3,6 +3,7 @@
  */
 package fr.n7.stl.block.ast.instruction.declaration;
 
+import java.util.Base64;
 import java.util.Iterator;
 import java.util.List;
 
@@ -107,17 +108,29 @@ public class FunctionDeclaration implements Instruction, Declaration {
 	public boolean resolve(HierarchicalScope<Declaration> _scope) {
 		if (! _scope.accepts(this)) return false;
 		if (! type.resolve(_scope)) return false;
-		// pour les appels récursifs on doit l'enregistrer dans le scope parent avant de créer l'enfant
         _scope.register(this);
 
 		HierarchicalScope<Declaration> funScope = new SymbolTable(_scope);
-		for (ParameterDeclaration parameterDeclaration: parameters)
-		    funScope.register(parameterDeclaration);
+		int i = 0;
+		for (ParameterDeclaration parameterDeclaration: parameters) {
+            parameterDeclaration.getType().resolve(_scope);
+            funScope.register(parameterDeclaration);
+            parameterDeclaration.setOffset(i);
+            parameterDeclaration.setFunctionDeclaration(this);
+            i += parameterDeclaration.getType().length();
+        }
+
+        this.startLabel = name.toLowerCase() + "_" + FunctionDeclaration.getID();
 
         return body.resolve(funScope);
     }
 
-	/* (non-Javadoc)
+    private static int ID = 0;
+    private synchronized static Integer getID() {
+        return ++ FunctionDeclaration.ID;
+    }
+
+    /* (non-Javadoc)
 	 * @see fr.n7.stl.block.ast.instruction.Instruction#checkType()
 	 */
 	@Override
@@ -136,6 +149,13 @@ public class FunctionDeclaration implements Instruction, Declaration {
 	    return true;
 	}
 
+	public int getParametersLength() {
+	    int length = 0;
+	    for (ParameterDeclaration parameterDeclaration: parameters)
+	        length += parameterDeclaration.getType().length();
+	    return length;
+    }
+
 	/* (non-Javadoc)
 	 * @see fr.n7.stl.block.ast.instruction.Instruction#allocateMemory(fr.n7.stl.tam.ast.Register, int)
 	 */
@@ -143,8 +163,9 @@ public class FunctionDeclaration implements Instruction, Declaration {
 	public int allocateMemory(Register register, int offset) {
 	    this.register = register;
 	    this.offset = offset;
-        body.allocateMemory(register, offset);
-	    return 0;
+	    // Yes, '3' is hardcoded
+        body.allocateMemory(Register.LB, 3);
+	    return getParametersLength();
 	}
 
 	/* (non-Javadoc)
@@ -155,10 +176,10 @@ public class FunctionDeclaration implements Instruction, Declaration {
 	@Override
 	public Fragment getCode(TAMFactory factory) {
 	    String id = String.valueOf(factory.createLabelNumber());
-        String startLabel = "fun_start_" + id ;
         String endLabel = "fun_end_" + id ;
 
 	    Fragment fragment1 = factory.createFragment();
+        fragment1.add(factory.createPush(getParametersLength()));
         fragment1.add(factory.createJump(endLabel));
 
         Fragment fragment2 = factory.createFragment();
@@ -167,8 +188,6 @@ public class FunctionDeclaration implements Instruction, Declaration {
         fragment2.addSuffix(endLabel + ":");
 
         fragment1.append(fragment2);
-
-        this.startLabel = startLabel;
 
         return fragment1;
 	}
@@ -185,8 +204,11 @@ public class FunctionDeclaration implements Instruction, Declaration {
     public Register getRegister() {
         return register;
     }
-
     public String getStartLabel() {
         return startLabel;
+    }
+
+    public Block getBody() {
+        return body;
     }
 }

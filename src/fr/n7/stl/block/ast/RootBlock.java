@@ -16,6 +16,6 @@ public class RootBlock extends Block {
 
     @Override
     public boolean checkType() {
-        return super.checkType() && getReturnType() == AtomicType.VoidType;
+        return super.checkType() && getReturnType() == AtomicType.Wildcard;
     }
 }

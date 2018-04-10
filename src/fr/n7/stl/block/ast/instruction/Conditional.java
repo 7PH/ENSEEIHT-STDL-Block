@@ -110,7 +110,11 @@ public class Conditional implements Instruction {
 	@Override
 	public Type getReturnType() {
 		Type type = thenBranch.getReturnType();
-		return elseBranch.isPresent() ? type.merge(elseBranch.get().getReturnType()) : type;
+		if (elseBranch.isPresent()) {
+		    type = type.merge(elseBranch.get().getReturnType());
+		}
+
+        return type;
 	}
 
 }
