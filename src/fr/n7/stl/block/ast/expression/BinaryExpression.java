@@ -139,7 +139,7 @@ public class BinaryExpression implements Expression {
 		Fragment result = factory.createFragment();
         result.append(left.getCode(factory));
         result.append(right.getCode(factory));
-		result.add(TAMFactory.createBinaryOperator(this.operator));
+		result.add(TAMFactory.createBinaryOperator(operator));
 		return result;
 	}
 

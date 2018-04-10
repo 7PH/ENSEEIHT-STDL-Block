@@ -1617,8 +1617,8 @@ class CUP$Parser$actions {
 		Expression droite = (Expression)((java_cup.runtime.Symbol) CUP$Parser$stack.peek()).value;
 		//@@CUPDBG50
 
-					RESULT = new BinaryExpression( gauche, BinaryOperator.Equals, droite);
-				
+                    RESULT = new BinaryExpression( gauche, BinaryOperator.Equals, droite);
+                
               CUP$Parser$result = parser.getSymbolFactory().newSymbol("Expression",14, ((java_cup.runtime.Symbol)CUP$Parser$stack.elementAt(CUP$Parser$top-2)), ((java_cup.runtime.Symbol)CUP$Parser$stack.peek()), RESULT);
             }
           return CUP$Parser$result;

@@ -60,7 +60,8 @@ public class Printer implements Instruction {
             parameterType = ((NamedType)parameterType).getType();
 		return parameterType == IntegerType
                 || parameterType == BooleanType
-                || parameterType == CharacterType;
+                || parameterType == CharacterType
+                || parameterType == StringType;
 	}
 
 	/* (non-Javadoc)
@@ -94,6 +95,14 @@ public class Printer implements Instruction {
             fragment.append(parameter.getCode(factory));
             fragment.add(Library.COut);
             fragment.add(factory.createLoadL('\''));
+            fragment.add(Library.COut);
+        } else if (AtomicType.StringType.equalsTo(parameterType)) {
+            // str
+            fragment.add(factory.createLoadL('\"'));
+            fragment.add(Library.COut);
+            fragment.append(parameter.getCode(factory));
+            fragment.add(Library.SOut);
+            fragment.add(factory.createLoadL('\"'));
             fragment.add(Library.COut);
         }
 

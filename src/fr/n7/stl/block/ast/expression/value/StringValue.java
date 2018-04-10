@@ -8,6 +8,7 @@ import fr.n7.stl.block.ast.scope.HierarchicalScope;
 import fr.n7.stl.block.ast.type.AtomicType;
 import fr.n7.stl.block.ast.type.Type;
 import fr.n7.stl.tam.ast.Fragment;
+import fr.n7.stl.tam.ast.Library;
 import fr.n7.stl.tam.ast.TAMFactory;
 
 /**
@@ -21,10 +22,10 @@ public class StringValue implements Value {
 	
 	/**
 	 * Builds an integer value expression implementation from a textual representation of the integer.
-	 * @param _text Textual representation of the integer value.
+	 * @param text Textual representation of the integer value.
 	 */
-	public StringValue(String _text) {
-		value = new String(_text);
+	public StringValue(String text) {
+		value = text.substring(1).substring(0, text.length() - 2);
 	}
 
 	/* (non-Javadoc)
@@ -55,10 +56,10 @@ public class StringValue implements Value {
 	 * @see fr.n7.stl.block.ast.Expression#getCode(fr.n7.stl.tam.ast.TAMFactory)
 	 */
 	@Override
-	public Fragment getCode(TAMFactory _factory) {
-		Fragment _fragment = _factory.createFragment();
-//		_fragment.add(_factory.createLoadL(this.value));
-		return _fragment;
+	public Fragment getCode(TAMFactory factory) {
+		Fragment fragment = factory.createFragment();
+        fragment.add(factory.createLoadL(value));
+		return fragment;
 	}
 
 }

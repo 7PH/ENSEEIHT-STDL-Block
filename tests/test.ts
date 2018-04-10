@@ -355,6 +355,21 @@ describe('execute()', function() {
             });
             done();
         });
+        it('print {String}', function (done: () => any) {
+            TAM.ensureResult(`
+                String c1 = "str1";
+                String c2 = "str2";
+                String c3 = "str3";
+                print c1;
+                print c3;
+                print c2;
+            `, {
+                resolve: true,
+                checkType: true,
+                output: ['"str1"', '"str3"', '"str2"']
+            });
+            done();
+        });
     });
 
 
@@ -561,6 +576,23 @@ describe('execute()', function() {
                 resolve: true,
                 checkType: true,
                 output: ['0', '1', '0', '1']
+            });
+            done();
+        });
+    });
+
+
+    describe('# String', function () {
+        it('affectations', function (done: any) {
+            TAM.ensureResult(`
+                String c1 = "str1";
+                String c2 = c1;
+                c1 = "str4";
+                print c2;
+            `, {
+                resolve: true,
+                checkType: true,
+                output: ['"str1"']
             });
             done();
         });

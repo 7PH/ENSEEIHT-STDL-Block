@@ -57,7 +57,7 @@ public class IntegerValue implements Value {
 	@Override
 	public Fragment getCode(TAMFactory _factory) {
 		Fragment _fragment = _factory.createFragment();
-		_fragment.add(_factory.createLoadL(this.value));
+		_fragment.add(_factory.createLoadL(value));
 		return _fragment;
 	}
 

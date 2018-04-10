@@ -30,20 +30,20 @@ public enum BinaryOperator {
 	@Override
 	public String toString() {
 		switch (this) {
-		case Add: return "+";
-		case And: return "&&";
-		case Different: return "!=";
-		case Divide: return "/";
-		case Equals: return "==";
-		case Greater: return ">";
-		case GreaterOrEqual: return ">=";
-		case Lesser: return "<";
-		case LesserOrEqual: return "<=";
-		case Modulo: return "%";
-		case Multiply: return "*";
-		case Or: return "||";
-		case Substract: return "-";
-		default: throw new IllegalArgumentException( "The default case should never be triggered.");		
+            case Add: return "+";
+            case And: return "&&";
+            case Different: return "!=";
+            case Divide: return "/";
+            case Equals: return "==";
+            case Greater: return ">";
+            case GreaterOrEqual: return ">=";
+            case Lesser: return "<";
+            case LesserOrEqual: return "<=";
+            case Modulo: return "%";
+            case Multiply: return "*";
+            case Or: return "||";
+            case Substract: return "-";
+            default: throw new IllegalArgumentException("The default case should never be triggered.");
 		}
 	}
 }

@@ -447,10 +447,10 @@ Expression ::= /* Affectable:affectable UL_Egal Expression:expression
 					RESULT = new Assignment( affectable, expression);
 				:}
 			| */ Expression:gauche UL_Double_Egal Expression:droite
-				{:
-					RESULT = new BinaryExpression( gauche, BinaryOperator.Equals, droite);
-				:}
-			| Expression:gauche UL_Exclamation_Egal Expression:droite
+                {:
+                    RESULT = new BinaryExpression( gauche, BinaryOperator.Equals, droite);
+                :}
+            | Expression:gauche UL_Exclamation_Egal Expression:droite
 				{:
 					RESULT = new BinaryExpression( gauche, BinaryOperator.Different, droite);
 				:}
