@@ -78,15 +78,23 @@ public class BinaryExpression implements Expression {
 		}
 		switch (this.operator) {
 			case Add: {
-				if (resultType.compatibleWith(AtomicType.FloatingType) 
-						|| resultType.compatibleWith(AtomicType.StringType))  {
+				if (resultType.compatibleWith(AtomicType.FloatingType))  {
 					return resultType;
 				} else {
 					Logger.warning("Type error in binary expression : " + this.operator + " parameter " + resultType);
 					return AtomicType.ErrorType;
 				}
 			}
-			case Substract:
+            case And:
+            case Or: {
+                if (resultType.compatibleWith(AtomicType.BooleanType)) {
+                    return resultType;
+                } else {
+                    Logger.warning("Type error in binary expression : " + this.operator + " parameter " + resultType);
+                    return AtomicType.ErrorType;
+                }
+            }
+            case Substract:
 			case Multiply:
 			case Divide: {
 				if (resultType.compatibleWith(AtomicType.FloatingType)) {
@@ -116,13 +124,20 @@ public class BinaryExpression implements Expression {
 				}				
 			}
 			case Equals:
-			case Different: {
-				if (resultType.equals(AtomicType.ErrorType)) {
-					return resultType;
-				} else {
-					return AtomicType.BooleanType;
-				}
-			}
+            case Different: {
+                if (resultType.equals(AtomicType.ErrorType)) {
+                    return resultType;
+                } else {
+                    return AtomicType.BooleanType;
+                }
+            }
+            case Concat: {
+                if (resultType.compatibleWith(AtomicType.StringType)) {
+                    return resultType;
+                } else {
+                    return AtomicType.ErrorType;
+                }
+            }
 			default : return AtomicType.ErrorType;
 		}
 	}

@@ -25,7 +25,8 @@ public enum BinaryOperator {
 	And,
 	Or, 
 	LesserOrEqual, 
-	GreaterOrEqual;
+	GreaterOrEqual,
+    Concat;
 
 	@Override
 	public String toString() {
@@ -43,6 +44,7 @@ public enum BinaryOperator {
             case Multiply: return "*";
             case Or: return "||";
             case Substract: return "-";
+            case Concat: return ".";
             default: throw new IllegalArgumentException("The default case should never be triggered.");
 		}
 	}

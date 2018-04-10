@@ -458,6 +458,10 @@ Expression ::= /* Affectable:affectable UL_Egal Expression:expression
 				{:
 					RESULT = new BinaryExpression( gauche, BinaryOperator.Lesser, droite);
 				:}
+			| Expression:gauche UL_Point UL_Point Expression:droite
+				{:
+					RESULT = new BinaryExpression(gauche, BinaryOperator.Concat, droite);
+				:}
 			| Expression:gauche UL_Superieur Expression:droite
 				{:
 					RESULT = new BinaryExpression( gauche, BinaryOperator.Greater, droite);

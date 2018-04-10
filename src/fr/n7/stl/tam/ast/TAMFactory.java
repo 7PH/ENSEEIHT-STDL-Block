@@ -217,7 +217,8 @@ public interface TAMFactory {
 		case Modulo: return Library.IMod;
 		case Multiply: return Library.IMul;
 		case Or: return Library.BOr;
-		case Substract: return Library.ISub;
+        case Substract: return Library.ISub;
+        case Concat: return Library.SConcat;
 		default: throw new SemanticsUndefinedException("Unexpected unary operator: " + _operator);
 		}
 	}

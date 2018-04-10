@@ -258,23 +258,30 @@ describe('execute()', function() {
 
 
     describe('# BinaryExpression', function () {
-        it('a + b, a * b, a % b, a > b', function (done: () => any) {
+        it('+ * % / < > <= >= || && ..', function (done: () => any) {
             TAM.ensureResult(`
                 int a = 10;
                 int b = 20;
                 int c = a - b; // -10
-                int d = c + b * 2; // 30
+                int d = c + b * 4 / 2; // 30
+                
                 int e = b % 15; // 5
                 boolean f = e > 4; // true
-                boolean g = e <= 3; // false
-                   
+                boolean g = e < 4; // false
+                boolean h = e <= 3; // false
+                
+                boolean i = e >= 3; // true
+                boolean j = f || g; // true
+                boolean k = f && g; // false
+                
                 print a; print b; print c; print d;
-                print e; print f; print g;
+                print e; print f; print g; print h;
+                print i; print j; print k;
             `,
                 {
                     resolve: true,
                     checkType: true,
-                    output: ['10', '20', '-10', '30', '5', '1', '0']
+                    output: ['10', '20', '-10', '30', '5', '1', '0', '0', '1', '1', '0']
                 });
             done();
         });
@@ -593,6 +600,20 @@ describe('execute()', function() {
                 resolve: true,
                 checkType: true,
                 output: ['"str1"']
+            });
+            done();
+        });
+        it('concatenation', function(done: () => any) {
+            TAM.ensureResult(`
+                String a = "Hello";
+                String b = " ";
+                String c = "World";
+                String d = a..b..c;
+                print d;
+            `, {
+                resolve: true,
+                checkType: true,
+                output: ['"Hello World"']
             });
             done();
         });

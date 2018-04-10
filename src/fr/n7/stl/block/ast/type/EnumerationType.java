@@ -77,7 +77,7 @@ public class EnumerationType implements Type, Declaration {
 		int l = 0;
 		for (LabelDeclaration labelDeclaration: labels)
 		    l += labelDeclaration.getType().length();
-		return l;
+		return 0;
 	}
 	
 	/* (non-Javadoc)
