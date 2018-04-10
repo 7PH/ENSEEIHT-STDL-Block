@@ -1,5 +1,4 @@
 test_p {
-    typedef <int, int> Point;
-    Point *ptr = new Point();
-    *ptr = <1, 2>;
+    // UL_Enumeration UL_Identificateur:nom UL_Accolade_Ouvrante Etiquettes:etiquettes UL_Accolade_Fermante
+    typedef enum SSEX {MALE, FEMALE} SEX;
 }

@@ -74,67 +74,51 @@ public class RecordType implements Type, Declaration, Scope<FieldDeclaration> {
 	 */
 	@Override
 	public boolean equalsTo(Type _other) {
-        if (_other instanceof NamedType) {
-            return equalsTo(((NamedType)_other).getType());
-        } else if (_other instanceof RecordType) {
+        if (_other instanceof NamedType)
+            return equalsTo(((NamedType) _other).getType());
+
+        if (_other instanceof RecordType) {
             RecordType recordType = (RecordType) _other;
             if (recordType.fields.size() != fields.size()) return false;
 
-            for (FieldDeclaration fieldDeclaration : fields) {
-
-                boolean existsInOther = false;
-                for (FieldDeclaration fieldDeclaration2 : recordType.fields) {
-                    if (fieldDeclaration.getName().equals(fieldDeclaration2.getName())
-                            && fieldDeclaration.getType().equalsTo(fieldDeclaration2.getType())) {
-                        existsInOther = true;
-                        break;
-                    }
-                }
-
-                if (!existsInOther) return false;
+            int i = 0;
+            while (i < fields.size()) {
+                if (! fields.get(i).getName().equals(recordType.fields.get(i).getName())
+                        || ! fields.get(i).getType().equalsTo(recordType.fields.get(i).getType()))
+                    return false;
+                ++ i;
             }
+
             return true;
         } else {
             return false;
         }
-	}
+    }
 
 	/* (non-Javadoc)
 	 * @see fr.n7.stl.block.ast.Type#compatibleWith(fr.n7.stl.block.ast.Type)
 	 */
 	@Override
 	public boolean compatibleWith(Type _other) {
-		if (_other instanceof NamedType) {
-		    return compatibleWith(((NamedType)_other).getType());
-        } else if (_other instanceof RecordType) {
-            RecordType recordType = (RecordType) _other;
-            if (recordType.fields.size() != fields.size()) return false;
+        return equalsTo(_other);
+    }
 
-            for (FieldDeclaration fieldDeclaration : fields) {
-
-                boolean existsInOther = false;
-                for (FieldDeclaration fieldDeclaration2 : recordType.fields) {
-                    if (fieldDeclaration.getName().equals(fieldDeclaration2.getName())
-                            && fieldDeclaration.getType().compatibleWith(fieldDeclaration2.getType())) {
-                        existsInOther = true;
-                        break;
-                    }
-                }
-
-                if (!existsInOther) return false;
-            }
-            return true;
-        } else {
-		    return false;
-        }
-	}
-
-	/* (non-Javadoc)
+    /* (non-Javadoc)
 	 * @see fr.n7.stl.block.ast.Type#merge(fr.n7.stl.block.ast.Type)
 	 */
 	@Override
-	public Type merge(Type _other) {
-		throw new SemanticsUndefinedException( "compatibleWith is undefined in RecordType.");
+	public Type merge(Type other) {
+        if (other instanceof NamedType)
+            return merge(((NamedType)other).getType());
+
+	    if (! (other instanceof RecordType))
+	        return AtomicType.ErrorType;
+
+	    RecordType otherRecord = (RecordType) other;
+	    if (! otherRecord.equalsTo(getType()))
+	        return AtomicType.ErrorType;
+
+	    return getType();
 	}
 
 	/* (non-Javadoc)

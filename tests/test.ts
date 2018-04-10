@@ -120,15 +120,15 @@ describe('getType()', function () {
     });
 
     describe('# RecordType', function() {
-        it("invalid 1", function(done: () => any) {
+        it("wrong assignement 1", function(done: () => any) {
             TAM.ensureResult(`struct A{int x; int y;} a = {1, 'a'};`, {resolve: true, checkType: false});
             done();
         });
-        it("invalid 2", function(done: () => any) {
+        it("wrong assignement 2", function(done: () => any) {
             TAM.ensureResult(`struct A{boolean x; int y;} a = {1, true};`, {resolve: true, checkType: false});
             done();
         });
-        it("invalid 3", function(done: () => any) {
+        it("wrong assignement 3", function(done: () => any) {
             TAM.ensureResult(`struct A{int x; int y;} a = {true, 0};`, {resolve: true, checkType: false});
             done();
         });
@@ -166,8 +166,42 @@ describe('getType()', function () {
     });
 
     describe('# PointerType', function() {
+        it('wrong assignement', function(done: () => any) {
+            TAM.ensureResult(`
+                character a = 'c';
+                int *ptr = &a;
+                `, {resolve: true, checkType: false});
+            done();
+        });
+        it('reference getter', function(done: () => any) {
+            TAM.ensureResult(`
+                int a = 1;
+                int b = 2;
+                int c = 3;
+                int *ptr = &b;
+                *ptr = 42;
+                `,
+                {resolve: true, checkType: true});
+            done();
+        });
+        it('basic pointer declaration and assignement', function(done: () => any) {
+            TAM.ensureResult(`int *ptr = new int(); *ptr = 1;`, {resolve: true, checkType: true});
+            done();
+        });
         it('basic pointer', function(done: () => any) {
-            TAM.ensureResult(`int *ptr = new int();`, {resolve: true, checkType: true});
+            TAM.ensureResult(`int *ptr = new int(); *ptr = 1;`, {resolve: true, checkType: true});
+            done();
+        });
+        it('pointer of named type -> record type', function(done: () => any) {
+            TAM.ensureResult(`
+                typedef <int, int> Point;
+                Point *ptr = new Point();
+                *ptr = <1, 2>;
+                int a = fst (*ptr);
+                int b = snd (*ptr);
+                print a;
+                print b;
+                `, {resolve: true, checkType: true});
             done();
         });
     });
@@ -196,6 +230,13 @@ describe('getType()', function () {
         });
         it('Unreachable statement and wrong return type', function (done: () => any) {
             TAM.ensureResult(`int f() { return 1; return 'a'; }`, {resolve: false, checkType: false});
+            done();
+        });
+    });
+
+    describe('# If', function () {
+        it('if ({not boolean}) { .. }', function (done: () => any) {
+            TAM.ensureResult(`if (1) { }`, {resolve: true, checkType: false});
             done();
         });
     });
@@ -433,6 +474,36 @@ describe('execute()', function() {
 
 
     describe('# Pointer', function () {
+        it('reference getter', function(done: () => any) {
+            TAM.ensureResult(`
+                int a = 1;
+                int b = 2;
+                int c = 3;
+                int *ptr = &b;
+                *ptr = 42;
+                print a;
+                print b;
+                print c;
+                print *ptr;
+                `,
+                {resolve: true, checkType: true, output: ['1', '42', '3', '42']});
+            done();
+        });
+        it('pointer of named type -> record type', function(done: () => any) {
+            TAM.ensureResult(`
+                typedef <int, int> Point;
+                Point *ptr = new Point();
+                *ptr = <1, 2>;
+                int a = fst (*ptr);
+                int b = snd (*ptr);
+                print a;
+                print b;
+                `, {resolve: true, checkType: true, output: ['1', '2']});
+            done();
+        });
+
+
+
         it('basic usage', function (done: any) {
             TAM.ensureResult(`
                 int *ptr = new int();
@@ -454,7 +525,7 @@ describe('execute()', function() {
     });
 
     describe('# NamedType', function() {
-        it('declaration', function (done: () => any) {
+        it('declaration and assignement', function (done: () => any) {
             TAM.ensureResult(`
                 typedef int entier;
                 entier a = 2;
@@ -640,7 +711,24 @@ describe('execute()', function() {
             });
             done();
         });
+        it('comparaison test', function(done: () => any) {
+            TAM.ensureResult(`
+                String a = "Hello";
+                String b = "Hello";
+                boolean c = a == b; // comparaison are made by address
+                print c;
+            `, {
+                resolve: true,
+                checkType: true,
+                output: ['0']
+            });
+            done();
+        });
     });
+
+
+
+
 
     describe('# Functions', function() {
         describe('f: () => any', function() {

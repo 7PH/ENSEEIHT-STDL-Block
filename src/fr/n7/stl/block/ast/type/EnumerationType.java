@@ -28,18 +28,22 @@ public class EnumerationType implements Type, Declaration {
 		this.name = _name;
 		this.labels = _labels;
 	}
+
+	public List<LabelDeclaration> getLabels() {
+	    return labels;
+    }
 	
 	/* (non-Javadoc)
 	 * @see java.lang.Object#toString()
 	 */
 	@Override
 	public String toString() {
-		String _result = "enum" + this.name + " { ";
+		StringBuilder _result = new StringBuilder("enum" + this.name + " { ");
 		Iterator<LabelDeclaration> _iter = this.labels.iterator();
 		if (_iter.hasNext()) {
-			_result += _iter.next();
+			_result.append(_iter.next());
 			while (_iter.hasNext()) {
-				_result += " ," + _iter.next();
+				_result.append(" ,").append(_iter.next());
 			}
 		}
 		return _result + " }";
@@ -49,16 +53,35 @@ public class EnumerationType implements Type, Declaration {
 	 * @see fr.n7.stl.block.ast.type.Type#equalsTo(fr.n7.stl.block.ast.type.Type)
 	 */
 	@Override
-	public boolean equalsTo(Type _other) {
-		throw new SemanticsUndefinedException("Semantics equalsTo is not implemented in EnumerationType.");
+	public boolean equalsTo(Type other) {
+	    if (other instanceof NamedType)
+            return equals(((NamedType)other).getType());
+
+	    if (! (other instanceof EnumerationType))
+	        return false;
+
+	    EnumerationType otherEnum = (EnumerationType) other;
+	    if (otherEnum.getLabels().size() != labels.size())
+	        return false;
+
+	    int i = 0;
+	    while (i < labels.size()) {
+	        if (! labels.get(i).getName().equals(otherEnum.getLabels().get(i).getName()))
+	            return false;
+	        if (! labels.get(i).getType().equalsTo(otherEnum.getLabels().get(i).getType()))
+	            return false;
+	        ++ i;
+        }
+
+	    return true;
 	}
 
 	/* (non-Javadoc)
 	 * @see fr.n7.stl.block.ast.type.Type#compatibleWith(fr.n7.stl.block.ast.type.Type)
 	 */
 	@Override
-	public boolean compatibleWith(Type _other) {
-		throw new SemanticsUndefinedException("Semantics compatibleWith is not implemented in EnumerationType.");
+	public boolean compatibleWith(Type other) {
+        return equals(other);
 	}
 
 	/* (non-Javadoc)
@@ -74,9 +97,6 @@ public class EnumerationType implements Type, Declaration {
 	 */
 	@Override
 	public int length() {
-		int l = 0;
-		for (LabelDeclaration labelDeclaration: labels)
-		    l += labelDeclaration.getType().length();
 		return 0;
 	}
 	
