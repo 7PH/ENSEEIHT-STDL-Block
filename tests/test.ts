@@ -598,5 +598,31 @@ describe('execute()', function() {
         });
     });
 
-
+    describe('# Functions', function() {
+        it('local variables', function(done: () => any) {
+            TAM.ensureResult(`
+                int f() {
+                    int a = 1;
+                    int b = 2;
+                    return 10;
+                }
+                int a = f();
+                print a;
+                `, {resolve: true, checkType: true, output: ['10']});
+            done();
+        });
+        it('function calling another', function(done: () => any) {
+            TAM.ensureResult(`
+                int f1() {
+                    return 20;
+                }
+                int f2() {
+                    return 1 + f1();
+                }
+                int a = f2();
+                print a;
+                `, {resolve: true, checkType: true, output: ['21']});
+            done();
+        });
+    });
 });

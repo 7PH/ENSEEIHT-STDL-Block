@@ -1,6 +1,8 @@
 test_p {
 
-    String c1 = "str1";
-    String c2 = c1;
-    print c2;
+    int f(int a) {
+        return a;
+    }
+    int a = f(1);
+    print a;
 }

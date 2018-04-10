@@ -274,11 +274,11 @@ public class TAMFactoryImpl implements TAMFactory {
 		return new TAMInstructionImpl(
 				TAMInstructionKind.CALL,
 				Optional.empty(),
+                Optional.empty(),
 				Optional.empty(), 
-				Optional.empty(), 
-				Optional.of(_label),
+				Optional.of("("+_frame+") " + _label),
 				Optional.empty(),
-				Optional.of(_frame));
+				Optional.empty());
 	}
 
 	/* (non-Javadoc)

@@ -48,6 +48,7 @@ public class FunctionDeclaration implements Instruction, Declaration {
 	/** Offset of the function */
     private int offset;
     private Register register;
+    private String startLabel;
 
     /**
 	 * Builds an AST node for a function declaration
@@ -172,6 +173,8 @@ public class FunctionDeclaration implements Instruction, Declaration {
 
         fragment1.append(fragment2);
 
+        this.startLabel = startLabel;
+
         return fragment1;
 	}
 
@@ -186,5 +189,9 @@ public class FunctionDeclaration implements Instruction, Declaration {
 
     public Register getRegister() {
         return register;
+    }
+
+    public String getStartLabel() {
+        return startLabel;
     }
 }

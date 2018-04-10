@@ -1,9 +1,5 @@
-/**
- * 
- */
 package fr.n7.stl.block.ast.expression;
 
-import fr.n7.stl.block.ast.expression.accessible.AccessibleExpression;
 import fr.n7.stl.block.ast.scope.Declaration;
 import fr.n7.stl.block.ast.scope.HierarchicalScope;
 import fr.n7.stl.block.ast.type.AtomicType;

@@ -77,7 +77,7 @@ class TAMInstructionImpl implements TAMInstruction {
 	 * Construction for a full TAM instruction with kind, label, location and size.
 	 * @param _kind Kind for the TAM instruction.
 	 * @param _label Optional Label for the TAM instruction.
-	 * @param _location Optional Register for the TAM instruction.
+	 * @param _register Optional Register for the TAM instruction.
 	 * @param _offset Optional Integer offset for the TAM instruction.
 	 * @param _target Optional Label target for the TAM instruction.
 	 * @param _size Optional Integer size for the TAM instruction.
