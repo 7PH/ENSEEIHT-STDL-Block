@@ -1,9 +1,5 @@
-/**
- * 
- */
 package fr.n7.stl.block.ast.type;
 
-import fr.n7.stl.block.ast.SemanticsUndefinedException;
 import fr.n7.stl.block.ast.scope.Declaration;
 import fr.n7.stl.block.ast.scope.HierarchicalScope;
 
@@ -29,7 +25,8 @@ public class PointerType implements Type {
 	 */
 	@Override
 	public boolean equalsTo(Type _other) {
-		throw new SemanticsUndefinedException("Semantics equalsTo undefined in PointerType.");
+        return _other instanceof PointerType
+                && element.equalsTo(((PointerType) _other).element);
 	}
 
 	/* (non-Javadoc)
@@ -45,8 +42,10 @@ public class PointerType implements Type {
 	 * @see fr.n7.stl.block.ast.Type#merge(fr.n7.stl.block.ast.Type)
 	 */
 	@Override
-	public Type merge(Type _other) {
-		throw new SemanticsUndefinedException("Semantics merge undefined in PointerType.");
+	public Type merge(Type other) {
+	    if (! compatibleWith(other)) return AtomicType.ErrorType;
+        if (! (other instanceof PointerType)) return AtomicType.ErrorType;
+	    return element.merge(((PointerType)other).getPointedType());
 	}
 
 	/* (non-Javadoc)

@@ -88,8 +88,12 @@ public class EnumerationType implements Type, Declaration {
 	 * @see fr.n7.stl.block.ast.type.Type#merge(fr.n7.stl.block.ast.type.Type)
 	 */
 	@Override
-	public Type merge(Type _other) {
-		throw new SemanticsUndefinedException("Semantics merge is not implemented in EnumerationType.");
+	public Type merge(Type other) {
+        if (other instanceof NamedType)
+            return merge(((NamedType)other).getType());
+
+        if (! equalsTo(other)) return AtomicType.ErrorType;
+        return this;
 	}
 
 	/* (non-Javadoc)

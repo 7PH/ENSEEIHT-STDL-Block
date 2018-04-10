@@ -39,7 +39,7 @@ public enum AtomicType implements Type {
 		if (this.equalsTo(_other)) {
 			return true;
 		} else if (_other instanceof NamedType) {
-            return compatibleWith(((NamedType)_other).getType());
+            return compatibleWith(((NamedType) _other).getType());
         } else {
 			switch (this) {
 				case NullType :

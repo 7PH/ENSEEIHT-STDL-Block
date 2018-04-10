@@ -1,4 +1,9 @@
 test_p {
-    // UL_Enumeration UL_Identificateur:nom UL_Accolade_Ouvrante Etiquettes:etiquettes UL_Accolade_Fermante
-    typedef enum SSEX {MALE, FEMALE} SEX;
+    int a = 1;
+    typedef struct SPoint {int x; int y;} Point;
+    Point p = {1, 2};
+    p.x = 10;
+    p.y = 20;
+    print p.x;
+    print p.y;
 }

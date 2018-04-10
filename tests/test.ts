@@ -165,6 +165,114 @@ describe('getType()', function () {
         });
     });
 
+    describe('# NamedType', function() {
+        it('typedef of atomic types (2 tests)', function (done: () => any) {
+            this.slow(testSlow * 2);
+            TAM.ensureResult(`typedef character theChar; theChar c = 42;`, {resolve: true, checkType: false});
+            TAM.ensureResult(`typedef character theChar; theChar c = 'c';`, {resolve: true, checkType: true});
+            done();
+        });
+        it('typedef of struct - wrong assignement 1', function (done: () => any) {
+            TAM.ensureResult(`
+                typedef struct SPoint {int x; int y;} Point;
+                Point point = {1, 2, 3};
+            `, {
+                resolve: true,
+                checkType: false
+            });
+            done();
+        });
+        it('typedef of struct - wrong assignement 2', function (done: () => any) {
+            TAM.ensureResult(`
+                typedef struct SPoint {int x; int y;} Point;
+                Point point = {1};
+            `, {
+                resolve: true,
+                checkType: false
+            });
+            done();
+        });
+        it('typedef of struct - wrong assignement 3', function (done: () => any) {
+            TAM.ensureResult(`
+                typedef struct SPoint {int x; int y;} Point;
+                Point point = {'c', 1};
+            `, {
+                resolve: true,
+                checkType: false
+            });
+            done();
+        });
+        it('typedef of struct', function (done: () => any) {
+            TAM.ensureResult(`
+                typedef struct SPoint {int x; int y;} Point;
+                Point point = {3, 1};
+            `, {
+                resolve: true,
+                checkType: true
+            });
+            done();
+        });
+        it('typedef of typedef of typedef of atomic', function (done: () => any) {
+            TAM.ensureResult(`
+                typedef int myInt;
+                typedef myInt theInt;
+                typedef theInt foo;
+                foo a = 2;
+                print a;
+            `, {
+                resolve: true,
+                checkType: true
+            });
+            done();
+        });
+        it('if it quacks like a duck, it\'s a duck (Duck test)', function (done: () => any) {
+            TAM.ensureResult(`
+                typedef struct SPoint {int x; int y;} Point;
+                typedef struct SVector {int x; int y;} Vector;
+                typedef struct SCircle {int x; int y; int radius;} Circle;
+                Point p1 = {1, 2};
+                Point p2 = {3, 4};
+                Vector v = {10, 20};
+                p1 = v;
+                v = p2;
+            `, {
+                resolve: true,
+                checkType: true
+            });
+            done();
+        });
+        it('but if it does not then it\'s not', function (done: () => any) {
+            TAM.ensureResult(`
+                typedef struct SPoint {int x; int y;} Point;
+                typedef struct SVector {int x; int y;} Vector;
+                typedef struct SCircle {int x; int y; int radius;} Circle;
+                Point p1 = {1, 2};
+                Circle c = p1;
+            `, {
+                resolve: true,
+                checkType: false
+            });
+            done();
+        });
+        it('typedef of typedef of typedef of..', function (done: () => any) {
+            TAM.ensureResult(`
+                typedef struct SPoint {int x; int y;} Point1;
+                typedef Point1 Point2;
+                typedef Point2 Point3;
+                Point1 p1 = {1, 2};
+                Point2 p2 = {3, 4};
+                Point3 p3 = {5, 6};
+                p1.x = p2.y;
+                p2 = p3;
+                p3 = p1;
+            `, {
+                resolve: true,
+                checkType: true
+            });
+            done();
+        });
+    });
+
     describe('# PointerType', function() {
         it('wrong assignement', function(done: () => any) {
             TAM.ensureResult(`
@@ -550,6 +658,21 @@ describe('execute()', function() {
                 resolve: true,
                 checkType: true,
                 output: ['2', '1', '3']
+            });
+            done();
+        });
+        it('assignement', function(done: () => any) {
+            TAM.ensureResult(`    int a = 1;
+                typedef struct SPoint {int x; int y;} Point;
+                Point p = {1, 2};
+                p.x = 10;
+                p.y = 20;
+                print p.x;
+                print p.y;
+            `, {
+                resolve: true,
+                checkType: true,
+                output: ['10', '20']
             });
             done();
         });
