@@ -1,10 +1,16 @@
 tst {
 
-    // noise for filling the stack
+    // noise
     int a = 1;
     int b = 1;
 
     int func(int a) {
+        // erase value of parameter 'a'
+        if (a < 5) {
+            int b = func(7);
+        }
+
+        // should return old value of parameter 'a'
         return a;
     }
 

@@ -164,8 +164,9 @@ public class FunctionDeclaration implements Instruction, Declaration {
 	    this.register = register;
 	    this.offset = offset;
 	    // Yes, '3' is hardcoded
-        body.allocateMemory(Register.LB, 3);
-	    return getParametersLength();
+        //body.allocateMemory(Register.LB, 3);
+	    body.allocateMemory(Register.LB, 3 + getParametersLength());
+        return getParametersLength();
 	}
 
 	/* (non-Javadoc)
@@ -183,6 +184,7 @@ public class FunctionDeclaration implements Instruction, Declaration {
         fragment1.add(factory.createJump(endLabel));
 
         Fragment fragment2 = factory.createFragment();
+        fragment2.add(factory.createLoad(Register.SB, getOffset(), getParametersLength()));
         fragment2.append(body.getCode(factory));
         fragment2.addPrefix(startLabel + ":");
         fragment2.addSuffix(endLabel + ":");

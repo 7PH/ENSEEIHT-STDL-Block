@@ -165,6 +165,21 @@ describe('getType()', function () {
         });
     });
 
+    describe('# Constant', function() {
+        it('constant re-assignement', function(done: () => any) {
+            TAM.ensureResult(
+                `const String s = "Hello"; s = "World";`,
+                {resolve: false, checkType: false});
+            done();
+        });
+        it('array value re-assignement', function(done: () => any) {
+            TAM.ensureResult(
+                `const int s[] = new int[10]; s[0] = 1;`,
+                {resolve: false, checkType: false});
+            done();
+        });
+    });
+
     describe('# NamedType', function() {
         it('typedef of atomic types (2 tests)', function (done: () => any) {
             this.slow(testSlow * 2);
@@ -314,7 +329,7 @@ describe('getType()', function () {
         });
     });
 
-    describe('# Functions', function () {
+    describe('# Function', function () {
         it('Wrong return type 1', function (done: () => any) {
             TAM.ensureResult(`int f() { int a = 1; if (a > 0) { return 1; } else { return 'a'; } }`, {resolve: true, checkType: false});
             done();
@@ -333,7 +348,7 @@ describe('getType()', function () {
             done();
         });
         it('Unreachable statement', function (done: () => any) {
-            TAM.ensureResult(`int f() { return 1; return 2; }`, {resolve: false, checkType: true});
+            TAM.ensureResult(`int f() { return 1; return 2; }`, {resolve: false, checkType: false});
             done();
         });
         it('Unreachable statement and wrong return type', function (done: () => any) {
@@ -434,48 +449,6 @@ describe('execute()', function() {
     this.timeout(10000);
 
 
-    describe('# BinaryExpression', function () {
-        it('+ * % / < > <= >= || && ..', function (done: () => any) {
-            TAM.ensureResult(`
-                int a = 10;
-                int b = 20;
-                int c = a - b; // -10
-                int d = c + b * 4 / 2; // 30
-                
-                int e = b % 15; // 5
-                boolean f = e > 4; // true
-                boolean g = e < 4; // false
-                boolean h = e <= 3; // false
-                
-                boolean i = e >= 3; // true
-                boolean j = f || g; // true
-                boolean k = f && g; // false
-                
-                print a; print b; print c; print d;
-                print e; print f; print g; print h;
-                print i; print j; print k;
-            `,
-                {
-                    resolve: true,
-                    checkType: true,
-                    output: ['10', '20', '-10', '30', '5', '1', '0', '0', '1', '1', '0']
-                });
-            done();
-        });
-        it('print {constant:int}', function (done: () => any) {
-            TAM.ensureResult(`
-                const int a = -1;
-                print a;
-            `, {
-                resolve: true,
-                checkType: true,
-                output: ['-1']
-            });
-            done();
-        });
-    });
-
-
     describe('# Printer', function () {
         it('print {variable:int}', function (done: () => any) {
             TAM.ensureResult(`
@@ -556,6 +529,44 @@ describe('execute()', function() {
         });
     });
 
+    describe('# BinaryExpression', function () {
+        it('+ * % / < > <= >= || && ..', function (done: () => any) {
+            TAM.ensureResult(`
+                int a = 10;
+                int b = 20;
+                int c = a - b; // -10
+                int d = c + b * 4 / 2; // 30
+                
+                int e = b % 15; // 5
+                boolean f = e > 4; // true
+                boolean g = e < 4; // false
+                boolean h = e <= 3; // false
+                
+                boolean i = e >= 3; // true
+                boolean j = f || g; // true
+                boolean k = f && g; // false
+                
+                print a; print b; print c; print d;
+                print e; print f; print g; print h;
+                print i; print j; print k;
+            `,
+                {
+                    resolve: true,
+                    checkType: true,
+                    output: ['10', '20', '-10', '30', '5', '1', '0', '0', '1', '1', '0']
+                });
+            done();
+        });
+    });
+
+    describe('# Constant', function() {
+        it('constant usage', function(done: () => any) {
+            TAM.ensureResult(
+                `const String s = "Hello"; print s;`,
+                {resolve: true, checkType: true, output: ['"Hello"']});
+            done();
+        });
+    });
 
     describe('# TernaryExpression', function () {
         it('a ? b : c', function (done: any) {
@@ -1001,7 +1012,7 @@ describe('execute()', function() {
                 `, {resolve: true, checkType: true, output: ['15']});
                 done();
             });
-            it('recursive (factorial)', function(done: () => any) {
+            it('recursive terminal (factorial)', function(done: () => any) {
                 TAM.ensureResult(`
                     int fact(int n) {
                         if (n <= 1) {
@@ -1014,6 +1025,24 @@ describe('execute()', function() {
                     int a = fact(3);
                     print a;
                     `, {resolve: true, checkType: true, output: ['6']});
+                done();
+            });
+            it('recursive with parameter erasing', function(done: () => any) {
+                TAM.ensureResult(`
+                    int a = 1;
+                    int b = 1;
+                    int c = 1;
+                
+                    int sum(int a, int b) {
+                        return a + b;
+                    }
+                
+                    int d = 1;
+                    int e = 1;
+                
+                    print sum(2, 3);
+                    print sum(3, 4);
+                    `, {resolve: true, checkType: true, output: ['5', '7']});
                 done();
             });
         });

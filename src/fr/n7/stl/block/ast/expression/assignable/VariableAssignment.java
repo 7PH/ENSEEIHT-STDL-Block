@@ -47,18 +47,14 @@ public class VariableAssignment extends AbstractIdentifier implements Assignable
 				this.declaration = ((VariableDeclaration) _declaration);
 				return true;
 			} else if (_declaration instanceof ParameterDeclaration) {
-                Logger.error("Cannot edit parameter: " + this.name);
                 return false;
             } else if (_declaration instanceof ConstantDeclaration) {
-                Logger.error("Trying to modify a constant variable: " + this.name);
                 return false;
 			} else {
-				Logger.error("The declaration for " + this.name + " is of the wrong kind.");
 				return false;
 			}
 		} else {
-			Logger.error("The identifier " + this.name + " has not been found.");
-			return false;	
+			return false;
 		}
 	}
 	

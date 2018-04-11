@@ -748,9 +748,14 @@ class CUP$Parser$actions {
 				resolve = inputBlock.resolve(tds);
 		        resolveTimeMs = System.currentTimeMillis() - t1;
 
-		        t1 = System.currentTimeMillis();
-				checkType = inputBlock.checkType();
-		        checkTypeTimeMs = System.currentTimeMillis() - t1;
+                if (resolve) {
+                    t1 = System.currentTimeMillis();
+                    checkType = inputBlock.checkType();
+                    checkTypeTimeMs = System.currentTimeMillis() - t1;
+                } else {
+                    checkType = false;
+                    checkTypeTimeMs = 0;
+                }
 
                 if (resolve && checkType) {
                     t1 = System.currentTimeMillis();
