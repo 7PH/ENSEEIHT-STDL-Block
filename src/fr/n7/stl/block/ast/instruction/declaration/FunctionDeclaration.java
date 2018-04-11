@@ -163,8 +163,6 @@ public class FunctionDeclaration implements Instruction, Declaration {
 	public int allocateMemory(Register register, int offset) {
 	    this.register = register;
 	    this.offset = offset;
-	    // Yes, '3' is hardcoded
-        //body.allocateMemory(Register.LB, 3);
 	    body.allocateMemory(Register.LB, 3 + getParametersLength());
         return getParametersLength();
 	}

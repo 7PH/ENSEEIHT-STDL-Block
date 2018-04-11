@@ -101,23 +101,13 @@ public class FunctionCall implements Expression {
         Fragment fragment = factory.createFragment();
 
         int parametersLength = function.getParametersLength();
-        // work around - parameter erasing
-        if (false) {
-            fragment.add(factory.createLoad(Register.SB, function.getOffset(), parametersLength));
-        }
 
         for (Expression argument : arguments)
             fragment.append(argument.getCode(factory));
         fragment.add(factory.createStore(Register.SB, function.getOffset(), function.getParametersLength()));
+
         fragment.add(factory.createPush(function.getType().length()));
         fragment.add(factory.createCall(function.getStartLabel(), Register.SB));
-
-        // work around - parameter erasing
-        if (false) {
-            fragment.add(factory.createLoad(Register.ST, -function.getType().length() - parametersLength, parametersLength));
-            fragment.add(factory.createStore(Register.SB, function.getOffset(), parametersLength));
-            fragment.add(factory.createPop(function.getType().length(), function.getType().length()));
-        }
 
         return fragment;
     }
