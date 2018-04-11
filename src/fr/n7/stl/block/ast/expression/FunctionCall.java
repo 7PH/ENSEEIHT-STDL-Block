@@ -104,7 +104,7 @@ public class FunctionCall implements Expression {
 
         for (Expression argument : arguments)
             fragment.append(argument.getCode(factory));
-        fragment.add(factory.createStore(Register.SB, function.getOffset(), function.getParametersLength()));
+        fragment.add(factory.createStore(Register.SB, function.getOffset(), parametersLength));
 
         fragment.add(factory.createPush(function.getType().length()));
         fragment.add(factory.createCall(function.getStartLabel(), Register.SB));
