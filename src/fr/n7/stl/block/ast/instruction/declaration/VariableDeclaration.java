@@ -101,7 +101,6 @@ public class VariableDeclaration implements Declaration, Instruction {
 	/* (non-Javadoc)
 	 * @see fr.n7.stl.block.ast.instruction.Instruction#resolve(fr.n7.stl.block.ast.scope.Scope)
 	 */
-	@SuppressWarnings("Duplicates")
     @Override
 	public boolean resolve(HierarchicalScope<Declaration> _scope) {
 	    if (! _scope.accepts(this)) return false;
@@ -116,7 +115,10 @@ public class VariableDeclaration implements Declaration, Instruction {
 	 */
 	@Override
 	public boolean checkType() {
-        return value.getType().compatibleWith(type);
+        boolean b = value.getType().compatibleWith(type);
+		if (!b)
+			throw new RuntimeException("Value type : " + value.getType().toString() + " is not compatible with " + type.toString());
+		return b;
 	}
 
 	/* (non-Javadoc)
