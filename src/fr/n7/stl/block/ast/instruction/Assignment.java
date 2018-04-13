@@ -1,9 +1,5 @@
-/**
- * 
- */
 package fr.n7.stl.block.ast.instruction;
 
-import fr.n7.stl.block.ast.SemanticsUndefinedException;
 import fr.n7.stl.block.ast.expression.Expression;
 import fr.n7.stl.block.ast.expression.assignable.AssignableExpression;
 import fr.n7.stl.block.ast.scope.Declaration;
@@ -65,7 +61,12 @@ public class Assignment implements Instruction, Expression {
 	 */
 	@Override
 	public boolean checkType() {
-	    return value.getType().compatibleWith(assignable.getType());
+		boolean b = value.getType().compatibleWith(assignable.getType());
+		if (!b)
+			throw new RuntimeException("Value type : " + value.getType().toString()
+									+ " is not compatible with Assignable one : "
+									+ assignable.getType().toString());
+		return b;
 	}
 	
 	/* (non-Javadoc)
