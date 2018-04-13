@@ -50,7 +50,14 @@ public class Iteration implements Instruction {
 	 */
 	@Override
 	public boolean checkType() {
-		return condition.getType() == AtomicType.BooleanType && body.checkType();
+		boolean b = condition.getType() == AtomicType.BooleanType;
+        if (!b)
+        	throw new RuntimeException("Condition " + this.condition.getType().toString()
+        									+ " is not boolean");
+		b &= body.checkType();
+		if (!b)
+			throw new RuntimeException("Body of While block is not well typed.");
+		return b;
 	}
 
 	/* (non-Javadoc)

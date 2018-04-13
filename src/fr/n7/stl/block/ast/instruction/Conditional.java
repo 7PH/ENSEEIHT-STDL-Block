@@ -1,12 +1,8 @@
-/**
- * 
- */
 package fr.n7.stl.block.ast.instruction;
 
 import java.util.Optional;
 
 import fr.n7.stl.block.ast.Block;
-import fr.n7.stl.block.ast.SemanticsUndefinedException;
 import fr.n7.stl.block.ast.expression.Expression;
 import fr.n7.stl.block.ast.scope.Declaration;
 import fr.n7.stl.block.ast.scope.HierarchicalScope;
@@ -64,9 +60,17 @@ public class Conditional implements Instruction {
 	 */
 	@Override
 	public boolean checkType() {
-		return condition.getType() == AtomicType.BooleanType
-                && thenBranch.checkType()
-                && (!elseBranch.isPresent() || elseBranch.get().checkType());
+		boolean b = condition.getType() == AtomicType.BooleanType;
+        if (!b)
+        	throw new RuntimeException("Condition " + this.condition.getType().toString()
+        									+ " is not boolean.");
+		b &= thenBranch.checkType();
+		if (!b) 
+			throw new RuntimeException("Then Branch is not well typed.");
+		b &= (!elseBranch.isPresent() || elseBranch.get().checkType());
+		if (!b) 
+			throw new RuntimeException("Else Branch is not well typed.");
+		return b;
 	}
 
 	/* (non-Javadoc)
