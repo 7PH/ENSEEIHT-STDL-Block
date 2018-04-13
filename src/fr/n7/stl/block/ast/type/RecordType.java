@@ -219,9 +219,15 @@ public class RecordType implements Type, Declaration, Scope<FieldDeclaration> {
 	@Override
 	public boolean resolve(HierarchicalScope<Declaration> _scope) {
 		boolean _result = true;
-		for (FieldDeclaration f : this.fields) {
+		for (FieldDeclaration f : this.fields)
 			_result = _result && f.getType().resolve(_scope);
-		}
+        System.out.println("debug");
+
+        if (_scope.contains(name))
+            return false;
+
+
+
 		return _result;
 	}
 
