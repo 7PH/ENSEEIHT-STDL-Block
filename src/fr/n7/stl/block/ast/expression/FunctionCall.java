@@ -100,14 +100,14 @@ public class FunctionCall implements Expression {
     public Fragment getCode(TAMFactory factory) {
         Fragment fragment = factory.createFragment();
 
-        int parametersLength = function.getParametersLength();
+        //int parametersLength = function.getParametersLength();
 
-        for (Expression argument : arguments)
-            fragment.append(argument.getCode(factory));
-        fragment.add(factory.createStore(Register.SB, function.getOffset(), parametersLength));
+		for (Expression argument : arguments)
+		    fragment.append(argument.getCode(factory));
 
         fragment.add(factory.createPush(function.getType().length()));
         fragment.add(factory.createCall(function.getStartLabel(), Register.SB));
+        fragment.add(factory.createPop(function.getType().length(), function.getParametersLength()));
 
         return fragment;
     }

@@ -163,7 +163,7 @@ public class FunctionDeclaration implements Instruction, Declaration {
 	public int allocateMemory(Register register, int offset) {
 	    this.register = register;
 	    this.offset = offset;
-	    body.allocateMemory(Register.LB, 3 + getParametersLength());
+	    body.allocateMemory(Register.SB, offset + 3 + getParametersLength());
         return getParametersLength();
 	}
 
@@ -178,11 +178,11 @@ public class FunctionDeclaration implements Instruction, Declaration {
         String endLabel = "fun_end_" + id ;
 
 	    Fragment fragment1 = factory.createFragment();
-        fragment1.add(factory.createPush(getParametersLength()));
+        //fragment1.add(factory.createPush(getParametersLength()));
         fragment1.add(factory.createJump(endLabel));
 
         Fragment fragment2 = factory.createFragment();
-        fragment2.add(factory.createLoad(Register.SB, getOffset(), getParametersLength()));
+        fragment2.add(factory.createLoad(Register.LB, - 1 - getReturnType().length() - getParametersLength(), getParametersLength()));
         fragment2.append(body.getCode(factory));
         fragment2.addPrefix(startLabel + ":");
         fragment2.addSuffix(endLabel + ":");
