@@ -135,12 +135,20 @@ Program ::= UL_Identificateur:nom UL_Accolade_Ouvrante Instructions:instructions
 
 				SymbolTable tds = new SymbolTable();
 		        double t1 = System.currentTimeMillis();
-				resolve = inputBlock.resolve(tds);
+		        try {
+				    resolve = inputBlock.resolve(tds);
+		        } catch (Exception e) {
+		            resolve = false;
+		        }
 		        resolveTimeMs = System.currentTimeMillis() - t1;
 
                 if (resolve) {
                     t1 = System.currentTimeMillis();
-                    checkType = inputBlock.checkType();
+                    try {
+                        checkType = inputBlock.checkType();
+                    } catch (Exception e) {
+                        checkType = false;
+                    }
                     checkTypeTimeMs = System.currentTimeMillis() - t1;
                 } else {
                     checkType = false;

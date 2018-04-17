@@ -221,7 +221,6 @@ public class RecordType implements Type, Declaration, Scope<FieldDeclaration> {
 		boolean _result = true;
 		for (FieldDeclaration f : this.fields)
 			_result = _result && f.getType().resolve(_scope);
-        System.out.println("debug");
 
         if (_scope.contains(name))
             return false;
