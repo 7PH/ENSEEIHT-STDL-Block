@@ -1,9 +1,5 @@
-/**
- * 
- */
 package fr.n7.stl.block.ast.instruction.declaration;
 
-import fr.n7.stl.block.ast.SemanticsUndefinedException;
 import fr.n7.stl.block.ast.expression.Expression;
 import fr.n7.stl.block.ast.instruction.Instruction;
 import fr.n7.stl.block.ast.scope.Declaration;
@@ -82,7 +78,6 @@ public class ConstantDeclaration implements Instruction, Declaration {
 	/* (non-Javadoc)
 	 * @see fr.n7.stl.block.ast.instruction.Instruction#resolve(fr.n7.stl.block.ast.scope.Scope)
 	 */
-	@SuppressWarnings("Duplicates")
     @Override
 	public boolean resolve(HierarchicalScope<Declaration> _scope) {
 		if (! _scope.accepts(this)) return false;
@@ -97,7 +92,10 @@ public class ConstantDeclaration implements Instruction, Declaration {
 	 */
 	@Override
 	public boolean checkType() {
-	    return value.getType().compatibleWith(type);
+		boolean b = value.getType().compatibleWith(type);
+		if (!b)
+			throw new RuntimeException("Value type : " + value.getType().toString() + " is not compatible with " + type.toString());
+		return b;
 	}
 
 	/* (non-Javadoc)

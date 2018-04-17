@@ -58,10 +58,13 @@ public class Printer implements Instruction {
         parameterType = parameter.getType();
         while (parameterType instanceof NamedType)
             parameterType = ((NamedType)parameterType).getType();
-		return parameterType == IntegerType
+        boolean b = parameterType == IntegerType
                 || parameterType == BooleanType
                 || parameterType == CharacterType
                 || parameterType == StringType;
+        if (!b)
+        	throw new RuntimeException("You print a wrong type : " + parameterType.toString());
+        return b;
 	}
 
 	/* (non-Javadoc)

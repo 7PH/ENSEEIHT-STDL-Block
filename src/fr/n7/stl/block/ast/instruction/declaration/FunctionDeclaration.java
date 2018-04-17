@@ -137,15 +137,13 @@ public class FunctionDeclaration implements Instruction, Declaration {
 	public boolean checkType() {
 	    for (ParameterDeclaration parameterDeclaration: parameters) {
 	        if (parameterDeclaration.getType().equalsTo(AtomicType.ErrorType))
-	            return false;
+	            throw new RuntimeException("Parameter " + parameterDeclaration.name + "is an ErrorType.");
         }
-        if (! body.checkType())
-            return false;
-
-		if (! body.getReturnType().compatibleWith(type)) {
-            return false;
-		}
-
+        if (!body.checkType())
+            throw new RuntimeException("Function Body is not well typed.");
+		if (!body.getReturnType().compatibleWith(type)) 
+            throw new RuntimeException("Function return " + body.getReturnType().toString()
+            							+ " is not compatible with " + type.toString());
 	    return true;
 	}
 
