@@ -764,7 +764,7 @@ class CUP$Parser$actions {
 
                     t1 = System.currentTimeMillis();
                     fragment = inputBlock.getCode(new TAMFactoryImpl());
-                    if (fragment != null) fragment.add(new TAMFactoryImpl().createHalt());
+                    //if (fragment != null) fragment.add(new TAMFactoryImpl().createHalt());
                     getCodeTimeMs = System.currentTimeMillis() - t1;
                 } else {
                     allocateMemoryTimeMs = 0;
