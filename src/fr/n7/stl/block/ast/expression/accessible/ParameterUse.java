@@ -34,7 +34,7 @@ public class ParameterUse extends AbstractUse {
         Fragment fragment = factory.createFragment();
         fragment.add(factory.createLoad(
                 Register.SB,
-                parameterDeclaration.getOffset(),
+                parameterDeclaration.getFunctionDeclaration().getOffset(),
                 parameterDeclaration.getType().length()));
         return fragment;
     }

@@ -1,6 +1,17 @@
 test_p {
-    typedef struct SPoint {int x; int y;} Point;
-    Point point = {1, 2};
-    point.x = "issou";
+    // noise for filling the stack
+    int a = 1;
+    int b = 1;
+
+    int func(int a) {
+        return a;
+    }
+
+    // noise
+    int c = 1;
+    int d = 1;
+
+    int e = func(3);
+    print e;
 
 }
